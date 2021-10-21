@@ -1,4 +1,6 @@
 mod display;
+mod convert;
+mod named_colors;
 
 pub struct RGB {
     pub r: u8,
@@ -13,6 +15,7 @@ pub struct RGBA {
     pub a: u8,
 }
 
+/// lossless format
 pub struct RGBA32 {
     pub r: f32,
     pub g: f32,

@@ -10,7 +10,7 @@ impl Color {
     #[track_caller]
     pub const fn predefined(name: &str) -> Self {
         match () {
-            _ if const_eq!(name, "aliceblue") => Self::ALICE_BLUE,
+            _ if const_eq!(name, "ALICEBLUE") => Self::ALICE_BLUE,
             _ if const_eq!(name, "antiquewhite") => Color { r: 250, g: 235, b: 215, a: 0.0 },
             _ if const_eq!(name, "aqua") => Color { r: 0, g: 255, b: 255, a: 0.0 },
             _ if const_eq!(name, "aquamarine") => Color { r: 127, g: 255, b: 212, a: 0.0 },

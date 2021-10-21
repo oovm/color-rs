@@ -7,5 +7,6 @@
 #![doc = include_str!("../readme.md")]
 
 mod color;
+mod named;
 
 pub use self::color::Color;
