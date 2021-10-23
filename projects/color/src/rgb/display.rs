@@ -1,35 +1,58 @@
-use std::fmt::{Debug, Display, Formatter, UpperHex, write};
+use std::fmt::{Debug, Formatter, LowerHex, UpperHex, Write};
+
 use super::*;
 
 impl Debug for RGB {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "RGB({}, {}, {})", self.red, self.green, self.blue)
+        write!(f, "rgb({}, {}, {})", self.r, self.g, self.b)
     }
 }
 
-
-impl Display for RGB {
+impl Debug for RGBA {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "RGB({}, {}, {})", self.red, self.green, self.blue)
+        write!(f, "rgba({}, {}, {}, {})", self.r, self.g, self.b, self.a)
+    }
+}
+
+impl Debug for RGBA32 {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "rgba({}, {}, {}, {})", self.r, self.g, self.b, self.a)
     }
 }
 
 impl UpperHex for RGB {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        if f.alternate() {
+            f.write_char('#')?;
+        }
+        write!(f, "{:02X}{:02X}{:02X}", self.r, self.g, self.b)
+    }
+}
+
+impl LowerHex for RGB {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        if f.alternate() {
+            f.write_char('#')?;
+        }
+        write!(f, "{:02x}{:02x}{:02x}", self.r, self.g, self.b)
     }
 }
 
 
 impl UpperHex for RGBA {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        if f.alternate() {
+            f.write_char('#')?;
+        }
+        write!(f, "{:02X}{:02X}{:02X}{:02X}", self.r, self.g, self.b, self.a)
     }
 }
 
-
-impl From<RGBA> for RGBA32 {
-    fn from(rgba: RGBA32) -> Self {
-        Self { r: rgba.r, g: rgba.g, b: rgba.b, a: rgba.a }
+impl LowerHex for RGBA {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        if f.alternate() {
+            f.write_char('#')?;
+        }
+        write!(f, "{:02x}{:02x}{:02x}{:02x}", self.r, self.g, self.b, self.a)
     }
 }

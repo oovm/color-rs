@@ -5,3 +5,10 @@ impl RGB {
     pub const ALICEBLUE: Self = Self { r: 240, g: 248, b: 255 };
 
 }
+
+
+#[test]
+fn test_colors() {
+    print!("{:#X}", RGB::ALICEBLUE);
+    print!("{:#x}", RGB::ALICEBLUE);
+}

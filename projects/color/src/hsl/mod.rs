@@ -1,6 +1,7 @@
 use crate::RGBA32;
 
 mod convert;
+mod display;
 
 pub struct HSLA {
     pub h: f32,
