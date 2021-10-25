@@ -6,6 +6,7 @@
 // #![forbid(missing_doc_code_examples)]
 // #![doc = include_str!("../readme.md")]
 
+pub use self::hsl::HSLA32;
 pub use self::rgb::{RGB, RGBA, RGBA32};
 
 mod rgb;

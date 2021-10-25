@@ -1,8 +1,8 @@
 use super::*;
 
 
-impl From<HSLA> for RGBA32 {
-    fn from(hsla: HSLA) -> Self {
+impl From<HSLA32> for RGBA32 {
+    fn from(hsla: HSLA32) -> Self {
         Self {
             r: hsla.h as f32 / 255.0,
             g: hsla.s as f32 / 255.0,
