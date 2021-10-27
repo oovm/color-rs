@@ -1,8 +1,11 @@
+use std::fmt::{Debug, Formatter};
+
 use crate::RGBA32;
 
 mod convert;
 mod display;
 
+#[derive(Clone, Copy, PartialEq, PartialOrd)]
 pub struct HSLA32 {
     /// Hue is a degree on the color wheel from `[0f32, 360f32)`.
     ///
@@ -22,7 +25,7 @@ pub struct HSLA32 {
     pub a: f32,
 }
 
-
+#[derive(Clone, Copy, PartialEq, PartialOrd)]
 pub struct HSVA32 {
     /// Hue is a degree on the color wheel from `[0f32, 360f32)`.
     ///
