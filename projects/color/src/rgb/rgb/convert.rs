@@ -1,5 +1,11 @@
 use super::*;
 
+impl From<&RGBA32> for RGBA32 {
+    fn from(rgba: &RGBA32) -> Self {
+        *rgba
+    }
+}
+
 impl From<RGB> for RGBA32 {
     fn from(rgb: RGB) -> Self {
         RGBA32 {
@@ -10,7 +16,6 @@ impl From<RGB> for RGBA32 {
         }
     }
 }
-
 
 impl From<RGBA> for RGBA32 {
     fn from(rgba: RGBA) -> Self {

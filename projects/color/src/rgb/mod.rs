@@ -1,7 +1,9 @@
-mod display;
-mod convert;
-mod named_colors;
+mod rgb;
+mod rgba;
+mod rgba32;
+use std::fmt::{Debug, Formatter, LowerHex, UpperHex, Write};
 
+#[derive(Clone, Copy, PartialEq, PartialOrd)]
 pub struct RGB {
     /// The red channel of color in `[0u8, 255u8]`.
     pub r: u8,
@@ -11,6 +13,7 @@ pub struct RGB {
     pub b: u8,
 }
 
+#[derive(Clone, Copy, PartialEq, PartialOrd)]
 pub struct RGBA {
     /// The red channel of color in `[0u8, 255u8]`.
     pub r: u8,
@@ -23,6 +26,7 @@ pub struct RGBA {
 }
 
 /// lossless format of all colors
+#[derive(Clone, Copy, PartialEq, PartialOrd)]
 pub struct RGBA32 {
     /// The red channel of color in `[0.0f32, 1.0f32]`.
     pub r: f32,
@@ -34,12 +38,3 @@ pub struct RGBA32 {
     pub a: f32,
 }
 
-
-impl RGBA32 {
-    pub fn normalize(&mut self) {
-        self.r = self.r.min(1.0).max(0.0);
-        self.g = self.g.min(1.0).max(0.0);
-        self.b = self.b.min(1.0).max(0.0);
-        self.a = self.a.min(1.0).max(0.0);
-    }
-}

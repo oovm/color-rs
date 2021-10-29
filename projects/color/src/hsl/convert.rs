@@ -30,3 +30,11 @@ impl From<HSLA32> for RGBA32 {
         }
     }
 }
+
+impl<T> From<T> for HSLA32
+    where T: From<RGBA32> {
+    fn from(color: T) -> Self {
+        let rgba: RGBA32 = color.into();
+
+    }
+}
