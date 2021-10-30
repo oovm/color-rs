@@ -1,7 +1,7 @@
 use super::*;
 
-mod display;
 mod convert;
+mod display;
 
 impl RGBA32 {
     pub fn normalized(&self) -> Self {

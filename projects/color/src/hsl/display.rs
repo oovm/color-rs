@@ -1,5 +1,3 @@
-
-
 use super::*;
 
 impl Debug for HSLA32 {

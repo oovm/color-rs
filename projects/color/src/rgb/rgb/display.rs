@@ -1,21 +1,10 @@
 use super::*;
 
-impl Default for RGB {
-    fn default() -> Self {
-        Self {
-            r: 0,
-            g: 0,
-            b: 0,
-        }
-    }
-}
-
 impl Debug for RGB {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "rgb({}, {}, {})", self.r, self.g, self.b)
     }
 }
-
 
 impl UpperHex for RGB {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -34,4 +23,3 @@ impl LowerHex for RGB {
         write!(f, "{:02x}{:02x}{:02x}", self.r, self.g, self.b)
     }
 }
-

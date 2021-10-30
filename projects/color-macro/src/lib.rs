@@ -6,14 +6,13 @@
 // #![forbid(missing_doc_code_examples)]
 // #![doc = include_str!("../readme.md")]
 
-
 extern crate proc_macro;
 mod rgb;
 use proc_macro::TokenStream;
 use quote::quote;
 use syn::{
-    LitStr, Expr, Token,
-    parse::{Result, ParseStream, Parse}
+    parse::{Parse, ParseStream, Result},
+    Expr, LitStr, Token,
 };
 
 /// a proc macro takes tokens as argument, and generates tokens

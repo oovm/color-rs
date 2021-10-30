@@ -1,6 +1,6 @@
 [package]
 name = "color-parser"
-version = "0.3.0"
+version = "0.1.0"
 authors = ["Aster <192607617@qq.com>"]
 description = "Css color parser at compile time"
 repository = "https://github.com/oovm/tailwind-rs"
@@ -14,8 +14,7 @@ exclude = ["*.json"]
 proc-macro = true
 
 [dependencies]
-quote = "1.0.15"
-syn = { version = "1.0.86", features = ["full", "extra-traits"] }
+color = { version = "0.1.0", path = "../color" }
 
 [package.metadata.wee]
 t = "cargo test"

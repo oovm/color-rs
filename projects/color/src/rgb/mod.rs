@@ -37,4 +37,3 @@ pub struct RGBA32 {
     /// The alpha channel of color in `[0.0f32, 1.0f32]`.
     pub a: f32,
 }
-
