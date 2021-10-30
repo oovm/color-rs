@@ -11,22 +11,26 @@ impl Default for RGBA {
     }
 }
 
-impl Debug for RGBA32 {
+impl Debug for RGBA {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "rgba({}, {}, {}, {})", self.r, self.g, self.b, self.a)
     }
 }
 
-impl UpperHex for RGBA32 {
+impl UpperHex for RGBA {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        let mut rgba = self.clone();
-        let rgba: RGBA = rgba.normalize().into();
-        UpperHex::fmt(&rgba, f)
+        if f.alternate() {
+            f.write_char('#')?;
+        }
+        write!(f, "{:02X}{:02X}{:02X}{:02X}", self.r, self.g, self.b, self.a)
     }
 }
 
-impl LowerHex for RGBA32 {
+impl LowerHex for RGBA {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        LowerHex::fmt(&RGBA::from(self), f)
+        if f.alternate() {
+            f.write_char('#')?;
+        }
+        write!(f, "{:02x}{:02x}{:02x}{:02x}", self.r, self.g, self.b, self.a)
     }
 }
