@@ -4,4 +4,7 @@
 #![forbid(missing_doc_code_examples)]
 #![doc = include_str!("../readme.md")]
 
-pub use color::*;
+pub use const_css_color::*;
+
+mod hex;
+mod number;

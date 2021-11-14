@@ -6,7 +6,7 @@
 
 pub(crate) use self::utils::*;
 pub use self::{
-    hsl::HSLA32,
+    hsl::{HSLA32, HSVA32},
     luma::LUMA32,
     rgb::{RGB, RGBA, RGBA32},
 };

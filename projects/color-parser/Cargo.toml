@@ -10,11 +10,9 @@ license = "MPL-2.0"
 edition = "2021"
 exclude = ["*.json"]
 
-[lib]
-proc-macro = true
-
 [dependencies]
-color = { version = "0.1.0", path = "../color" }
+const-css-color = { version = "0.1.1", path = "../color" }
+nom = "7.1.0"
 
 [package.metadata.wee]
 t = "cargo test"

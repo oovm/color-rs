@@ -4,18 +4,20 @@ use crate::RGBA32;
 
 mod convert;
 mod display;
+mod hsla32;
 
+/// A color in HSLA color space with 32-bit floating point components.
 #[derive(Clone, Copy, PartialEq, PartialOrd)]
 pub struct HSLA32 {
     /// Hue is a degree on the color wheel from `[0f32, 360f32)`.
     ///
     /// 0 is red, 120 is green, 240 is blue.
     pub h: f32,
-    /// Saturation is a percentage value in `[0f32, 100f32]`.
+    /// Saturation is a percentage value in `[0f32, 1f32]`.
     ///
     /// 0% means a shade of gray and 100% is the full color.
     pub s: f32,
-    /// Lightness is a percentage value in `[0f32, 100f32]`.
+    /// Lightness is a percentage value in `[0f32, 1f32]`.
     ///
     /// 0% is black, 100% is white.
     pub l: f32,
@@ -25,16 +27,18 @@ pub struct HSLA32 {
     pub a: f32,
 }
 
+/// A color in HSVA color space with 32-bit floating point components.
 #[derive(Clone, Copy, PartialEq, PartialOrd)]
 pub struct HSVA32 {
     /// Hue is a degree on the color wheel from `[0f32, 360f32)`.
     ///
     /// 0 is red, 120 is green, 240 is blue.
     pub h: f32,
-    /// Saturation is a percentage value in `[0f32, 100f32]`.
+    /// Saturation is a percentage value in `[0f32, 1f32]`.
     ///
     /// 0% means a shade of gray and 100% is the full color.
     pub s: f32,
+    ///
     pub v: f32,
     /// Alpha is a percentage value in `[0f32, 1f32]`.
     ///
@@ -42,26 +46,13 @@ pub struct HSVA32 {
     pub a: f32,
 }
 
-impl HSLA32 {
-    pub fn normalize(&mut self) {
-        self.h = self.h % 360f32;
-        if self.h < 0f32 {
-            self.h += 360f32;
-        }
-        self.s = self.s.max(0f32).min(100f32);
-        self.l = self.l.max(0f32).min(100f32);
-        self.a = self.a.max(0f32).min(1f32);
-    }
-}
-
 impl HSVA32 {
-    pub fn normalize(&mut self) {
-        self.h = self.h % 360f32;
-        if self.h < 0f32 {
-            self.h += 360f32;
+    /// Normalize [`HSVA32`] color.
+    pub fn normalized(&self) -> HSVA32 {
+        let mut h = self.h % 360.0;
+        if h < 0.0 {
+            h += 360.0;
         }
-        self.s = self.s.max(0f32).min(100f32);
-        self.v = self.v.max(0f32).min(100f32);
-        self.a = self.a.max(0f32).min(1f32);
+        Self { h, s: self.s.max(0.0).min(1.0), v: self.v.max(0.0).min(1.0), a: self.a.max(0.0).min(1.0) }
     }
 }

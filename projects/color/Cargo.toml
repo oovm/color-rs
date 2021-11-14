@@ -1,5 +1,5 @@
 [package]
-name = "color"
+name = "const-css-color"
 version = "0.1.1"
 authors = ["Aster <192607617@qq.com>"]
 description = "Css color parser at compile time"
