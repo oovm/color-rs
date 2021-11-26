@@ -9,5 +9,7 @@ pub use const_css_color::*;
 mod hex;
 mod named;
 mod number;
+mod utils;
 
-pub use self::hex::hex_color;
+pub(crate) use self::utils::*;
+pub use self::{hex::hex_color, number::alpha_value};
