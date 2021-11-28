@@ -1,6 +1,6 @@
 use nom::{
     error::{Error, ErrorKind},
-    Err, IResult,
+    Err,
 };
 
 pub type ErrorMessage = Err<Error<&'static str>>;
