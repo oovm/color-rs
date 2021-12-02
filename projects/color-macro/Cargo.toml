@@ -1,6 +1,6 @@
 [package]
 name = "color-macro"
-version = "0.3.0"
+version = "0.1.0"
 authors = ["Aster <192607617@qq.com>"]
 description = "Css color parser at compile time"
 repository = "https://github.com/oovm/tailwind-rs"
@@ -12,6 +12,9 @@ exclude = ["*.json"]
 
 [lib]
 proc-macro = true
+
+[dev-dependencies]
+color-parser = { version = "0.1.0", path = "../color-parser" }
 
 [dependencies]
 quote = "1.0.15"

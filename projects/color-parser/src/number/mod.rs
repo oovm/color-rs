@@ -1,7 +1,5 @@
 use nom::{branch::alt, bytes::complete::tag, character::complete::char, combinator::opt, number::complete::float, IResult};
 use std::f32::consts::PI;
-
-use const_css_color::RGBA32;
 use NumberOrPercentage::*;
 
 use crate::clamp;
@@ -43,7 +41,7 @@ fn number_or_percentage(input: &str) -> IResult<&str, NumberOrPercentage> {
     let (rest, f) = float(input)?;
     let (rest, p) = opt(char('%'))(rest)?;
     let value = match p.is_some() {
-        true => NumberOrPercentage::Percentage(f),
+        true => NumberOrPercentage::Number(f),
         false => NumberOrPercentage::Percentage(f),
     };
     Ok((rest, value))

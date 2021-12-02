@@ -8,6 +8,8 @@
 
 extern crate proc_macro;
 mod rgb;
+use self::rgb::Color;
+use color_parser::{Rgba, RGB, RGBA};
 use proc_macro::TokenStream;
 use quote::quote;
 use syn::{
@@ -18,35 +20,44 @@ use syn::{
 /// a proc macro takes tokens as argument, and generates tokens
 #[proc_macro]
 pub fn rgb(input: TokenStream) -> TokenStream {
-    let ParsedQuery { query, argument } = syn::parse(input).unwrap();
-
-    // the parser extracted the format string argument and its type,
-    // so we can generate code using the right type, and the compiler
-    // will check it
-    let quote_argument = match argument {
-        ParsedArgument::Number(e) => quote! {
-            parser::Argument::Number(#e)
-        },
-        ParsedArgument::String(e) => quote! {
-            parser::Argument::String(#e)
-        },
-    };
-
-    // we can then generate code using what we parsed. That
-    // code will replace the macro call
+    let rgba: Color = syn::parse(input).unwrap();
+    let rgb: RGB = rgba.rgba.into();
     let gen = quote! {
-        color::RGB {
-            fragment: #query,
-            argument: #quote_argument,
+        color_parser::RGB {
+            r: #(rgb.r),
+            g: #(rgb.g),
+            b: #(rgb.b),
         }
     };
     gen.into()
 }
 
+#[proc_macro]
 pub fn rgba(input: TokenStream) -> TokenStream {
-    todo!()
+    let rgba: Color = syn::parse(input).unwrap();
+    let rgba: RGBA = rgba.rgba.into();
+    let gen = quote! {
+        color_parser::RGBA {
+            r: #(rgba.r),
+            g: #(rgba.g),
+            b: #(rgba.b),
+            a: #(rgba.a),
+        }
+    };
+    gen.into()
 }
 
+#[proc_macro]
 pub fn rgba32(input: TokenStream) -> TokenStream {
-    todo!()
+    let rgba: Color = syn::parse(input).unwrap();
+    let rgba: Rgba = rgba.rgba.into();
+    let gen = quote! {
+        color_parser::RGBA32 {
+            r: #(rgba.r),
+            g: #(rgba.g),
+            b: #(rgba.b),
+            a: #(rgba.a),
+        }
+    };
+    gen.into()
 }

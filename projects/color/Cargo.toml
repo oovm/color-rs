@@ -11,6 +11,7 @@ edition = "2021"
 exclude = ["*.json"]
 
 [dependencies]
+color-macro = { version = "0.1.0", path = "../color-macro" }
 
 [package.metadata.wee]
 t = "cargo test"
