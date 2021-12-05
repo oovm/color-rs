@@ -5,10 +5,10 @@ use syn::{
 
 use color_parser::rgba;
 
-use crate::Rgba;
+use crate::RGBA32;
 
 pub struct Color {
-    pub rgba: Rgba,
+    pub rgba: RGBA32,
 }
 
 impl Parse for Color {

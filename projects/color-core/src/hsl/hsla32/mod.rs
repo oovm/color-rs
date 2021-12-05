@@ -9,7 +9,7 @@ impl Default for HSLA32 {
 }
 
 impl HSLA32 {
-    /// Normalize [`HSLA32`] color.
+    /// Normalize [`HSLA32`] color_parser.
     pub fn normalized(&self) -> Self {
         let mut h = self.h % 360.0;
         if h < 0.0 {

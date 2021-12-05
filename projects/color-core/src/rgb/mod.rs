@@ -27,7 +27,7 @@ pub struct RGBA {
     pub a: u8,
 }
 
-/// A color in the RGBA color space with 32-bit precision.
+/// A color in the RGBA color_parser space with 32-bit precision.
 ///
 /// lossless format of rgb colors
 #[derive(Clone, Copy, PartialEq, PartialOrd)]

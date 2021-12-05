@@ -4,28 +4,28 @@ use nom::{
     IResult,
 };
 
-use crate::{utils::nom_error, ErrorMessage, Rgba};
+use crate::{utils::nom_error, ErrorMessage, RGBA32};
 
-/// `<hex-color> = #<hex-value>{3,4,6,8}`
+/// `<hex-color_parser> = #<hex-value>{3,4,6,8}`
 /// <https://www.w3.org/TR/css-color-4/#hex-notation>
-pub fn hex_color(input: &str) -> IResult<&str, Rgba> {
+pub fn hex_color(input: &str) -> IResult<&str, RGBA32> {
     let (rest, _) = tag("#")(input)?;
     let (rest, hex) = take_while_m_n(3, 8, |c: char| c.is_digit(16))(rest)?;
     let hex = hex.as_bytes();
     let out = match hex.len() {
-        8 => Rgba::rgba(
+        8 => RGBA32::rgba(
             hex_digit(hex[0])? * 16 + hex_digit(hex[1])?,
             hex_digit(hex[2])? * 16 + hex_digit(hex[3])?,
             hex_digit(hex[4])? * 16 + hex_digit(hex[5])?,
             hex_digit(hex[6])? * 16 + hex_digit(hex[7])?,
         ),
-        6 => Rgba::rgb(
+        6 => RGBA32::rgb(
             hex_digit(hex[0])? * 16 + hex_digit(hex[1])?,
             hex_digit(hex[2])? * 16 + hex_digit(hex[3])?,
             hex_digit(hex[4])? * 16 + hex_digit(hex[5])?,
         ),
-        4 => Rgba::rgba(hex_digit(hex[0])? * 17, hex_digit(hex[1])? * 17, hex_digit(hex[2])? * 17, hex_digit(hex[3])? * 17),
-        3 => Rgba::rgb(hex_digit(hex[0])? * 17, hex_digit(hex[1])? * 17, hex_digit(hex[2])? * 17),
+        4 => RGBA32::rgba(hex_digit(hex[0])? * 17, hex_digit(hex[1])? * 17, hex_digit(hex[2])? * 17, hex_digit(hex[3])? * 17),
+        3 => RGBA32::rgb(hex_digit(hex[0])? * 17, hex_digit(hex[1])? * 17, hex_digit(hex[2])? * 17),
         _ => nom_error(ErrorKind::ManyMN, "Invalid hex pattern, can take 3,4,6,8 hex number only")?,
     };
     Ok((rest, out))

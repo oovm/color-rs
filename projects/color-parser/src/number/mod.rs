@@ -41,8 +41,8 @@ fn number_or_percentage(input: &str) -> IResult<&str, NumberOrPercentage> {
     let (rest, f) = float(input)?;
     let (rest, p) = opt(char('%'))(rest)?;
     let value = match p.is_some() {
-        true => NumberOrPercentage::Number(f),
-        false => NumberOrPercentage::Percentage(f),
+        true => NumberOrPercentage::Percentage(f),
+        false => NumberOrPercentage::Number(f),
     };
     Ok((rest, value))
 }

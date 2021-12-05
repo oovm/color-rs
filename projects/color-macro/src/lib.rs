@@ -7,26 +7,26 @@
 // #![doc = include_str!("../readme.md")]
 
 extern crate proc_macro;
-mod rgb;
-use self::rgb::Color;
-use color_parser::{Rgba, RGB, RGBA};
+
 use proc_macro::TokenStream;
+
+use color_parser::{RGB, RGBA, RGBA32};
 use quote::quote;
-use syn::{
-    parse::{Parse, ParseStream, Result},
-    Expr, LitStr, Token,
-};
+
+use self::rgb::Color;
+
+mod rgb;
 
 /// a proc macro takes tokens as argument, and generates tokens
 #[proc_macro]
 pub fn rgb(input: TokenStream) -> TokenStream {
     let rgba: Color = syn::parse(input).unwrap();
-    let rgb: RGB = rgba.rgba.into();
+    let RGB { r, g, b } = rgba.rgba.into();
     let gen = quote! {
-        color_parser::RGB {
-            r: #(rgb.r),
-            g: #(rgb.g),
-            b: #(rgb.b),
+        color::RGB {
+            r: #r,
+            g: #g,
+            b: #b,
         }
     };
     gen.into()
@@ -35,13 +35,13 @@ pub fn rgb(input: TokenStream) -> TokenStream {
 #[proc_macro]
 pub fn rgba(input: TokenStream) -> TokenStream {
     let rgba: Color = syn::parse(input).unwrap();
-    let rgba: RGBA = rgba.rgba.into();
+    let RGBA { r, g, b, a } = rgba.rgba.into();
     let gen = quote! {
-        color_parser::RGBA {
-            r: #(rgba.r),
-            g: #(rgba.g),
-            b: #(rgba.b),
-            a: #(rgba.a),
+        color::RGBA {
+            r: #r,
+            g: #g,
+            b: #b,
+            a: #a,
         }
     };
     gen.into()
@@ -50,13 +50,13 @@ pub fn rgba(input: TokenStream) -> TokenStream {
 #[proc_macro]
 pub fn rgba32(input: TokenStream) -> TokenStream {
     let rgba: Color = syn::parse(input).unwrap();
-    let rgba: Rgba = rgba.rgba.into();
+    let RGBA32 { r, g, b, a } = rgba.rgba.into();
     let gen = quote! {
-        color_parser::RGBA32 {
-            r: #(rgba.r),
-            g: #(rgba.g),
-            b: #(rgba.b),
-            a: #(rgba.a),
+        color::RGBA32 {
+            r: #r,
+            g: #g,
+            b: #b,
+            a: #a,
         }
     };
     gen.into()

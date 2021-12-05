@@ -6,16 +6,16 @@ mod convert;
 mod display;
 mod hsla32;
 
-/// A color in HSLA color space with 32-bit floating point components.
+/// A color_parser in HSLA color_parser space with 32-bit floating point components.
 #[derive(Clone, Copy, PartialEq, PartialOrd)]
 pub struct HSLA32 {
-    /// Hue is a degree on the color wheel from `[0f32, 360f32)`.
+    /// Hue is a degree on the color_parser wheel from `[0f32, 360f32)`.
     ///
     /// 0 is red, 120 is green, 240 is blue.
     pub h: f32,
     /// Saturation is a percentage value in `[0f32, 1f32]`.
     ///
-    /// 0% means a shade of gray and 100% is the full color.
+    /// 0% means a shade of gray and 100% is the full color_parser.
     pub s: f32,
     /// Lightness is a percentage value in `[0f32, 1f32]`.
     ///
@@ -27,16 +27,16 @@ pub struct HSLA32 {
     pub a: f32,
 }
 
-/// A color in HSVA color space with 32-bit floating point components.
+/// A color_parser in HSVA color_parser space with 32-bit floating point components.
 #[derive(Clone, Copy, PartialEq, PartialOrd)]
 pub struct HSVA32 {
-    /// Hue is a degree on the color wheel from `[0f32, 360f32)`.
+    /// Hue is a degree on the color_parser wheel from `[0f32, 360f32)`.
     ///
     /// 0 is red, 120 is green, 240 is blue.
     pub h: f32,
     /// Saturation is a percentage value in `[0f32, 1f32]`.
     ///
-    /// 0% means a shade of gray and 100% is the full color.
+    /// 0% means a shade of gray and 100% is the full color_parser.
     pub s: f32,
     ///
     pub v: f32,
@@ -47,7 +47,7 @@ pub struct HSVA32 {
 }
 
 impl HSVA32 {
-    /// Normalize [`HSVA32`] color.
+    /// Normalize [`HSVA32`] color_parser.
     pub fn normalized(&self) -> HSVA32 {
         let mut h = self.h % 360.0;
         if h < 0.0 {

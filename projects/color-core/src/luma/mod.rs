@@ -2,7 +2,7 @@ use std::fmt::{Debug, Formatter};
 
 mod luma32;
 
-/// A color in the luma color space.
+/// A color_parser in the luma color_parser space.
 #[derive(Clone, Copy, PartialEq, PartialOrd)]
 pub struct LUMA32 {
     ///

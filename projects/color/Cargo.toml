@@ -1,6 +1,6 @@
 [package]
-name = "const-css-color"
-version = "0.1.1"
+name = "color"
+version = "0.1.0"
 authors = ["Aster <192607617@qq.com>"]
 description = "Css color parser at compile time"
 repository = "https://github.com/oovm/tailwind-rs"
@@ -11,7 +11,15 @@ edition = "2021"
 exclude = ["*.json"]
 
 [dependencies]
+color-core = { version = "0.1.0", path = "../color-core" }
 color-macro = { version = "0.1.0", path = "../color-macro" }
+
+[features]
+default = []
+strict = [
+    "color-core/strict",
+    "color-macro/strict"
+]
 
 [package.metadata.wee]
 t = "cargo test"

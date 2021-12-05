@@ -1,11 +1,5 @@
 use super::*;
 
-impl Default for RGBA {
-    fn default() -> Self {
-        Self { r: 0, g: 0, b: 0, a: 255 }
-    }
-}
-
 impl Debug for RGBA {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "rgba({}, {}, {}, {})", self.r, self.g, self.b, self.a)

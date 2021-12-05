@@ -11,12 +11,13 @@ edition = "2021"
 exclude = ["*.json"]
 
 [dependencies]
+color-core = {version="0.1.0", path = "../color-core"}
 nom = "7.1.0"
 
 [features]
 default = []
-# do extra checks in strict mode
-strict = []
+strict = ["color-core/strict"]
+
 [package.metadata.wee]
 t = "cargo test"
 p = "cargo publish --allow-dirty"
