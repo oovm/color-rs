@@ -9,17 +9,11 @@ impl From<HSLA32> for RGBA32 {
         };
         let t1 = hsla.l * 2. - t2;
         let hue_to_rgb = |h6: f32| -> f32 {
-            if h6 < 1. {
-                (t2 - t1) * h6 + t1
-            }
-            else if h6 < 3. {
-                t2
-            }
-            else if h6 < 4. {
-                (t2 - t1) * (4. - h6) + t1
-            }
-            else {
-                t1
+            match h6 {
+                _ if h6 < 1.0 => (t2 - t1) * h6 + t1,
+                _ if h6 < 3.0 => t2,
+                _ if h6 < 4.0 => (t2 - t1) * (4. - h6) + t1,
+                _ => t1,
             }
         };
         let h6 = hsla.h * 6.;
