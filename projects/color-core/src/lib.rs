@@ -4,7 +4,6 @@
 #![forbid(missing_doc_code_examples)]
 #![doc = include_str!("../readme.md")]
 
-pub(crate) use self::utils::*;
 pub use self::{
     hsl::{HSLA32, HSVA32},
     luma::LUMA32,

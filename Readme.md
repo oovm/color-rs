@@ -1,7 +1,7 @@
 Rust Color
 ==========
 
-### Compile time color parsing!
+### Compile time color parsing
 
 
 ```rust
@@ -22,11 +22,23 @@ fn test_rgba() {
 ### Compile time error report
 
 ```rust
-#[test]
-fn panic_hex5() {
-    rgba!("#34678");
-}
+// Invalid hex pattern, can take 3,4,6,8 hex number only
+rgba!("#34678");
 ```
 
 
 ![image](https://user-images.githubusercontent.com/17541209/156918188-e8d6ed8c-b811-4f20-9159-040eeab5af07.png)
+
+
+### Strict check mode
+
+```toml
+features = ["strict"]
+```
+
+Normally valid mode is looser than specified, strict mode rejects all non-css level3 input
+
+```rust
+// will not panic by default
+rgba!("rgba(10 10 10, 10)");
+```

@@ -1,9 +1,9 @@
 use syn::{
     parse::{Parse, ParseStream},
-    Error, LitStr,
+    Error, LitStr, Result,
 };
 
-use color_parser::{hex_color, rgba};
+use color_parser::{hex_color, rgba, Finish};
 
 use crate::RGBA32;
 
@@ -12,21 +12,23 @@ pub struct Color {
 }
 
 impl Parse for Color {
-    fn parse(input: ParseStream) -> syn::Result<Self> {
+    fn parse(input: ParseStream) -> Result<Self> {
         let query: LitStr = input.parse()?;
         let string = query.value();
+        let span = query.span();
+
         if string.trim().starts_with('#') {
-            return match hex_color(string.trim()) {
-                Ok(o) => Ok(Color { rgba: o.1 }),
-                Err(e) => Err(Error::new(query.span(), e.map(|e| e.input))),
+            return match hex_color(string.trim()).finish() {
+                Ok((_, rgba)) => Ok(Color { rgba }),
+                _ => Err(Error::new(span, "Invalid hex pattern, can take 3,4,6,8 hex number only")),
             };
         }
         if string.trim().starts_with("rgb") {
-            return match rgba(string.trim()) {
-                Ok(o) => Ok(Color { rgba: o.1 }),
-                Err(e) => Err(Error::new(query.span(), format!("{:?}", e))),
+            return match rgba(string.trim()).finish() {
+                Ok((_, rgba)) => Ok(Color { rgba }),
+                Err(e) => Err(Error::new(span, format!("{:?}", e))),
             };
         }
-        Err(Error::new(query.span(), "Unknown color pattern".to_string()))
+        Err(Error::new(span, "Unknown color pattern".to_string()))
     }
 }

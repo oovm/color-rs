@@ -16,9 +16,3 @@ fn test_rgba() {
     assert_eq!(rgba!("rgba(51, 76, 102, .5)"), RGBA::new(51, 76, 102, 127));
     assert_eq!(rgba!("rgba(20% 30% 40% 50%)"), RGBA::new(51, 76, 102, 127));
 }
-
-#[test]
-#[should_panic(expected = "Invalid hex pattern, can take 3,4,6,8 hex number only")]
-fn panic_hex5() {
-    rgba!("#34678");
-}
