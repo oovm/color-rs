@@ -1,6 +1,13 @@
 use super::*;
 
-impl Debug for RGB {
+
+impl Default for RGB {
+    fn default() -> Self {
+        Self { r: 0, g: 0, b: 0 }
+    }
+}
+
+impl Display for RGB {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "rgb({}, {}, {})", self.r, self.g, self.b)
     }

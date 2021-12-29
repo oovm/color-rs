@@ -1,7 +1,7 @@
 use super::*;
 
 mod convert;
-mod display;
+mod traits;
 
 impl RGBA32 {
     /// Normalize [`RGBA32`] color_parser.

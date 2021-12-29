@@ -2,9 +2,9 @@
 name = "color-parser"
 version = "0.1.0"
 authors = ["Aster <192607617@qq.com>"]
-description = "Css color parser at compile time"
-repository = "https://github.com/oovm/tailwind-rs"
-documentation = "https://docs.rs/const-css-color"
+description = "Css color level3 parser"
+repository = "https://github.com/oovm/color-rs"
+documentation = "https://docs.rs/color-parser"
 readme = "Readme.md"
 license = "MPL-2.0"
 edition = "2021"

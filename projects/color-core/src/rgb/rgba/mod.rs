@@ -1,13 +1,8 @@
 use super::*;
 
 mod convert;
-mod display;
+mod traits;
 
-impl Default for RGBA {
-    fn default() -> Self {
-        Self { r: 0, g: 0, b: 0, a: 255 }
-    }
-}
 
 impl RGBA {
     /// Create [`RGBA`] from `(u8, u8, u8, u8)` tuple.
