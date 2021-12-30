@@ -11,6 +11,7 @@ edition = "2021"
 exclude = ["*.json"]
 
 [dependencies]
+rand = { version = "0.8.5", optional = true }
 
 [features]
 default = []

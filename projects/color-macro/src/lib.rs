@@ -17,18 +17,19 @@ use self::parsing::RgbaColor;
 
 mod parsing;
 
-///
-///
-/// # Arguments
-///
-/// * `input`:
-///
-/// returns: TokenStream
+/// Compile time [`RGB`] struct builder.
 ///
 /// # Examples
 ///
-/// ```
+/// ```rust
+/// rgb!("#346"); // RGB::new(51, 68, 102)
+/// rgb!("#334C66"); // RGB::new(51, 76, 102)
 ///
+/// rgb!("rgb(51, 76, 102)"); // RGB::new(51, 76, 102)
+/// rgb!("rgb(20% 30% 40%)"); // RGB::new(51, 76, 102)
+///
+/// rgb!(51, 76, 102); // RGB::new(51, 76, 102)
+/// rgb!(0.2, 0.3, 0.4); // RGB::new(51, 76, 102)
 /// ```
 #[proc_macro]
 pub fn rgb(input: TokenStream) -> TokenStream {
@@ -47,19 +48,19 @@ pub fn rgb(input: TokenStream) -> TokenStream {
     gen.into()
 }
 
-
-/// a proc macro takes tokens as argument, and generates tokens
-///
-/// # Arguments
-///
-/// * `input`:
-///
-/// returns: TokenStream
+/// Compile time [`RGBA`] struct builder.
 ///
 /// # Examples
 ///
-/// ```
+/// ```rust
+/// rgba!("#3467"); // RGBA::new(51, 76, 102, 127)
+/// rgba!("#334C667F"); // RGBA::new(51, 76, 102, 127)
 ///
+/// rgba!("rgb(51, 76, 102, .5)"); // RGBA::new(51, 76, 102, 127)
+/// rgba!("rgb(20% 30% 40% 50%)"); // RGBA::new(51, 76, 102, 127)
+///
+/// rgba!(51, 76, 102, 127); // RGBA::new(51, 76, 102, 127)
+/// rgba!(0.2, 0.3, 0.4, 0.5); // RGBA::new(51, 76, 102, 127)
 /// ```
 #[proc_macro]
 pub fn rgba(input: TokenStream) -> TokenStream {
@@ -79,19 +80,19 @@ pub fn rgba(input: TokenStream) -> TokenStream {
     gen.into()
 }
 
-/// a proc macro takes tokens as argument, and generates tokens
-///
-/// # Arguments
-///
-/// * `input`: literal
-///
-/// returns: TokenStream
+/// Compile time [`RGBA32`] struct builder.
 ///
 /// # Examples
 ///
 /// ```rust
-/// rgba32!(0, 0, 0, 0);
-/// rgba32!("#FF00FF");
+/// rgba32!("#3467"); // RGBA32::rgba(51, 76, 102, 127)
+/// rgba32!("#334C667F"); // RGBA32::rgba(51, 76, 102, 127)
+///
+/// rgba32!("rgb(51, 76, 102, .5)"); // RGBA32::rgba(51, 76, 102, 127)
+/// rgba32!("rgb(20% 30% 40% 50%)"); // RGBA32::new(0.2, 0.3, 0.4, 0.5)
+///
+/// rgba32!(51, 76, 102, 127); // RGBA32::rgba(51, 76, 102, 127)
+/// rgba32!(0.2, 0.3, 0.4, 0.5); // RGBA32::new(0.2, 0.3, 0.4, 0.5)
 /// ```
 #[proc_macro]
 pub fn rgba32(input: TokenStream) -> TokenStream {
