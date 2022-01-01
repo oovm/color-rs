@@ -1,6 +1,6 @@
 [package]
 name = "color"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Aster <192607617@qq.com>"]
 description = "Css color parser at compile time"
 repository = "https://github.com/oovm/tailwind-rs"
@@ -11,8 +11,8 @@ edition = "2021"
 exclude = ["*.json"]
 
 [dependencies]
-color-core = { version = "0.1.0", path = "../color-core" }
-color-macro = { version = "0.1.0", path = "../color-macro" }
+color-core = { version = "0.1.*", path = "../color-core" }
+color-macro = { version = "0.1.*", path = "../color-macro" }
 
 [features]
 default = []

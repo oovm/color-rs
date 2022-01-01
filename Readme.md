@@ -5,8 +5,7 @@ Rust Color
 
 
 ```rust
-use color_core::{RGBA};
-use color_macro::{rgba};
+use color::{rgba, RGBA};
 
 #[test]
 fn test_rgba() {
@@ -16,7 +15,7 @@ fn test_rgba() {
 }
 ```
 
-![image](https://user-images.githubusercontent.com/17541209/156918397-cf9024dc-7f2e-4f36-b3a7-2eec1cb26584.png)
+![success](https://user-images.githubusercontent.com/17541209/156918397-cf9024dc-7f2e-4f36-b3a7-2eec1cb26584.png)
 
 
 ### Compile time error report
@@ -27,7 +26,7 @@ rgba!("#34678");
 ```
 
 
-![image](https://user-images.githubusercontent.com/17541209/156918188-e8d6ed8c-b811-4f20-9159-040eeab5af07.png)
+![failure](https://user-images.githubusercontent.com/17541209/156918188-e8d6ed8c-b811-4f20-9159-040eeab5af07.png)
 
 
 ### Strict check mode
