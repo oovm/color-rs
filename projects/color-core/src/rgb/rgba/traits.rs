@@ -8,7 +8,7 @@ impl Default for RGBA {
 
 impl Display for RGBA {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "rgba({}, {}, {}, {})", self.r, self.g, self.b, self.a)
+        write!(f, "rgba({} {} {} / {:.0}%)", self.r, self.g, self.b, self.a as f32 / 255.0)
     }
 }
 

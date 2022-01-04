@@ -1,6 +1,5 @@
 use super::*;
 
-
 impl Default for RGB {
     fn default() -> Self {
         Self { r: 0, g: 0, b: 0 }
@@ -9,7 +8,7 @@ impl Default for RGB {
 
 impl Display for RGB {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "rgb({}, {}, {})", self.r, self.g, self.b)
+        write!(f, "rgb({} {} {})", self.r, self.g, self.b)
     }
 }
 
