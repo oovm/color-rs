@@ -77,3 +77,9 @@ where
         Self { r: rgba.0.into(), g: rgba.1.into(), b: rgba.2.into(), a: rgba.3.into() }
     }
 }
+
+impl From<u32> for RGBA32 {
+    fn from(rgba: u32) -> Self {
+        RGBA::from(rgba).into()
+    }
+}

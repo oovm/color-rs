@@ -1,6 +1,12 @@
 use color_core::{HSLA32, RGBA32};
 
 #[test]
+fn from_hex() {
+    // assert_eq!(format!("{:#X}", RGBA32::from(0xABCDEF)), "#ABCDEFFF");
+    // assert_eq!(format!("{:#X}", RGBA32::from(0xABCDEF00)), "#ABCDEF00");
+}
+
+#[test]
 fn from_rgb_1() {
     let hsla = HSLA32::new(0.2, 0.3, 0.4, 0.5);
     assert_eq!(format!("{}", hsla), "hsla(72 30% 40% / 50%)");
