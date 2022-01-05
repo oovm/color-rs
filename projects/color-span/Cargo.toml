@@ -1,0 +1,24 @@
+[package]
+name = "color-span"
+version = "0.1.2"
+authors = ["Aster <192607617@qq.com>"]
+description = "Color shared definition"
+repository = "https://github.com/oovm/color-rs"
+documentation = "https://docs.rs/color-core"
+readme = "Readme.md"
+license = "MPL-2.0"
+edition = "2021"
+exclude = ["*.json"]
+
+[dependencies]
+rand = { version = "0.8.5", optional = true }
+
+[features]
+default = []
+# do extra checks in strict mode
+strict = []
+
+
+[package.metadata.wee]
+t = "cargo test"
+p = "cargo publish --allow-dirty"
