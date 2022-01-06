@@ -11,7 +11,7 @@ edition = "2021"
 exclude = ["*.json"]
 
 [dependencies]
-string-interner = "0.14.0"
+indexmap = "1.9.2"
 
 [features]
 default = []
