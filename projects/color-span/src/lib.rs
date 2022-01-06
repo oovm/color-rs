@@ -5,4 +5,8 @@
 #![allow(clippy::derivable_impls)]
 #![doc = include_str!("../readme.md")]
 
+mod view;
+mod errors;
 mod span;
+
+pub use self::view::{TextColorView, CharacterColor, ColorSpan};

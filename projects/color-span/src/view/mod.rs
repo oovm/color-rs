@@ -10,13 +10,21 @@ pub struct ColorSpan {
     pub end: usize,
 }
 
+pub enum ColorSpanError {
+    OutOfRange {
+        current: usize,
+        input: usize,
+    },
+    TooMuchColors,
+}
+
 /// Supports 255 color
 #[derive(Debug)]
 pub struct TextColorView {
     // intern string
     colors: IndexSet<String>,
     // same as Vec<char> with color bits
-    characters: Vec<u32>,
+    characters: Vec<[u8; 4]>,
 }
 
 pub struct CharacterColor {
@@ -54,14 +62,35 @@ impl TextColorView {
             characters: colored,
         }
     }
-    pub fn insert(&mut self, start: usize, end: usize, color: String) {
-        match  self.characters.get_mut(Range { start, end }) {
-            None => {}
+    pub fn insert(&mut self, start: usize, end: usize, color: String) -> Result<u8, ColorSpanError> {
+        let index = match self.colors.get_index_of(&color) {
             Some(s) => {
-                println!("{}", s)
+                s
+            }
+            None => {
+                self.colors.insert_full(color).0
+            }
+        };
+        let index = match index <= 255 {
+            true => {
+                index as u8
+            }
+            false => {
+                Err(ColorSpanError::TooMuchColors)?
+            }
+        };
+        match self.characters.get_mut(Range { start, end }) {
+            None => {
+                Err(ColorSpanError::OutOfRange {
+                    current: self.characters.len(),
+                    input: end,
+                })?
+            }
+            Some(s) => {
+                s.iter_mut().for_each(|s| s[3] = index)
             }
         }
-
+        Ok(index)
     }
 }
 
@@ -81,9 +110,9 @@ impl From<char> for CharacterColor {
     }
 }
 
-impl From<u32> for CharacterColor {
-    fn from(c: u32) -> Self {
-        let [l1, l2, l3, color] = c.to_le_bytes();
+impl From<[u8; 4]> for CharacterColor {
+    fn from(c: [u8; 4]) -> Self {
+        let [l1, l2, l3, color] = c;
         let char_part = u32::from_le_bytes([l1, l2, l3, 0]).min(0x10FFFF);
         Self {
             char: unsafe {
@@ -94,9 +123,9 @@ impl From<u32> for CharacterColor {
     }
 }
 
-impl Into<u32> for CharacterColor {
-    fn into(self) -> u32 {
+impl Into<[u8; 4]> for CharacterColor {
+    fn into(self) -> [u8; 4] {
         let [l1, l2, l3, _] = u32::from(self.char).to_le_bytes();
-        u32::from_le_bytes([l1, l2, l3, self.color])
+        [l1, l2, l3, self.color]
     }
 }
