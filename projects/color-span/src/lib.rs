@@ -10,3 +10,4 @@ mod errors;
 mod span;
 
 pub use self::view::{TextColorView, CharacterColor, ColorSpan};
+pub use self::errors::ColorSpanError;
