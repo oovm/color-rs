@@ -6,7 +6,21 @@ use std::{
 use crate::ColorSpanError;
 use indexmap::IndexSet;
 
-/// Supports 255 color
+/// Write color span into html
+///
+/// **Support 255 color at most**.
+///
+/// # Arguments
+///
+/// * `w`:
+///
+/// returns: Result<(), Error>
+///
+/// # Examples
+///
+/// ```
+/// use color_span::ColorSpan;
+/// ```
 #[derive(Debug)]
 pub struct TextColorView {
     // intern string
@@ -15,6 +29,19 @@ pub struct TextColorView {
     characters: Vec<[u8; 4]>,
 }
 
+/// Write color span into html
+///
+/// # Arguments
+///
+/// * `w`:
+///
+/// returns: Result<(), Error>
+///
+/// # Examples
+///
+/// ```
+/// use color_span::ColorSpan;
+/// ```
 pub struct CharacterColor {
     char: char,
     color: u8,
@@ -44,6 +71,17 @@ impl TextColorView {
         let colored = text.chars().map(|c| CharacterColor::from(c).into()).collect();
         Self { colors: intern, characters: colored }
     }
+    /// # Arguments
+    ///
+    /// * `text`:
+    ///
+    /// returns: TextColorView
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// // 256
+    /// ```
     pub fn insert(&mut self, start: usize, end: usize, color: String) -> Result<u8, ColorSpanError> {
         let index = match self.colors.get_index_of(&color) {
             Some(s) => s,
@@ -59,13 +97,6 @@ impl TextColorView {
         }
         Ok(index)
     }
-}
-
-#[test]
-pub fn text() {
-    let text = TextColorView::new("public static class G {}");
-    println!("{:#?}", text)
-    // CharacterColor::from(0x10FFFF);
 }
 
 impl From<char> for CharacterColor {
