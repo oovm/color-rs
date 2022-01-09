@@ -1,10 +1,12 @@
 use std::{
+    collections::BTreeMap,
     fmt::{Debug, Formatter},
     ops::Range,
 };
 
 use crate::ColorSpanError;
 use indexmap::IndexSet;
+mod iter;
 
 /// Write color span into html
 ///
@@ -24,7 +26,7 @@ use indexmap::IndexSet;
 #[derive(Debug)]
 pub struct TextColorView {
     // intern string
-    colors: IndexSet<String>,
+    color_map: IndexSet<String>,
     // same as Vec<char> with color bits
     characters: Vec<[u8; 4]>,
 }
@@ -53,6 +55,18 @@ impl Debug for CharacterColor {
     }
 }
 
+impl From<&str> for TextColorView {
+    fn from(s: &str) -> Self {
+        TextColorView::new(s)
+    }
+}
+
+impl From<String> for TextColorView {
+    fn from(s: String) -> Self {
+        TextColorView::new(&s)
+    }
+}
+
 impl TextColorView {
     /// # Arguments
     ///
@@ -63,29 +77,32 @@ impl TextColorView {
     /// # Examples
     ///
     /// ```
-    /// // 256
+    /// use color_span::TextColorView;
     /// ```
     pub fn new(text: &str) -> TextColorView {
         let mut intern = IndexSet::default();
         intern.insert(String::new());
         let colored = text.chars().map(|c| CharacterColor::from(c).into()).collect();
-        Self { colors: intern, characters: colored }
+        Self { color_map: intern, characters: colored }
     }
+
+    /// Color the text in the range of `start`..`end` to given color name
+    ///
     /// # Arguments
     ///
-    /// * `text`:
-    ///
-    /// returns: TextColorView
+    /// * `start`: start offset
+    /// * `end`: end offset
+    /// * `color`: color name
     ///
     /// # Examples
     ///
     /// ```
-    /// // 256
+    /// use color_span::TextColorView;
     /// ```
-    pub fn insert(&mut self, start: usize, end: usize, color: String) -> Result<u8, ColorSpanError> {
-        let index = match self.colors.get_index_of(&color) {
+    pub fn dye(&mut self, start: usize, end: usize, color: &str) -> Result<u8, ColorSpanError> {
+        let index = match self.color_map.get_index_of(color) {
             Some(s) => s,
-            None => self.colors.insert_full(color).0,
+            None => self.color_map.insert_full(color.to_string()).0,
         };
         let index = match index <= 255 {
             true => index as u8,
@@ -96,6 +113,22 @@ impl TextColorView {
             Some(s) => s.iter_mut().for_each(|s| s[3] = index),
         }
         Ok(index)
+    }
+    /// Color the text in the range of `start`..`end` to given color name
+    ///
+    /// # Arguments
+    ///
+    /// * `start`: start offset
+    /// * `end`: end offset
+    /// * `color`: color name
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use color_span::TextColorView;
+    /// ```
+    pub fn colors(&self) -> BTreeMap<u8, &str> {
+        self.color_map.iter().enumerate().map(|(k, v)| (k as u8, v.as_str())).collect()
     }
 }
 

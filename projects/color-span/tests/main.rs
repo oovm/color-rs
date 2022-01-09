@@ -7,7 +7,10 @@ fn ready() {
 
 #[test]
 pub fn text() {
-    let text = TextColorView::new("public static class G {}");
-    println!("{:#?}", text)
-    // CharacterColor::from(0x10FFFF);
+    let mut text = TextColorView::new("public static class G {}");
+    text.dye(0, 5, "keyword").ok();
+
+    for a in text.into_iter() {
+        println!("{:#?}", a)
+    }
 }
