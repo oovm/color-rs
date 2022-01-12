@@ -1,5 +1,5 @@
-use super::*;
-use crate::ColorSpan;
+use crate::{CharacterColor, ColorSpan, TextColorView};
+use indexmap::IndexSet;
 use std::{iter::Peekable, mem::take, slice::Iter};
 
 #[derive(Debug)]
@@ -43,20 +43,25 @@ impl Iterator for TextColorIter<'_> {
                 let out = self.pop_span();
                 self.buffer.push(char.char);
                 self.current_color_id = char.color;
-                return out;
+                if out.text.is_empty() {
+                    continue;
+                }
+                else {
+                    return Some(out);
+                }
             }
         }
         self.run_out = true;
-        self.pop_span()
+        Some(self.pop_span())
     }
 }
 
 impl TextColorIter<'_> {
-    fn pop_span(&mut self) -> Option<ColorSpan> {
+    fn pop_span(&mut self) -> ColorSpan {
         let color = match self.colors.get_index(self.current_color_id as usize) {
             Some(color) => color.to_string(),
             None => String::new(),
         };
-        Some(ColorSpan { color, text: take(&mut self.buffer) })
+        ColorSpan { color, text: take(&mut self.buffer) }
     }
 }

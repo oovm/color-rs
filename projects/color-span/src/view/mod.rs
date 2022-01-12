@@ -6,7 +6,10 @@ use std::{
 
 use crate::ColorSpanError;
 use indexmap::IndexSet;
+mod der;
+pub mod html;
 mod iter;
+mod ser;
 
 /// Write color span into html
 ///
