@@ -6,7 +6,9 @@ use std::{
 
 use crate::ColorSpanError;
 use indexmap::IndexSet;
-mod der;
+use serde::{Deserialize, Serialize};
+
+// mod der;
 pub mod html;
 mod iter;
 mod ser;
