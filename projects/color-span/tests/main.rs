@@ -1,6 +1,5 @@
 use color_span::TextColorView;
 use serde_json::to_string;
-use std::fmt::Write;
 
 #[test]
 fn ready() {

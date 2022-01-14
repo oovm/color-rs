@@ -19,7 +19,7 @@ impl<'i> IntoIterator for &'i TextColorView {
         TextColorIter {
             run_out: false,
             current_color_id: 0,
-            colors: &self.color_map,
+            colors: &self.colors,
             text: self.characters.iter().peekable(),
             buffer: "".to_string(),
         }

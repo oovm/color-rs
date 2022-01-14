@@ -6,9 +6,8 @@ use std::{
 
 use crate::ColorSpanError;
 use indexmap::IndexSet;
-use serde::{Deserialize, Serialize};
 
-// mod der;
+mod der;
 pub mod html;
 mod iter;
 mod ser;
@@ -31,7 +30,7 @@ mod ser;
 #[derive(Debug)]
 pub struct TextColorView {
     // intern string
-    color_map: IndexSet<String>,
+    colors: IndexSet<String>,
     // same as Vec<char> with color bits
     characters: Vec<[u8; 4]>,
 }
@@ -88,7 +87,7 @@ impl TextColorView {
         let mut intern = IndexSet::default();
         intern.insert(String::new());
         let colored = text.chars().map(|c| CharacterColor::from(c).into()).collect();
-        Self { color_map: intern, characters: colored }
+        Self { colors: intern, characters: colored }
     }
 
     /// Color the text in the range of `start`..`end` to given color name
@@ -105,9 +104,9 @@ impl TextColorView {
     /// use color_span::TextColorView;
     /// ```
     pub fn dye(&mut self, start: usize, end: usize, color: &str) -> Result<u8, ColorSpanError> {
-        let index = match self.color_map.get_index_of(color) {
+        let index = match self.colors.get_index_of(color) {
             Some(s) => s,
-            None => self.color_map.insert_full(color.to_string()).0,
+            None => self.colors.insert_full(color.to_string()).0,
         };
         let index = match index <= 255 {
             true => index as u8,
@@ -133,7 +132,7 @@ impl TextColorView {
     /// use color_span::TextColorView;
     /// ```
     pub fn colors(&self) -> BTreeMap<u8, &str> {
-        self.color_map.iter().enumerate().map(|(k, v)| (k as u8, v.as_str())).collect()
+        self.colors.iter().enumerate().map(|(k, v)| (k as u8, v.as_str())).collect()
     }
 }
 

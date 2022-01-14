@@ -7,7 +7,7 @@ impl Serialize for TextColorView {
         S: Serializer,
     {
         let mut ser = serializer.serialize_struct("TextColorView", 2)?;
-        ser.serialize_field("color_map", &self.color_map)?;
+        ser.serialize_field("colors", &self.colors)?;
         ser.serialize_field("characters", &self.characters.iter().map(|s| u32::from_le_bytes(*s)).collect_vec())?;
         ser.end()
     }

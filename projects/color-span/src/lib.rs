@@ -12,5 +12,5 @@ mod view;
 pub use self::{
     errors::ColorSpanError,
     span::ColorSpan,
-    view::{CharacterColor, TextColorView},
+    view::{html::HTMLWriter, CharacterColor, TextColorView},
 };
