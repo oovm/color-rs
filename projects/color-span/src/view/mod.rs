@@ -7,6 +7,7 @@ use std::{
 use crate::ColorSpanError;
 use indexmap::IndexSet;
 
+mod convert;
 mod der;
 pub mod html;
 mod iter;
@@ -27,10 +28,10 @@ mod ser;
 /// ```
 /// use color_span::ColorSpan;
 /// ```
-#[derive(Debug)]
+#[derive(Clone, Eq, PartialEq)]
 pub struct TextColorView {
     // intern string
-    colors: IndexSet<String>,
+    colors: Vec<String>,
     // same as Vec<char> with color bits
     characters: Vec<[u8; 4]>,
 }
@@ -51,24 +52,6 @@ pub struct TextColorView {
 pub struct CharacterColor {
     char: char,
     color: u8,
-}
-
-impl Debug for CharacterColor {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.debug_tuple("Colored").field(&self.char).field(&self.color).finish()
-    }
-}
-
-impl From<&str> for TextColorView {
-    fn from(s: &str) -> Self {
-        TextColorView::new(s)
-    }
-}
-
-impl From<String> for TextColorView {
-    fn from(s: String) -> Self {
-        TextColorView::new(&s)
-    }
 }
 
 impl TextColorView {
@@ -131,28 +114,23 @@ impl TextColorView {
     /// ```
     /// use color_span::TextColorView;
     /// ```
-    pub fn colors(&self) -> BTreeMap<u8, &str> {
+    pub fn color_map(&self) -> BTreeMap<u8, &str> {
         self.colors.iter().enumerate().map(|(k, v)| (k as u8, v.as_str())).collect()
     }
-}
-
-impl From<char> for CharacterColor {
-    fn from(c: char) -> Self {
-        Self { char: c, color: 0 }
-    }
-}
-
-impl From<[u8; 4]> for CharacterColor {
-    fn from(c: [u8; 4]) -> Self {
-        let [l1, l2, l3, color] = c;
-        let char_part = u32::from_le_bytes([l1, l2, l3, 0]).min(0x10FFFF);
-        Self { char: unsafe { char::from_u32_unchecked(char_part) }, color }
-    }
-}
-
-impl Into<[u8; 4]> for CharacterColor {
-    fn into(self) -> [u8; 4] {
-        let [l1, l2, l3, _] = u32::from(self.char).to_le_bytes();
-        [l1, l2, l3, self.color]
+    /// Color the text in the range of `start`..`end` to given color name
+    ///
+    /// # Arguments
+    ///
+    /// * `start`: start offset
+    /// * `end`: end offset
+    /// * `color`: color name
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use color_span::TextColorView;
+    /// ```
+    pub fn text(&self) -> String {
+        self.characters.iter().map(|s| CharacterColor::from(s).char).collect()
     }
 }
