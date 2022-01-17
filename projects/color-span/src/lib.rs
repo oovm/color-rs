@@ -8,9 +8,11 @@
 mod errors;
 mod span;
 mod view;
+mod writer;
 
 pub use self::{
     errors::ColorSpanError,
     span::ColorSpan,
-    view::{html::HTMLWriter, CharacterColor, TextColorView},
+    view::{CharacterColor, TextColorView},
+    writer::HTMLWriter,
 };

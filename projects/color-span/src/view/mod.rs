@@ -1,6 +1,7 @@
 use std::{
     collections::BTreeMap,
     fmt::{Debug, Formatter},
+    marker::PhantomData,
     ops::Range,
 };
 
@@ -9,9 +10,19 @@ use indexmap::IndexSet;
 
 mod convert;
 mod der;
-pub mod html;
 mod iter;
 mod ser;
+
+pub trait Palette {
+    type K;
+    type V;
+
+    fn get_index(&self, key: Self::K) -> Result<u8, ColorSpanError>;
+}
+
+pub struct ClassPalette {
+    classes: IndexSet<String>,
+}
 
 /// Write color span into html
 ///
@@ -30,9 +41,6 @@ mod ser;
 /// ```
 #[derive(Clone, Eq, PartialEq)]
 pub struct TextColorView {
-    // intern string
-    colors: Vec<String>,
-    // same as Vec<char> with color bits
     characters: Vec<[u8; 4]>,
 }
 
