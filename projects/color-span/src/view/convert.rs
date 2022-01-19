@@ -1,8 +1,8 @@
 use super::*;
 
-impl Debug for TextColorView {
+impl Debug for ColoredText {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("TextColorView").field("colors", &self.colors).field("text", &self.text()).finish()
+        f.debug_struct("TextColorView").field("text", &self.text()).finish()
     }
 }
 
@@ -12,15 +12,15 @@ impl Debug for CharacterColor {
     }
 }
 
-impl From<&str> for TextColorView {
+impl From<&str> for ColoredText {
     fn from(s: &str) -> Self {
-        TextColorView::new(s)
+        ColoredText::new(s)
     }
 }
 
-impl From<String> for TextColorView {
+impl From<String> for ColoredText {
     fn from(s: String) -> Self {
-        TextColorView::new(&s)
+        ColoredText::new(&s)
     }
 }
 impl From<char> for CharacterColor {

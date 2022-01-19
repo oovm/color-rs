@@ -1,4 +1,4 @@
-use crate::{CharacterColor, ColorSpan, TextColorView};
+use crate::{CharacterColor, ColorSpan, ColoredText};
 use indexmap::IndexSet;
 use std::{iter::Peekable, mem::take, slice::Iter};
 
@@ -11,7 +11,7 @@ pub struct TextColorIter<'i> {
     buffer: String,
 }
 
-impl<'i> IntoIterator for &'i TextColorView {
+impl<'i> IntoIterator for &'i ColoredText {
     type Item = ColorSpan;
     type IntoIter = TextColorIter<'i>;
 

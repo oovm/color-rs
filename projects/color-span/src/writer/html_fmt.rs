@@ -1,4 +1,4 @@
-use crate::{writer::HTMLWriter, ColorSpan, TextColorView};
+use crate::{writer::HTMLWriter, ColorSpan, ColoredText};
 use std::fmt::{Arguments, Result, Write};
 
 struct FmtWriter<'i, W: Write> {
@@ -39,7 +39,7 @@ impl HTMLWriter {
     /// ```
     /// use color_span::HTMLWriter;
     /// ```
-    pub fn write_fmt(&self, writer: &mut impl Write, view: &TextColorView) -> Result {
+    pub fn write_fmt(&self, writer: &mut impl Write, view: &ColoredText) -> Result {
         let mut w = FmtWriter { writer, config: self };
         for span in view {
             w.write_span(span)?

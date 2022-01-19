@@ -40,7 +40,7 @@ pub struct ClassPalette {
 /// use color_span::ColorSpan;
 /// ```
 #[derive(Clone, Eq, PartialEq)]
-pub struct TextColorView {
+pub struct ColoredText {
     characters: Vec<[u8; 4]>,
 }
 
@@ -62,7 +62,7 @@ pub struct CharacterColor {
     color: u8,
 }
 
-impl TextColorView {
+impl ColoredText {
     /// # Arguments
     ///
     /// * `text`:
@@ -72,9 +72,9 @@ impl TextColorView {
     /// # Examples
     ///
     /// ```
-    /// use color_span::TextColorView;
+    /// use color_span::ColoredText;
     /// ```
-    pub fn new(text: &str) -> TextColorView {
+    pub fn new(text: &str) -> ColoredText {
         let mut intern = IndexSet::default();
         intern.insert(String::new());
         let colored = text.chars().map(|c| CharacterColor::from(c).into()).collect();
@@ -92,7 +92,7 @@ impl TextColorView {
     /// # Examples
     ///
     /// ```
-    /// use color_span::TextColorView;
+    /// use color_span::ColoredText;
     /// ```
     pub fn dye(&mut self, start: usize, end: usize, color: &str) -> Result<u8, ColorSpanError> {
         let index = match self.colors.get_index_of(color) {
@@ -120,7 +120,7 @@ impl TextColorView {
     /// # Examples
     ///
     /// ```
-    /// use color_span::TextColorView;
+    /// use color_span::ColoredText;
     /// ```
     pub fn color_map(&self) -> BTreeMap<u8, &str> {
         self.colors.iter().enumerate().map(|(k, v)| (k as u8, v.as_str())).collect()
@@ -136,7 +136,7 @@ impl TextColorView {
     /// # Examples
     ///
     /// ```
-    /// use color_span::TextColorView;
+    /// use color_span::ColoredText;
     /// ```
     pub fn text(&self) -> String {
         self.characters.iter().map(|s| CharacterColor::from(s).char).collect()

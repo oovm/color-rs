@@ -1,7 +1,7 @@
-use crate::TextColorView;
+use crate::ColoredText;
 use itertools::Itertools;
 use serde::{ser::SerializeStruct, Serialize, Serializer};
-impl Serialize for TextColorView {
+impl Serialize for ColoredText {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: Serializer,
