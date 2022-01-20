@@ -41,9 +41,9 @@ impl HTMLWriter {
     /// ```
     pub fn write_fmt(&self, writer: &mut impl Write, view: &ColoredText) -> Result {
         let mut w = FmtWriter { writer, config: self };
-        for span in view {
-            w.write_span(span)?
-        }
+        // for span in view {
+        //     w.write_span(span)?
+        // }
         Ok(())
     }
 }

@@ -23,10 +23,14 @@ impl<'de> Visitor<'de> for ColoredTextVisitor {
         formatter.write_str("Expect `{color_map: [String], characters: [u32]}`")
     }
 
-    fn visit_seq<A>(self, seq: A) -> Result<Self::Value, A::Error>
+    fn visit_seq<A>(self, mut seq: A) -> Result<Self::Value, A::Error>
     where
         A: SeqAccess<'de>,
     {
-        todo!()
+        let mut out = ColoredText { characters: vec![] };
+        while let Some(buffer) = seq.next_element::<u32>()? {
+            out.characters.push(buffer.to_le_bytes())
+        }
+        Ok(out)
     }
 }

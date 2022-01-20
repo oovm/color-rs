@@ -14,6 +14,11 @@ pub enum ColorSpanError {
     },
     /// ColorSpanError
     TooMuchColors,
+    ///
+    NoSuchColor {
+        ///
+        color: String,
+    },
 }
 
 impl Display for ColorSpanError {
@@ -23,6 +28,7 @@ impl Display for ColorSpanError {
                 write!(f, "Length of the text is {current}, but you want to get {input}")
             },
             ColorSpanError::TooMuchColors => f.write_str("Too much colors, support 255 colors at most"),
+            ColorSpanError::NoSuchColor { .. } => todo!(),
         }
     }
 }

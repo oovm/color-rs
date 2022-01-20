@@ -36,6 +36,7 @@ impl From<[u8; 4]> for CharacterColor {
         Self { char: unsafe { char::from_u32_unchecked(char_part) }, color }
     }
 }
+
 impl From<&[u8; 4]> for CharacterColor {
     #[inline]
     fn from(c: &[u8; 4]) -> Self {
