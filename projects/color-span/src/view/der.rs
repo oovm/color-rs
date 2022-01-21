@@ -20,7 +20,7 @@ impl<'de> Visitor<'de> for ColoredTextVisitor {
     type Value = ColoredText;
 
     fn expecting(&self, formatter: &mut Formatter) -> std::fmt::Result {
-        formatter.write_str("Expect `{color_map: [String], characters: [u32]}`")
+        formatter.write_str("Expect `[u32]`")
     }
 
     fn visit_seq<A>(self, mut seq: A) -> Result<Self::Value, A::Error>

@@ -16,43 +16,6 @@ mod der;
 mod iter;
 mod ser;
 
-pub trait Palette {
-    type K;
-    type V;
-
-    /// Get or insert
-    ///
-    /// # Arguments
-    ///
-    /// * `key`:
-    ///
-    /// returns: Result<u8, ColorSpanError>
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use color_span::ColoredText;
-    /// ```
-    fn get_index(&mut self, key: &Self::K) -> Result<u8, ColorSpanError>;
-}
-
-pub struct ClassPalette {
-    classes: IndexSet<String>,
-}
-
-impl Palette for ClassPalette {
-    type K = String;
-    type V = ColorSpan;
-
-    fn get_index(&mut self, key: &Self::K) -> Result<u8, ColorSpanError> {
-        let index = match self.classes.get_full(key) {
-            Some(s) => s.0,
-            None => self.classes.insert_full(key.to_string()).0,
-        };
-        if index <= 255 { Ok(index as u8) } else { Err(ColorSpanError::TooMuchColors) }
-    }
-}
-
 /// Write color span into html
 ///
 /// **Support 255 color at most**.

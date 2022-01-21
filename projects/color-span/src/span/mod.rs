@@ -1,4 +1,10 @@
-use std::fmt::{Display, Formatter, Write};
+use crate::{ColorSpanError, ColoredText};
+use indexmap::IndexSet;
+use std::{
+    borrow::Borrow,
+    collections::HashMap,
+    fmt::{Display, Formatter, Write},
+};
 
 /// Write color span into html
 ///
@@ -21,45 +27,102 @@ pub struct ColorSpan {
     pub text: String,
 }
 
-struct HtmlText<'i> {
-    text: &'i str,
-}
+pub trait Palette {
+    type K: ?Sized;
+    type V;
 
-impl ColorSpan {
-    /// Write color span into html
+    /// Get or insert
     ///
     /// # Arguments
     ///
-    /// * `w`:
+    /// * `key`:
     ///
-    /// returns: Result<(), Error>
+    /// returns: Result<u8, ColorSpanError>
     ///
     /// # Examples
     ///
     /// ```
-    /// use color_span::ColorSpan;
+    /// use color_span::ColoredText;
     /// ```
-    pub fn write_html(&self, mut w: impl Write) -> std::fmt::Result {
-        let text = HtmlText { text: &self.text };
-        match self.color.as_str() {
-            "" => write!(w, r#"{text}"#),
-            class => write!(w, r#"<span class="{class}">{text}</span>"#),
-        }
+    fn get_text(&self) -> &ColoredText;
+    /// Get or insert
+    ///
+    /// # Arguments
+    ///
+    /// * `key`:
+    ///
+    /// returns: Result<u8, ColorSpanError>
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use color_span::ColoredText;
+    /// ```
+    fn mut_text(&mut self) -> &mut ColoredText;
+    /// Get or insert
+    ///
+    /// # Arguments
+    ///
+    /// * `key`:
+    ///
+    /// returns: Result<u8, ColorSpanError>
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use color_span::ColoredText;
+    /// ```
+    fn get_index(&mut self, key: &Self::K) -> Result<u8, ColorSpanError>;
+    /// Get or insert
+    ///
+    /// # Arguments
+    ///
+    /// * `key`:
+    ///
+    /// returns: Result<u8, ColorSpanError>
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use color_span::ColoredText;
+    /// ```
+    fn dye(&mut self, start: usize, end: usize, color: &Self::K) -> Result<(), ColorSpanError> {
+        let id = self.get_index(color)?;
+        self.mut_text().dye(start, end, id)?;
+        Ok(())
     }
 }
 
-impl Display for HtmlText<'_> {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        for c in self.text.chars() {
-            match c {
-                ' ' => f.write_str("&nbsp;")?,
-                // drop CR
-                '\r' => {},
-                // write LF
-                '\n' => f.write_str("<br/>")?,
-                _ => f.write_char(c)?,
-            }
-        }
-        Ok(())
+#[derive(Debug)]
+pub struct ClassPalette {
+    classes: IndexSet<String>,
+    text: ColoredText,
+}
+
+#[test]
+fn test() {
+    let mut class = ClassPalette { classes: Default::default(), text: ColoredText::new("public") };
+    class.dye(0, 5, "keyword").unwrap();
+    println!("{:#?}", class)
+}
+
+impl Palette for ClassPalette {
+    type K = str;
+    type V = ColorSpan;
+
+    fn get_text(&self) -> &ColoredText {
+        &self.text
+    }
+
+    fn mut_text(&mut self) -> &mut ColoredText {
+        &mut self.text
+    }
+
+    fn get_index(&mut self, key: &Self::K) -> Result<u8, ColorSpanError> {
+        let index = match self.classes.get_full(key) {
+            Some(s) => s.0,
+            None => self.classes.insert_full(key.to_string()).0,
+        };
+        if index <= 255 { Ok(index as u8) } else { Err(ColorSpanError::TooMuchColors) }
     }
 }

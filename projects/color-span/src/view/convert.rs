@@ -2,7 +2,7 @@ use super::*;
 
 impl Debug for ColoredText {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("TextColorView").field("text", &self.text()).finish()
+        f.debug_tuple("ColoredText").field(&self.text()).finish()
     }
 }
 
