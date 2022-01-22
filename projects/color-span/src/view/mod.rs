@@ -1,15 +1,10 @@
 use std::{
-    collections::BTreeMap,
     fmt::{Debug, Formatter},
-    marker::PhantomData,
     ops::Range,
 };
 
-use crate::{
-    ColorClass, ColorSpanError,
-    ColorSpanError::{OutOfRange, TooMuchColors},
-};
-use indexmap::IndexSet;
+use crate::ColorSpanError;
+use serde::{Deserialize, Serialize};
 
 mod convert;
 mod der;
@@ -49,8 +44,11 @@ pub struct TextView {
 /// ```
 /// use color_span::ColorClass;
 /// ```
+#[derive(Copy, Clone, Debug, Ord, PartialOrd, Eq, PartialEq, Hash, Serialize, Deserialize)]
 pub struct Colored<T> {
+    /// Raw value
     pub value: T,
+    /// Color id
     pub color: u8,
 }
 

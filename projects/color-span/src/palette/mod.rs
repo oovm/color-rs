@@ -1,11 +1,6 @@
 use crate::{ColorSpanError, TextView};
 use indexmap::IndexSet;
-use std::{
-    any::{type_name, type_name_of_val},
-    borrow::Borrow,
-    collections::HashMap,
-    fmt::{Display, Formatter, Write},
-};
+use std::{borrow::Borrow, fmt::Display};
 
 /// Write color palette into html
 ///
@@ -111,14 +106,6 @@ pub trait Palette {
 pub struct ClassPalette {
     classes: IndexSet<String>,
     text: TextView,
-}
-
-#[test]
-fn test() {
-    let mut class = ClassPalette { classes: Default::default(), text: TextView::new("public") };
-    class.dye(0, 5, "keyword").unwrap();
-
-    println!("{:#?}", class)
 }
 
 impl Palette for ClassPalette {

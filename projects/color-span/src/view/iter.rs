@@ -33,10 +33,10 @@ impl Iterator for TextColorIter<'_> {
                 continue;
             }
             else {
-                let out = Colored { color: self.current_color_id, value: take(&mut self.buffer) };
+                let out = self.pop_span();
                 self.buffer.push(char.value);
                 self.current_color_id = char.color;
-                if out.text.is_empty() {
+                if out.value.is_empty() {
                     continue;
                 }
                 else {
@@ -45,6 +45,12 @@ impl Iterator for TextColorIter<'_> {
             }
         }
         self.run_out = true;
-        Some(Colored { color: self.current_color_id, value: take(&mut self.buffer) })
+        Some(self.pop_span())
+    }
+}
+
+impl TextColorIter<'_> {
+    fn pop_span(&mut self) -> Colored<String> {
+        Colored { color: self.current_color_id, value: take(&mut self.buffer) }
     }
 }
