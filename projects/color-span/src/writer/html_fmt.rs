@@ -1,4 +1,4 @@
-use crate::{writer::HTMLWriter, ColorSpan, ColoredText};
+use crate::{writer::HTMLWriter, ColorClass, TextView};
 use std::fmt::{Arguments, Result, Write};
 
 struct FmtWriter<'i, W: Write> {
@@ -25,7 +25,7 @@ where
 }
 
 impl HTMLWriter {
-    /// Write to html span
+    /// Write to html palette
     ///
     /// # Arguments
     ///
@@ -39,10 +39,10 @@ impl HTMLWriter {
     /// ```
     /// use color_span::HTMLWriter;
     /// ```
-    pub fn write_fmt(&self, writer: &mut impl Write, view: &ColoredText) -> Result {
+    pub fn write_fmt(&self, writer: &mut impl Write, view: &TextView) -> Result {
         let mut w = FmtWriter { writer, config: self };
-        // for span in view {
-        //     w.write_span(span)?
+        // for palette in view {
+        //     w.write_span(palette)?
         // }
         Ok(())
     }
@@ -52,7 +52,7 @@ impl<'i, W> FmtWriter<'i, W>
 where
     W: Write,
 {
-    fn write_span(&mut self, span: ColorSpan) -> Result {
+    fn write_span(&mut self, span: ColorClass) -> Result {
         Ok(())
     }
 }
@@ -62,7 +62,7 @@ where
 // }
 //
 // impl ColorSpan {
-//     /// Write color span into html
+//     /// Write color palette into html
 //     ///
 //     /// # Arguments
 //     ///
@@ -79,7 +79,7 @@ where
 //         let text = HtmlText { text: &self.text };
 //         match self.color.as_str() {
 //             "" => write!(w, r#"{text}"#),
-//             class => write!(w, r#"<span class="{class}">{text}</span>"#),
+//             class => write!(w, r#"<palette class="{class}">{text}</palette>"#),
 //         }
 //     }
 // }

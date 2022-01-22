@@ -6,7 +6,7 @@ use std::{
 };
 
 use crate::{
-    ColorSpan, ColorSpanError,
+    ColorClass, ColorSpanError,
     ColorSpanError::{OutOfRange, TooMuchColors},
 };
 use indexmap::IndexSet;
@@ -16,7 +16,7 @@ mod der;
 mod iter;
 mod ser;
 
-/// Write color span into html
+/// Write color palette into html
 ///
 /// **Support 255 color at most**.
 ///
@@ -29,14 +29,14 @@ mod ser;
 /// # Examples
 ///
 /// ```
-/// use color_span::ColorSpan;
+/// use color_span::ColorClass;
 /// ```
 #[derive(Clone, Eq, PartialEq)]
-pub struct ColoredText {
+pub struct TextView {
     characters: Vec<[u8; 4]>,
 }
 
-/// Write color span into html
+/// Write color palette into html
 ///
 /// # Arguments
 ///
@@ -47,14 +47,14 @@ pub struct ColoredText {
 /// # Examples
 ///
 /// ```
-/// use color_span::ColorSpan;
+/// use color_span::ColorClass;
 /// ```
-pub struct CharacterColor {
-    char: char,
-    color: u8,
+pub struct Colored<T> {
+    pub value: T,
+    pub color: u8,
 }
 
-impl ColoredText {
+impl TextView {
     /// # Arguments
     ///
     /// * `text`:
@@ -64,10 +64,10 @@ impl ColoredText {
     /// # Examples
     ///
     /// ```
-    /// use color_span::ColoredText;
+    /// use color_span::TextView;
     /// ```
-    pub fn new(text: &str) -> ColoredText {
-        let white = text.chars().map(|c| CharacterColor::from(c).into()).collect();
+    pub fn new(text: &str) -> TextView {
+        let white = text.chars().map(char2slice).collect();
         Self { characters: white }
     }
 
@@ -82,7 +82,7 @@ impl ColoredText {
     /// # Examples
     ///
     /// ```
-    /// use color_span::ColoredText;
+    /// use color_span::TextView;
     /// ```
     pub fn dye(&mut self, start: usize, end: usize, color: u8) -> Result<(), ColorSpanError> {
         match self.characters.get_mut(Range { start, end }) {
@@ -102,9 +102,28 @@ impl ColoredText {
     /// # Examples
     ///
     /// ```
-    /// use color_span::ColoredText;
+    /// use color_span::TextView;
     /// ```
     pub fn text(&self) -> String {
-        self.characters.iter().map(|s| CharacterColor::from(s).char).collect()
+        self.characters.iter().map(|s| slice2color(*s).value).collect()
     }
+}
+
+#[inline]
+fn slice2color(c: [u8; 4]) -> Colored<char> {
+    let [l1, l2, l3, color] = c;
+    let char_part = u32::from_le_bytes([l1, l2, l3, 0]).min(0x10FFFF);
+    Colored { value: unsafe { char::from_u32_unchecked(char_part) }, color }
+}
+
+#[inline]
+fn color2slice(c: Colored<char>) -> [u8; 4] {
+    let [l1, l2, l3, _] = u32::from(c.value).to_le_bytes();
+    [l1, l2, l3, c.color]
+}
+
+#[inline]
+fn char2slice(c: char) -> [u8; 4] {
+    let [l1, l2, l3, _] = u32::from(c).to_le_bytes();
+    [l1, l2, l3, 0]
 }

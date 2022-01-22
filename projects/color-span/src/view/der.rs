@@ -1,4 +1,4 @@
-use crate::ColoredText;
+use crate::TextView;
 use serde::{
     de::{MapAccess, SeqAccess, Visitor},
     Deserialize, Deserializer,
@@ -7,7 +7,7 @@ use std::fmt::Formatter;
 
 struct ColoredTextVisitor {}
 
-impl<'de> Deserialize<'de> for ColoredText {
+impl<'de> Deserialize<'de> for TextView {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
         D: Deserializer<'de>,
@@ -17,7 +17,7 @@ impl<'de> Deserialize<'de> for ColoredText {
 }
 
 impl<'de> Visitor<'de> for ColoredTextVisitor {
-    type Value = ColoredText;
+    type Value = TextView;
 
     fn expecting(&self, formatter: &mut Formatter) -> std::fmt::Result {
         formatter.write_str("Expect `[u32]`")
@@ -27,7 +27,7 @@ impl<'de> Visitor<'de> for ColoredTextVisitor {
     where
         A: SeqAccess<'de>,
     {
-        let mut out = ColoredText { characters: vec![] };
+        let mut out = TextView { characters: vec![] };
         while let Some(buffer) = seq.next_element::<u32>()? {
             out.characters.push(buffer.to_le_bytes())
         }

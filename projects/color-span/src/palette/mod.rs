@@ -1,12 +1,13 @@
-use crate::{ColorSpanError, ColoredText};
+use crate::{ColorSpanError, TextView};
 use indexmap::IndexSet;
 use std::{
+    any::{type_name, type_name_of_val},
     borrow::Borrow,
     collections::HashMap,
     fmt::{Display, Formatter, Write},
 };
 
-/// Write color span into html
+/// Write color palette into html
 ///
 /// # Arguments
 ///
@@ -17,13 +18,13 @@ use std::{
 /// # Examples
 ///
 /// ```
-/// use color_span::ColorSpan;
+/// use color_span::ColorClass;
 /// ```
 #[derive(Debug)]
-pub struct ColorSpan {
-    /// Color name of the span
+pub struct ColorClass {
+    /// Color name of the palette
     pub color: String,
-    /// Text of the span
+    /// Text of the palette
     pub text: String,
 }
 
@@ -42,9 +43,9 @@ pub trait Palette {
     /// # Examples
     ///
     /// ```
-    /// use color_span::ColoredText;
+    /// use color_span::TextView;
     /// ```
-    fn get_text(&self) -> &ColoredText;
+    fn get_text(&self) -> &TextView;
     /// Get or insert
     ///
     /// # Arguments
@@ -56,9 +57,9 @@ pub trait Palette {
     /// # Examples
     ///
     /// ```
-    /// use color_span::ColoredText;
+    /// use color_span::TextView;
     /// ```
-    fn mut_text(&mut self) -> &mut ColoredText;
+    fn mut_text(&mut self) -> &mut TextView;
     /// Get or insert
     ///
     /// # Arguments
@@ -70,7 +71,7 @@ pub trait Palette {
     /// # Examples
     ///
     /// ```
-    /// use color_span::ColoredText;
+    /// use color_span::TextView;
     /// ```
     fn get_index(&mut self, key: &Self::K) -> Result<u8, ColorSpanError>;
     /// Get or insert
@@ -84,7 +85,7 @@ pub trait Palette {
     /// # Examples
     ///
     /// ```
-    /// use color_span::ColoredText;
+    /// use color_span::TextView;
     /// ```
     fn dye(&mut self, start: usize, end: usize, color: &Self::K) -> Result<(), ColorSpanError> {
         let id = self.get_index(color)?;
@@ -93,28 +94,42 @@ pub trait Palette {
     }
 }
 
+/// Get or insert
+///
+/// # Arguments
+///
+/// * `key`:
+///
+/// returns: Result<u8, ColorSpanError>
+///
+/// # Examples
+///
+/// ```
+/// use color_span::TextView;
+/// ```
 #[derive(Debug)]
 pub struct ClassPalette {
     classes: IndexSet<String>,
-    text: ColoredText,
+    text: TextView,
 }
 
 #[test]
 fn test() {
-    let mut class = ClassPalette { classes: Default::default(), text: ColoredText::new("public") };
+    let mut class = ClassPalette { classes: Default::default(), text: TextView::new("public") };
     class.dye(0, 5, "keyword").unwrap();
+
     println!("{:#?}", class)
 }
 
 impl Palette for ClassPalette {
     type K = str;
-    type V = ColorSpan;
+    type V = ColorClass;
 
-    fn get_text(&self) -> &ColoredText {
+    fn get_text(&self) -> &TextView {
         &self.text
     }
 
-    fn mut_text(&mut self) -> &mut ColoredText {
+    fn mut_text(&mut self) -> &mut TextView {
         &mut self.text
     }
 

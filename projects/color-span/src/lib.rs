@@ -1,3 +1,4 @@
+#![feature(type_name_of_val)]
 #![forbid(missing_docs)]
 #![forbid(missing_crate_level_docs)]
 #![forbid(missing_debug_implementations)]
@@ -6,13 +7,13 @@
 #![doc = include_str!("../readme.md")]
 
 mod errors;
-mod span;
+mod palette;
 mod view;
 mod writer;
 
 pub use self::{
     errors::ColorSpanError,
-    span::ColorSpan,
-    view::{CharacterColor, ColoredText},
+    palette::ColorClass,
+    view::{Colored, TextView},
     writer::HTMLWriter,
 };
