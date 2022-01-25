@@ -1,93 +1,7 @@
 use crate::{ColorSpanError, TextView};
 use indexmap::IndexSet;
-use std::{borrow::Borrow, fmt::Display};
-
-/// Write color palette into html
-///
-/// # Arguments
-///
-/// * `w`:
-///
-/// returns: Result<(), Error>
-///
-/// # Examples
-///
-/// ```
-/// use color_span::ColorClass;
-/// ```
-#[derive(Debug)]
-pub struct ColorClass {
-    /// Color name of the palette
-    pub color: String,
-    /// Text of the palette
-    pub text: String,
-}
-
-pub trait Palette {
-    type K: ?Sized;
-    type V;
-
-    /// Get or insert
-    ///
-    /// # Arguments
-    ///
-    /// * `key`:
-    ///
-    /// returns: Result<u8, ColorSpanError>
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use color_span::TextView;
-    /// ```
-    fn get_text(&self) -> &TextView;
-    /// Get or insert
-    ///
-    /// # Arguments
-    ///
-    /// * `key`:
-    ///
-    /// returns: Result<u8, ColorSpanError>
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use color_span::TextView;
-    /// ```
-    fn mut_text(&mut self) -> &mut TextView;
-    /// Get or insert
-    ///
-    /// # Arguments
-    ///
-    /// * `key`:
-    ///
-    /// returns: Result<u8, ColorSpanError>
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use color_span::TextView;
-    /// ```
-    fn get_index(&mut self, key: &Self::K) -> Result<u8, ColorSpanError>;
-    /// Get or insert
-    ///
-    /// # Arguments
-    ///
-    /// * `key`:
-    ///
-    /// returns: Result<u8, ColorSpanError>
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use color_span::TextView;
-    /// ```
-    fn dye(&mut self, start: usize, end: usize, color: &Self::K) -> Result<(), ColorSpanError> {
-        let id = self.get_index(color)?;
-        self.mut_text().dye(start, end, id)?;
-        Ok(())
-    }
-}
+use serde::{Deserialize, Serialize};
+mod iter;
 
 /// Get or insert
 ///
@@ -102,29 +16,54 @@ pub trait Palette {
 /// ```
 /// use color_span::TextView;
 /// ```
-#[derive(Debug)]
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct ClassPalette {
     classes: IndexSet<String>,
     text: TextView,
 }
 
-impl Palette for ClassPalette {
-    type K = str;
-    type V = ColorClass;
-
-    fn get_text(&self) -> &TextView {
-        &self.text
+impl ClassPalette {
+    /// # Arguments
+    ///
+    /// * `text`:
+    ///
+    /// returns: ClassPalette
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use color_span::ClassPalette;
+    /// let _ = ClassPalette::new("public static class Singleton {}");
+    /// ```
+    pub fn new(text: &str) -> ClassPalette {
+        Self { classes: Default::default(), text: TextView::new(text) }
     }
 
-    fn mut_text(&mut self) -> &mut TextView {
-        &mut self.text
-    }
-
-    fn get_index(&mut self, key: &Self::K) -> Result<u8, ColorSpanError> {
-        let index = match self.classes.get_full(key) {
-            Some(s) => s.0,
-            None => self.classes.insert_full(key.to_string()).0,
+    /// # Arguments
+    ///
+    /// * `start`:
+    /// * `end`:
+    /// * `color`:
+    ///
+    /// returns: Result<(), ColorSpanError>
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use color_span::ClassPalette;
+    /// ```
+    pub fn dye(&mut self, start: usize, end: usize, color: &str) -> Result<u8, ColorSpanError> {
+        let index = if color.is_empty() {
+            0
+        }
+        else {
+            match self.classes.get_full(color) {
+                Some(s) => s.0,
+                None => self.classes.insert_full(color.to_string()).0,
+            }
         };
-        if index <= 255 { Ok(index as u8) } else { Err(ColorSpanError::TooMuchColors) }
+        let index = if index <= 255 { index as u8 } else { Err(ColorSpanError::TooMuchColors)? };
+        self.text.dye(start, end, index)?;
+        Ok(index)
     }
 }

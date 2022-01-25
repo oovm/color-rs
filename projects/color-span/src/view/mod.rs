@@ -8,7 +8,7 @@ use serde::{Deserialize, Serialize};
 
 mod convert;
 mod der;
-mod iter;
+pub mod iter;
 mod ser;
 
 /// Write color palette into html
@@ -26,7 +26,7 @@ mod ser;
 /// ```
 /// use color_span::ColorClass;
 /// ```
-#[derive(Clone, Eq, PartialEq)]
+#[derive(Clone, Ord, PartialOrd, Eq, PartialEq, Hash)]
 pub struct TextView {
     characters: Vec<[u8; 4]>,
 }

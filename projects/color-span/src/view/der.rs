@@ -1,22 +1,22 @@
 use crate::TextView;
 use serde::{
-    de::{MapAccess, SeqAccess, Visitor},
+    de::{SeqAccess, Visitor},
     Deserialize, Deserializer,
 };
 use std::fmt::Formatter;
 
-struct ColoredTextVisitor {}
+struct TextViewSequence {}
 
 impl<'de> Deserialize<'de> for TextView {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
         D: Deserializer<'de>,
     {
-        deserializer.deserialize_map(ColoredTextVisitor {})
+        deserializer.deserialize_seq(TextViewSequence {})
     }
 }
 
-impl<'de> Visitor<'de> for ColoredTextVisitor {
+impl<'de> Visitor<'de> for TextViewSequence {
     type Value = TextView;
 
     fn expecting(&self, formatter: &mut Formatter) -> std::fmt::Result {

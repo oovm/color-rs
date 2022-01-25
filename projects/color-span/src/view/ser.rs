@@ -1,9 +1,5 @@
 use crate::TextView;
-use itertools::Itertools;
-use serde::{
-    ser::{SerializeSeq, SerializeStruct},
-    Serialize, Serializer,
-};
+use serde::{ser::SerializeSeq, Serialize, Serializer};
 
 impl Serialize for TextView {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>

@@ -1,9 +1,15 @@
-use crate::{writer::HTMLWriter, ColorClass, TextView};
-use std::fmt::{Arguments, Result, Write};
+use crate::{writer::HtmlWriter, ClassPalette};
+use std::fmt::{Arguments, Display, Formatter, Result, Write};
+
+impl Default for HtmlWriter {
+    fn default() -> Self {
+        Self { pre_block: None, code_block: None }
+    }
+}
 
 struct FmtWriter<'i, W: Write> {
     writer: &'i mut W,
-    config: &'i HTMLWriter,
+    config: &'i HtmlWriter,
 }
 
 impl<'i, W> Write for FmtWriter<'i, W>
@@ -24,7 +30,7 @@ where
     }
 }
 
-impl HTMLWriter {
+impl HtmlWriter {
     /// Write to html palette
     ///
     /// # Arguments
@@ -37,13 +43,13 @@ impl HTMLWriter {
     /// # Examples
     ///
     /// ```
-    /// use color_span::HTMLWriter;
+    /// use color_span::HtmlWriter;
     /// ```
-    pub fn write_fmt(&self, writer: &mut impl Write, view: &TextView) -> Result {
+    pub fn write_fmt(&self, writer: &mut impl Write, view: &ClassPalette) -> Result {
         let mut w = FmtWriter { writer, config: self };
-        // for palette in view {
-        //     w.write_span(palette)?
-        // }
+        for (class, text) in view {
+            w.write_span(&class, HtmlText { text: &text })?
+        }
         Ok(())
     }
 }
@@ -52,50 +58,31 @@ impl<'i, W> FmtWriter<'i, W>
 where
     W: Write,
 {
-    fn write_span(&mut self, span: ColorClass) -> Result {
+    fn write_span(&mut self, class: &str, text: HtmlText) -> Result {
+        match class {
+            "" => write!(self, r#"{text}"#)?,
+            class => write!(self, r#"<span class="{class}">{text}</span>"#)?,
+        }
         Ok(())
     }
 }
 
-// struct HtmlText<'i> {
-//     text: &'i str,
-// }
-//
-// impl ColorSpan {
-//     /// Write color palette into html
-//     ///
-//     /// # Arguments
-//     ///
-//     /// * `w`:
-//     ///
-//     /// returns: Result<(), Error>
-//     ///
-//     /// # Examples
-//     ///
-//     /// ```
-//     /// use color_span::ColorSpan;
-//     /// ```
-//     pub fn write_html(&self, mut w: impl Write) -> std::fmt::Result {
-//         let text = HtmlText { text: &self.text };
-//         match self.color.as_str() {
-//             "" => write!(w, r#"{text}"#),
-//             class => write!(w, r#"<palette class="{class}">{text}</palette>"#),
-//         }
-//     }
-// }
-//
-// impl Display for HtmlText<'_> {
-//     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-//         for c in self.text.chars() {
-//             match c {
-//                 ' ' => f.write_str("&nbsp;")?,
-//                 // drop CR
-//                 '\r' => {},
-//                 // write LF
-//                 '\n' => f.write_str("<br/>")?,
-//                 _ => f.write_char(c)?,
-//             }
-//         }
-//         Ok(())
-//     }
-// }
+struct HtmlText<'i> {
+    text: &'i str,
+}
+
+impl Display for HtmlText<'_> {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
+        for c in self.text.chars() {
+            match c {
+                ' ' => f.write_str("&nbsp;")?,
+                // drop CR
+                '\r' => {},
+                // write LF
+                '\n' => f.write_str("<br/>")?,
+                _ => f.write_char(c)?,
+            }
+        }
+        Ok(())
+    }
+}

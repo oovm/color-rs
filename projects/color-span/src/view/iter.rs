@@ -1,5 +1,4 @@
 use crate::{view::slice2color, Colored, TextView};
-use indexmap::IndexSet;
 use std::{iter::Peekable, mem::take, slice::Iter};
 
 #[derive(Debug)]
