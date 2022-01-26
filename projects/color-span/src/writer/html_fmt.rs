@@ -3,7 +3,33 @@ use std::fmt::{Arguments, Display, Formatter, Result, Write};
 
 impl Default for HtmlWriter {
     fn default() -> Self {
-        Self { pre_block: None, code_block: None }
+        Self { pre_block: Some("language-rust".to_string()) }
+    }
+}
+
+impl HtmlWriter {
+    /// Write to html palette
+    ///
+    /// # Arguments
+    ///
+    /// * `writer`:
+    /// * `view`:
+    ///
+    /// returns: Result<(), Error>
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use color_span::HtmlWriter;
+    /// ```
+    pub fn write_fmt(&self, writer: &mut impl Write, view: &ClassPalette) -> Result {
+        let mut w = FmtWriter { writer, config: self };
+        w.pre_start()?;
+        for (class, text) in view {
+            w.write_span(&class, HtmlText { pre: self.pre_block.is_some(), text: &text })?
+        }
+        w.pre_end()?;
+        Ok(())
     }
 }
 
@@ -30,30 +56,6 @@ where
     }
 }
 
-impl HtmlWriter {
-    /// Write to html palette
-    ///
-    /// # Arguments
-    ///
-    /// * `writer`:
-    /// * `view`:
-    ///
-    /// returns: Result<(), Error>
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use color_span::HtmlWriter;
-    /// ```
-    pub fn write_fmt(&self, writer: &mut impl Write, view: &ClassPalette) -> Result {
-        let mut w = FmtWriter { writer, config: self };
-        for (class, text) in view {
-            w.write_span(&class, HtmlText { text: &text })?
-        }
-        Ok(())
-    }
-}
-
 impl<'i, W> FmtWriter<'i, W>
 where
     W: Write,
@@ -65,9 +67,26 @@ where
         }
         Ok(())
     }
+    fn pre_start(&mut self) -> Result {
+        let class = match &self.config.pre_block {
+            Some(s) => s.as_str(),
+            None => return Ok(()),
+        };
+        match class {
+            "" => write!(self, "<pre>"),
+            _ => write!(self, "<pre class='{}'>", class),
+        }
+    }
+    fn pre_end(&mut self) -> Result {
+        if self.config.pre_block.is_some() {
+            self.write_str("</pre>")?
+        }
+        Ok(())
+    }
 }
 
 struct HtmlText<'i> {
+    pre: bool,
     text: &'i str,
 }
 
