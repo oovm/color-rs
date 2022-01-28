@@ -114,11 +114,11 @@ fn slice2color(c: [u8; 4]) -> Colored<char> {
     Colored { value: unsafe { char::from_u32_unchecked(char_part) }, color }
 }
 
-#[inline]
-fn color2slice(c: Colored<char>) -> [u8; 4] {
-    let [l1, l2, l3, _] = u32::from(c.value).to_le_bytes();
-    [l1, l2, l3, c.color]
-}
+// #[inline]
+// fn color2slice(c: Colored<char>) -> [u8; 4] {
+//     let [l1, l2, l3, _] = u32::from(c.value).to_le_bytes();
+//     [l1, l2, l3, c.color]
+// }
 
 #[inline]
 fn char2slice(c: char) -> [u8; 4] {

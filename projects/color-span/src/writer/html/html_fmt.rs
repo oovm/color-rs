@@ -1,9 +1,9 @@
-use crate::{writer::HtmlWriter, ClassPalette};
+use crate::{ClassPalette, HtmlWriter};
 use std::fmt::{Arguments, Display, Formatter, Result, Write};
 
 impl Default for HtmlWriter {
     fn default() -> Self {
-        Self { pre_block: Some("language-rust".to_string()) }
+        Self { pre_block: Some("highlight-block rust".to_string()) }
     }
 }
 
@@ -94,6 +94,7 @@ impl Display for HtmlText<'_> {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         for c in self.text.chars() {
             match c {
+                ' ' if self.pre => f.write_char(c)?,
                 ' ' => f.write_str("&nbsp;")?,
                 // drop CR
                 '\r' => {},

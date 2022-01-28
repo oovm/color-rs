@@ -15,5 +15,5 @@ pub use self::{
     errors::ColorSpanError,
     palette::ClassPalette,
     view::{Colored, TextView},
-    writer::HtmlWriter,
+    writer::html::HtmlWriter,
 };

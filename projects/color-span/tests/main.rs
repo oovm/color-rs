@@ -18,7 +18,7 @@ pub fn test_deserialize() {
 #[test]
 pub fn test_html() {
     let html = HtmlWriter::default();
-    let mut out = String::new();
+    let mut out = "".to_string();
     let mut view = ClassPalette::new("public static class G {}");
     view.dye(0, 6, "keyword").ok();
     view.dye(7, 13, "keyword").ok();
