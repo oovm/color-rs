@@ -1,4 +1,3 @@
-#![feature(type_name_of_val)]
 #![forbid(missing_docs)]
 #![forbid(missing_crate_level_docs)]
 #![forbid(missing_debug_implementations)]
@@ -15,5 +14,5 @@ pub use self::{
     errors::ColorSpanError,
     palette::ClassPalette,
     view::{Colored, TextView},
-    writer::html::HtmlWriter,
+    writer::html::{self, HtmlWriter},
 };

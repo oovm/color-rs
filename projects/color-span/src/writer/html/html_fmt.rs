@@ -1,12 +1,6 @@
 use crate::{ClassPalette, HtmlWriter};
 use std::fmt::{Arguments, Display, Formatter, Result, Write};
 
-impl Default for HtmlWriter {
-    fn default() -> Self {
-        Self { pre_block: Some("highlight-block rust".to_string()) }
-    }
-}
-
 impl HtmlWriter {
     /// Write to html palette
     ///
@@ -24,6 +18,7 @@ impl HtmlWriter {
     /// ```
     pub fn write_fmt(&self, writer: &mut impl Write, view: &ClassPalette) -> Result {
         let mut w = FmtWriter { writer, config: self };
+        w.write_style()?;
         w.pre_start()?;
         for (class, text) in view {
             w.write_span(&class, HtmlText { pre: self.pre_block.is_some(), text: &text })?
@@ -66,6 +61,12 @@ where
             class => write!(self, r#"<span class="{class}">{text}</span>"#)?,
         }
         Ok(())
+    }
+    fn write_style(&mut self) -> Result {
+        match &self.config.style {
+            Some(s) => write!(self, "<style>{s}</style>"),
+            None => Ok(()),
+        }
     }
     fn pre_start(&mut self) -> Result {
         let class = match &self.config.pre_block {

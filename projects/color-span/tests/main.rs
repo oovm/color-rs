@@ -1,5 +1,6 @@
-use color_span::{ClassPalette, HtmlWriter};
+use color_span::{html::ONE_DARK, ClassPalette, HtmlWriter};
 use serde_json::from_str;
+use std::{fs::File, io::Write};
 
 #[test]
 fn ready() {
@@ -17,11 +18,13 @@ pub fn test_deserialize() {
 
 #[test]
 pub fn test_html() {
-    let html = HtmlWriter::default();
+    let mut html = HtmlWriter::default();
+    html.style = Some(ONE_DARK.to_string());
     let mut out = "".to_string();
     let mut view = ClassPalette::new("public static class G {}");
     view.dye(0, 6, "keyword").ok();
     view.dye(7, 13, "keyword").ok();
     html.write_fmt(&mut out, &view).unwrap();
-    assert_eq!(out, include_str!("keyword.html"))
+    let mut file = File::create("tests/keyword.html").unwrap();
+    file.write_all(out.as_bytes()).unwrap()
 }
