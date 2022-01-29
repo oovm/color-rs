@@ -1,8 +1,7 @@
+use std::rc::Rc;
+
 use crate::TextView;
-use std::{
-    collections::{BTreeMap, BTreeSet},
-    rc::Rc,
-};
+
 // mod iter;
 
 mod der;
@@ -22,12 +21,11 @@ mod ser;
 /// use color_span::TextView;
 /// ```
 #[derive(Clone, Debug, Default, Eq, PartialEq)]
-pub struct HighlightStore<T> {
-    share: BTreeSet<Rc<T>>,
-    files: BTreeMap<String, TextView<Rc<T>>>,
+pub struct HighlightClass {
+    share: TextView<String>,
 }
 
-impl<T> HighlightStore<T> {
+impl HighlightClass {
     /// # Arguments
     ///
     /// * `text`:
@@ -40,11 +38,10 @@ impl<T> HighlightStore<T> {
     /// use color_span::ClassPalette;
     /// let _ = ClassPalette::new("public static class Singleton {}");
     /// ```
-    pub fn insert(&mut self, file: impl Into<String>, text: &str) -> Option<TextView<Rc<T>>> {
-        self.files.insert(file.into(), TextView::new(text, None))
-    }
-    pub fn delete(&mut self) {
-        self.files.remove()
+    pub fn new(text: &str) -> HighlightClass {
+        Self {
+            share: TextView::new(text, None),
+        }
     }
     /// # Arguments
     ///
@@ -60,8 +57,8 @@ impl<T> HighlightStore<T> {
     /// use color_span::ClassPalette;
     /// ```
     pub fn mark(&mut self, file: &str, start: usize, end: usize, info: Option<T>) -> Option<()>
-    where
-        T: Ord,
+        where
+            T: Ord,
     {
         let file = self.files.get_mut(file)?;
 
@@ -72,10 +69,10 @@ impl<T> HighlightStore<T> {
                     None => Rc::from(info),
                 };
                 self.files.mark(start, end, Some(index));
-            },
+            }
             None => {
                 self.files.mark(start, end, None);
-            },
+            }
         }
         None
     }

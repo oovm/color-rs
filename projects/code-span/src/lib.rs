@@ -12,7 +12,7 @@ mod view;
 //
 pub use self::{
     // errors::ColorSpanError,
-    palette::HighlightStore,
+    palette::HighlightClass,
     view::{CharacterInfo, CodeSpan, TextView},
     // writer::html::{self, HtmlWriter},
 };

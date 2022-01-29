@@ -1,5 +1,7 @@
-use serde::{Deserialize, Serialize};
 use std::ops::Range;
+
+use arc_interner::ArcIntern;
+use serde::{Deserialize, Serialize};
 
 mod iter;
 
@@ -15,7 +17,7 @@ pub struct CharacterInfo<T> {
     /// Raw character
     pub char: char,
     /// Information
-    pub info: Option<T>,
+    pub info: Option<ArcIntern<T>>,
 }
 
 ///
@@ -24,7 +26,7 @@ pub struct CodeSpan<T> {
     /// Raw character
     pub text: String,
     /// Information
-    pub info: Option<T>,
+    pub info: Option<ArcIntern<T>>,
 }
 
 impl<T> TextView<T> {
@@ -41,8 +43,8 @@ impl<T> TextView<T> {
     /// use code_span::TextView;
     /// ```
     pub fn new(text: &str, default: Option<T>) -> TextView<T>
-    where
-        T: Clone,
+        where
+            T: Clone,
     {
         Self { characters: text.chars().map(|c| CharacterInfo { char: c, info: default.clone() }).collect() }
     }
@@ -75,8 +77,8 @@ impl<T> TextView<T> {
     /// use code_span::TextView;
     /// ```
     pub fn mark(&mut self, start: usize, end: usize, info: Option<T>)
-    where
-        T: Clone,
+        where
+            T: Clone,
     {
         debug_assert!(start <= end);
         let end = self.characters.len().min(end);

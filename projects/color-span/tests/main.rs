@@ -1,6 +1,8 @@
-use color_span::{html::ONE_DARK, ClassPalette, HtmlWriter};
-use serde_json::from_str;
 use std::{fs::File, io::Write};
+
+use serde_json::from_str;
+
+use color_span::{ClassPalette, html::ONE_DARK, HtmlWriter};
 
 #[test]
 fn ready() {
@@ -27,4 +29,27 @@ pub fn test_html() {
     html.write_fmt(&mut out, &view).unwrap();
     let mut file = File::create("tests/keyword.html").unwrap();
     file.write_all(out.as_bytes()).unwrap()
+}
+
+
+#[test]
+pub fn test_bits21() {
+    assert_eq!('a' as u32, 0b000000000000000000000001100001);
+    println!("{}", get_char(0b100000000000000000000001100001));
+    println!("{:#032b}", get_color(0b_00000000_001_01111_11111111_11111111))
+}
+
+#[inline]
+fn get_char(bits: u32) -> char {
+    // Remove bits in front of char
+    let erased = bits & 0b_00000000_00011111_11111111_11111111;
+    unsafe {
+        char::from_u32_unchecked(erased)
+    }
+}
+
+/// Remove bits in front of char
+fn get_color(bits: u32) -> u32 {
+    let erased = (bits >> 21);
+    erased
 }

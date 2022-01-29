@@ -1,6 +1,6 @@
 [package]
 name = "code-span"
-version = "0.1.0"
+version = "0.0.0"
 authors = ["Aster <192607617@qq.com>"]
 description = "Color shared definition"
 repository = "https://github.com/oovm/color-rs"
@@ -12,7 +12,7 @@ exclude = ["*.json"]
 
 [dependencies]
 itertools = "0.10.5"
-dashmap = "5.4.0"
+arc-interner = "0.7.0"
 
 indexmap = { version = "1.9.2", features = ["serde"] }
 serde = { version = "1.0.147", features = ["derive"] }
