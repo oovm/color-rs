@@ -12,6 +12,8 @@ exclude = ["*.json"]
 
 [dependencies]
 itertools = "0.10.5"
+dashmap = "5.4.0"
+
 indexmap = { version = "1.9.2", features = ["serde"] }
 serde = { version = "1.0.147", features = ["derive"] }
 

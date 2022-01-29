@@ -5,14 +5,14 @@
 #![allow(clippy::derivable_impls)]
 #![doc = include_str!("../readme.md")]
 
-mod errors;
+// mod errors;
 mod palette;
 mod view;
-mod writer;
-
+// mod writer;
+//
 pub use self::{
-    errors::ColorSpanError,
-    palette::ClassPalette,
-    view::{Colored, TextView},
-    writer::html::{self, HtmlWriter},
+    // errors::ColorSpanError,
+    palette::HighlightStore,
+    view::{CharacterInfo, CodeSpan, TextView},
+    // writer::html::{self, HtmlWriter},
 };

@@ -1,127 +1,88 @@
-use std::{
-    fmt::{Debug, Formatter},
-    ops::Range,
-};
-
-use crate::ColorSpanError;
 use serde::{Deserialize, Serialize};
+use std::ops::Range;
 
-mod convert;
-mod der;
-pub mod iter;
-mod ser;
+mod iter;
 
-/// Write color palette into html
 ///
-/// **Support 255 color at most**.
-///
-/// # Arguments
-///
-/// * `w`:
-///
-/// returns: Result<(), Error>
-///
-/// # Examples
-///
-/// ```
-/// use color_span::ColorClass;
-/// ```
-#[derive(Clone, Ord, PartialOrd, Eq, PartialEq, Hash)]
-pub struct TextView {
-    characters: Vec<[u8; 4]>,
+#[derive(Clone, Debug, Ord, PartialOrd, Eq, PartialEq, Hash, Serialize, Deserialize)]
+pub struct TextView<T> {
+    characters: Vec<CharacterInfo<T>>,
 }
 
-/// Write color palette into html
 ///
-/// # Arguments
-///
-/// * `w`:
-///
-/// returns: Result<(), Error>
-///
-/// # Examples
-///
-/// ```
-/// use color_span::ColorClass;
-/// ```
 #[derive(Copy, Clone, Debug, Ord, PartialOrd, Eq, PartialEq, Hash, Serialize, Deserialize)]
-pub struct Colored<T> {
-    /// Raw value
-    pub value: T,
-    /// Color id
-    pub color: u8,
+pub struct CharacterInfo<T> {
+    /// Raw character
+    pub char: char,
+    /// Information
+    pub info: Option<T>,
 }
 
-impl TextView {
+///
+#[derive(Clone, Debug, Ord, PartialOrd, Eq, PartialEq, Hash, Serialize, Deserialize)]
+pub struct CodeSpan<T> {
+    /// Raw character
+    pub text: String,
+    /// Information
+    pub info: Option<T>,
+}
+
+impl<T> TextView<T> {
     /// # Arguments
     ///
     /// * `text`:
+    /// * `default`:
     ///
-    /// returns: TextColorView
+    /// returns: TextView<T>
     ///
     /// # Examples
     ///
     /// ```
-    /// use color_span::TextView;
+    /// use code_span::TextView;
     /// ```
-    pub fn new(text: &str) -> TextView {
-        let white = text.chars().map(char2slice).collect();
-        Self { characters: white }
+    pub fn new(text: &str, default: Option<T>) -> TextView<T>
+    where
+        T: Clone,
+    {
+        Self { characters: text.chars().map(|c| CharacterInfo { char: c, info: default.clone() }).collect() }
     }
-
-    /// Color the text in the range of `start`..`end` to given color name
-    ///
     /// # Arguments
     ///
-    /// * `start`: start offset
-    /// * `end`: end offset
-    /// * `color`: color name
+    /// * `text`:
+    /// * `default`:
+    ///
+    /// returns: TextView<T>
     ///
     /// # Examples
     ///
     /// ```
-    /// use color_span::TextView;
-    /// ```
-    pub fn dye(&mut self, start: usize, end: usize, color: u8) -> Result<(), ColorSpanError> {
-        match self.characters.get_mut(Range { start, end }) {
-            None => Err(ColorSpanError::OutOfRange { current: self.characters.len(), input: end })?,
-            Some(s) => s.iter_mut().for_each(|s| s[3] = color),
-        }
-        Ok(())
-    }
-    /// Color the text in the range of `start`..`end` to given color name
-    ///
-    /// # Arguments
-    ///
-    /// * `start`: start offset
-    /// * `end`: end offset
-    /// * `color`: color name
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use color_span::TextView;
+    /// use code_span::TextView;
     /// ```
     pub fn text(&self) -> String {
-        self.characters.iter().map(|s| slice2color(*s).value).collect()
+        self.characters.iter().map(|c| c.char).collect()
     }
-}
-
-#[inline]
-fn slice2color(c: [u8; 4]) -> Colored<char> {
-    let [l1, l2, l3, color] = c;
-    let char_part = u32::from_le_bytes([l1, l2, l3, 0]).min(0x10FFFF);
-    Colored { value: unsafe { char::from_u32_unchecked(char_part) }, color }
-}
-
-// #[inline]
-// fn color2slice(c: Colored<char>) -> [u8; 4] {
-//     let [l1, l2, l3, _] = u32::from(c.value).to_le_bytes();
-//     [l1, l2, l3, c.color]
-// }
-
-#[inline]
-fn char2slice(c: char) -> [u8; 4] {
-    let [l1, l2, l3, _] = u32::from(c).to_le_bytes();
-    [l1, l2, l3, 0]
+    /// # Arguments
+    ///
+    /// * `start`:
+    /// * `end`:
+    /// * `info`:
+    ///
+    /// returns: ()
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use code_span::TextView;
+    /// ```
+    pub fn mark(&mut self, start: usize, end: usize, info: Option<T>)
+    where
+        T: Clone,
+    {
+        debug_assert!(start <= end);
+        let end = self.characters.len().min(end);
+        let items = unsafe { self.characters.get_unchecked_mut(Range { start, end }) };
+        for item in items {
+            item.info = info.clone()
+        }
+    }
 }

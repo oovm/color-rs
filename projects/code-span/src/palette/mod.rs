@@ -1,7 +1,12 @@
-use crate::{ColorSpanError, TextView};
-use indexmap::IndexSet;
-use serde::{Deserialize, Serialize};
-mod iter;
+use crate::TextView;
+use std::{
+    collections::{BTreeMap, BTreeSet},
+    rc::Rc,
+};
+// mod iter;
+
+mod der;
+mod ser;
 
 /// Get or insert
 ///
@@ -16,13 +21,13 @@ mod iter;
 /// ```
 /// use color_span::TextView;
 /// ```
-#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
-pub struct ClassPalette {
-    classes: IndexSet<String>,
-    text: TextView,
+#[derive(Clone, Debug, Default, Eq, PartialEq)]
+pub struct HighlightStore<T> {
+    share: BTreeSet<Rc<T>>,
+    files: BTreeMap<String, TextView<Rc<T>>>,
 }
 
-impl ClassPalette {
+impl<T> HighlightStore<T> {
     /// # Arguments
     ///
     /// * `text`:
@@ -35,12 +40,12 @@ impl ClassPalette {
     /// use color_span::ClassPalette;
     /// let _ = ClassPalette::new("public static class Singleton {}");
     /// ```
-    pub fn new(text: &str) -> ClassPalette {
-        let mut classes = IndexSet::default();
-        classes.insert("".to_string());
-        Self { classes, text: TextView::new(text) }
+    pub fn insert(&mut self, file: impl Into<String>, text: &str) -> Option<TextView<Rc<T>>> {
+        self.files.insert(file.into(), TextView::new(text, None))
     }
-
+    pub fn delete(&mut self) {
+        self.files.remove()
+    }
     /// # Arguments
     ///
     /// * `start`:
@@ -54,13 +59,24 @@ impl ClassPalette {
     /// ```
     /// use color_span::ClassPalette;
     /// ```
-    pub fn dye(&mut self, start: usize, end: usize, color: &str) -> Result<u8, ColorSpanError> {
-        let index = match self.classes.get_full(color) {
-            Some(s) => s.0,
-            None => self.classes.insert_full(color.to_string()).0,
-        };
-        let index = if index <= 255 { index as u8 } else { Err(ColorSpanError::TooMuchColors)? };
-        self.text.dye(start, end, index)?;
-        Ok(index)
+    pub fn mark(&mut self, file: &str, start: usize, end: usize, info: Option<T>) -> Option<()>
+    where
+        T: Ord,
+    {
+        let file = self.files.get_mut(file)?;
+
+        match info {
+            Some(info) => {
+                let index = match self.share.get(&info) {
+                    Some(s) => s.clone(),
+                    None => Rc::from(info),
+                };
+                self.files.mark(start, end, Some(index));
+            },
+            None => {
+                self.files.mark(start, end, None);
+            },
+        }
+        None
     }
 }

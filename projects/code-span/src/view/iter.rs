@@ -1,41 +1,46 @@
-use crate::{view::slice2color, Colored, TextView};
-use std::{iter::Peekable, mem::take, slice::Iter};
+use crate::view::{CharacterInfo, CodeSpan, TextView};
+use std::{mem::take, slice::Iter};
 
 #[derive(Debug)]
-pub struct TextColorIter<'i> {
-    run_out: bool,
-    current_color_id: u8,
-    text: Peekable<Iter<'i, [u8; 4]>>,
+pub struct TextViewIter<'i, T> {
+    text: Iter<'i, CharacterInfo<T>>,
+    current: Option<T>,
     buffer: String,
+    run_out: bool,
 }
 
-impl<'i> IntoIterator for &'i TextView {
-    type Item = Colored<String>;
-    type IntoIter = TextColorIter<'i>;
+impl<'i, T> IntoIterator for &'i TextView<T>
+where
+    T: Clone + PartialEq,
+{
+    type Item = CodeSpan<T>;
+    type IntoIter = TextViewIter<'i, T>;
 
     fn into_iter(self) -> Self::IntoIter {
-        TextColorIter { run_out: false, current_color_id: 0, text: self.characters.iter().peekable(), buffer: "".to_string() }
+        TextViewIter { run_out: false, current: None, text: self.characters.iter(), buffer: "".to_string() }
     }
 }
 
-impl Iterator for TextColorIter<'_> {
-    type Item = Colored<String>;
+impl<'i, T> Iterator for TextViewIter<'i, T>
+where
+    T: Clone + PartialEq,
+{
+    type Item = CodeSpan<T>;
 
     fn next(&mut self) -> Option<Self::Item> {
         if self.run_out {
             return None;
         }
         while let Some(this) = self.text.next() {
-            let char = slice2color(*this);
-            if char.color == self.current_color_id {
-                self.buffer.push(char.value);
+            if this.info == self.current {
+                self.buffer.push(this.char);
                 continue;
             }
             else {
                 let out = self.pop_span();
-                self.buffer.push(char.value);
-                self.current_color_id = char.color;
-                if out.value.is_empty() {
+                self.buffer.push(this.char);
+                self.current = this.info.clone();
+                if out.text.is_empty() {
                     continue;
                 }
                 else {
@@ -48,8 +53,12 @@ impl Iterator for TextColorIter<'_> {
     }
 }
 
-impl TextColorIter<'_> {
-    fn pop_span(&mut self) -> Colored<String> {
-        Colored { color: self.current_color_id, value: take(&mut self.buffer) }
+impl<'i, T> TextViewIter<'i, T>
+where
+    T: Clone,
+{
+    #[inline]
+    fn pop_span(&mut self) -> CodeSpan<T> {
+        CodeSpan { text: take(&mut self.buffer), info: self.current.clone() }
     }
 }
