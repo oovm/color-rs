@@ -1,0 +1,21 @@
+[package]
+name = "color-char"
+version = "0.1.0"
+authors = ["Aster <192607617@qq.com>"]
+description = "Character with color information"
+repository = "https://github.com/oovm/color-rs"
+documentation = "https://docs.rs/color-char"
+readme = "Readme.md"
+license = "MPL-2.0"
+edition = "2021"
+exclude = ["*.json"]
+
+[dependencies]
+serde = { version = "1.0.147", optional = true }
+
+[dev-dependencies]
+serde_json = "1.0.89"
+
+[features]
+default = []
+serde = ["dep:serde"]
