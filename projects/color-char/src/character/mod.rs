@@ -1,3 +1,5 @@
+mod display;
+mod convert;
 
 #[test]
 pub fn test_bits21() {
@@ -10,67 +12,10 @@ pub fn test_bits21() {
 }
 
 
-impl Display for Character {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.get_char())
-    }
-}
-
-impl Debug for Character {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.debug_tuple("Character")
-            .field(&self.get_char())
-            .field(&self.get_color())
-            .finish()
-    }
-}
-
-impl Binary for Character {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.debug_tuple("Character")
-            .field(&StringWrap::from(format!("{:#021b}", self.erase_color())))
-            .field(&StringWrap::from(format!("{:#011b}", self.get_color())))
-            .finish()
-    }
-}
-
-struct StringWrap<'i> {
-    repr: Cow<'i, str>,
-}
-
-impl From<String> for StringWrap<'_> {
-    fn from(s: String) -> Self {
-        Self { repr: Cow::Owned(s) }
-    }
-}
-
-impl Debug for StringWrap<'_> {
-    #[inline]
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.write_str(&self.repr)
-    }
-}
-
-
 pub struct Character {
     repr: u32,
 }
 
-impl From<char> for Character {
-    fn from(value: char) -> Self {
-        Self {
-            repr: value as u32,
-        }
-    }
-}
-
-impl From<u32> for Character {
-    fn from(value: u32) -> Self {
-        Self {
-            repr: value,
-        }
-    }
-}
 
 impl Character {
     #[inline]
