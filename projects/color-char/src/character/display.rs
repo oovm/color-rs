@@ -1,6 +1,15 @@
-use std::borrow::Cow;
-use std::fmt::{Binary, Debug, Display, Formatter};
+use std::{
+    borrow::Cow,
+    fmt::{Binary, Debug, Display, Formatter},
+};
+
 use crate::character::Character;
+
+impl Default for Character {
+    fn default() -> Self {
+        Character::new(' ', 0)
+    }
+}
 
 impl Display for Character {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -10,10 +19,7 @@ impl Display for Character {
 
 impl Debug for Character {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.debug_tuple("Character")
-            .field(&self.get_char())
-            .field(&self.get_color())
-            .finish()
+        f.debug_tuple("Character").field(&self.get_char()).field(&self.get_color()).finish()
     }
 }
 
@@ -42,4 +48,3 @@ impl Debug for StringWrap<'_> {
         f.write_str(&self.repr)
     }
 }
-
