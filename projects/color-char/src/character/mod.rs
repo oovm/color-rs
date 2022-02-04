@@ -67,21 +67,22 @@ impl Character {
     ///
     /// ```
     /// use color_char::Character;
+    /// let mut c = Character::default();
+    /// c.set_char('Z');
+    /// assert_eq!(c, 'Z');
     /// ```
     #[inline]
     pub fn set_char(&mut self, new: char) {
         self.repr = self.erase_char() | new as u32
     }
-    /// # Arguments
-    ///
-    /// * `new`:
-    ///
-    /// returns: ()
+    /// Build a new character with given char
     ///
     /// # Examples
     ///
     /// ```
     /// use color_char::Character;
+    /// let c = Character::default().with_char('Z');
+    /// assert_eq!(c, 'Z');
     /// ```
     #[inline]
     pub fn with_char(self, new: char) -> Self {
@@ -133,7 +134,6 @@ impl Character {
         debug_assert!(new <= 0x07FF);
         Self { repr: self.erase_color() | new << 21 }
     }
-
     #[inline]
     fn erase_color(&self) -> u32 {
         self.repr & 0x001FFFFF

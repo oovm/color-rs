@@ -20,3 +20,10 @@ pub fn test_get() {
     assert_eq!(c.get_char(), 'Z');
     assert_eq!(c.get_color(), 26);
 }
+
+#[test]
+pub fn test_set() {
+    let mut c = Character::default();
+    c.set_char('Z');
+    assert_eq!(c, 'Z');
+}
