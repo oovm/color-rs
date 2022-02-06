@@ -1,3 +1,4 @@
+use color_char::Character;
 use std::{
     fmt::{Debug, Formatter},
     ops::Range,
@@ -28,7 +29,7 @@ mod ser;
 /// ```
 #[derive(Clone, Ord, PartialOrd, Eq, PartialEq, Hash)]
 pub struct TextView {
-    characters: Vec<[u8; 4]>,
+    characters: Vec<Character>,
 }
 
 /// Write color palette into html
@@ -49,7 +50,7 @@ pub struct Colored<T> {
     /// Raw value
     pub value: T,
     /// Color id
-    pub color: u8,
+    pub color: u32,
 }
 
 impl TextView {
@@ -65,7 +66,7 @@ impl TextView {
     /// use color_span::TextView;
     /// ```
     pub fn new(text: &str) -> TextView {
-        let white = text.chars().map(char2slice).collect();
+        let white = text.chars().map(Character::from).collect();
         Self { characters: white }
     }
 
@@ -82,10 +83,10 @@ impl TextView {
     /// ```
     /// use color_span::TextView;
     /// ```
-    pub fn dye(&mut self, start: usize, end: usize, color: u8) -> Result<(), ColorSpanError> {
+    pub fn dye(&mut self, start: usize, end: usize, color: u32) -> Result<(), ColorSpanError> {
         match self.characters.get_mut(Range { start, end }) {
             None => Err(ColorSpanError::OutOfRange { current: self.characters.len(), input: end })?,
-            Some(s) => s.iter_mut().for_each(|s| s[3] = color),
+            Some(s) => s.iter_mut().for_each(|c| c.set_color(color)),
         }
         Ok(())
     }
@@ -103,25 +104,6 @@ impl TextView {
     /// use color_span::TextView;
     /// ```
     pub fn text(&self) -> String {
-        self.characters.iter().map(|s| slice2color(*s).value).collect()
+        self.characters.iter().map(|s| s.get_char()).collect()
     }
-}
-
-#[inline]
-fn slice2color(c: [u8; 4]) -> Colored<char> {
-    let [l1, l2, l3, color] = c;
-    let char_part = u32::from_le_bytes([l1, l2, l3, 0]).min(0x10FFFF);
-    Colored { value: unsafe { char::from_u32_unchecked(char_part) }, color }
-}
-
-// #[inline]
-// fn color2slice(c: Colored<char>) -> [u8; 4] {
-//     let [l1, l2, l3, _] = u32::from(c.value).to_le_bytes();
-//     [l1, l2, l3, c.color]
-// }
-
-#[inline]
-fn char2slice(c: char) -> [u8; 4] {
-    let [l1, l2, l3, _] = u32::from(c).to_le_bytes();
-    [l1, l2, l3, 0]
 }

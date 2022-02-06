@@ -8,7 +8,7 @@ impl Serialize for TextView {
     {
         let mut ser = serializer.serialize_seq(Some(self.characters.len()))?;
         for character in &self.characters {
-            ser.serialize_element(&u32::from_le_bytes(*character))?
+            ser.serialize_element(character)?
         }
         ser.end()
     }

@@ -1,10 +1,8 @@
 use std::{fs::File, io::Write};
-use std::borrow::Cow;
-use std::fmt::{Binary, Debug, Display, Formatter};
 
 use serde_json::from_str;
 
-use color_span::{ClassPalette, html::ONE_DARK, HtmlWriter};
+use color_span::{html::ONE_DARK, ClassPalette, HtmlWriter};
 
 #[test]
 fn ready() {
@@ -32,4 +30,3 @@ pub fn test_html() {
     let mut file = File::create("tests/keyword.html").unwrap();
     file.write_all(out.as_bytes()).unwrap()
 }
-

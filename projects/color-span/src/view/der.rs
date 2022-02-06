@@ -1,4 +1,5 @@
 use crate::TextView;
+use color_char::Character;
 use serde::{
     de::{SeqAccess, Visitor},
     Deserialize, Deserializer,
@@ -28,8 +29,8 @@ impl<'de> Visitor<'de> for TextViewSequence {
         A: SeqAccess<'de>,
     {
         let mut out = TextView { characters: vec![] };
-        while let Some(buffer) = seq.next_element::<u32>()? {
-            out.characters.push(buffer.to_le_bytes())
+        while let Some(repr) = seq.next_element::<u32>()? {
+            out.characters.push(Character::from(repr));
         }
         Ok(out)
     }

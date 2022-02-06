@@ -1,11 +1,12 @@
-use crate::{view::slice2color, Colored, TextView};
+use crate::{Colored, TextView};
+use color_char::Character;
 use std::{iter::Peekable, mem::take, slice::Iter};
 
 #[derive(Debug)]
 pub struct TextColorIter<'i> {
     run_out: bool,
-    current_color_id: u8,
-    text: Peekable<Iter<'i, [u8; 4]>>,
+    current_color_id: u32,
+    text: Peekable<Iter<'i, Character>>,
     buffer: String,
 }
 
@@ -26,15 +27,15 @@ impl Iterator for TextColorIter<'_> {
             return None;
         }
         while let Some(this) = self.text.next() {
-            let char = slice2color(*this);
-            if char.color == self.current_color_id {
-                self.buffer.push(char.value);
+            let char = this;
+            if char.get_color() == self.current_color_id {
+                self.buffer.push(char.get_char());
                 continue;
             }
             else {
                 let out = self.pop_span();
-                self.buffer.push(char.value);
-                self.current_color_id = char.color;
+                self.buffer.push(char.get_char());
+                self.current_color_id = char.get_color();
                 if out.value.is_empty() {
                     continue;
                 }

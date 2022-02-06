@@ -54,12 +54,12 @@ impl ClassPalette {
     /// ```
     /// use color_span::ClassPalette;
     /// ```
-    pub fn dye(&mut self, start: usize, end: usize, color: &str) -> Result<u8, ColorSpanError> {
+    pub fn dye(&mut self, start: usize, end: usize, color: &str) -> Result<u32, ColorSpanError> {
         let index = match self.classes.get_full(color) {
             Some(s) => s.0,
             None => self.classes.insert_full(color.to_string()).0,
         };
-        let index = if index <= 255 { index as u8 } else { Err(ColorSpanError::TooMuchColors)? };
+        let index = if index <= 2047 { index as u32 } else { Err(ColorSpanError::TooMuchColors)? };
         self.text.dye(start, end, index)?;
         Ok(index)
     }

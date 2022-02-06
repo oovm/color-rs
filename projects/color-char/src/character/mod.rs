@@ -6,16 +6,13 @@ mod display;
 mod der;
 #[cfg(feature = "serde")]
 mod ser;
-/// # Arguments
-///
-/// * `new`:
-///
-/// returns: ()
+/// A colored character, has the same memory layout as `u32`.
 ///
 /// # Examples
 ///
 /// ```
 /// use color_char::Character;
+/// let c = Character::default().with_char('Z').with_color(26);
 /// ```
 #[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Character {
@@ -23,11 +20,7 @@ pub struct Character {
 }
 
 impl Character {
-    /// # Arguments
-    ///
-    /// * `new`:
-    ///
-    /// returns: ()
+    /// Create a new colored character with the given character and color.
     ///
     /// # Examples
     ///
@@ -39,11 +32,6 @@ impl Character {
     }
     /// Get the character for last 21 bits
     ///
-    /// # Arguments
-    ///
-    /// * `new`:
-    ///
-    /// returns: ()
     ///
     /// # Examples
     ///
@@ -57,11 +45,7 @@ impl Character {
     pub fn get_char(&self) -> char {
         unsafe { char::from_u32_unchecked(self.erase_color()) }
     }
-    /// # Arguments
-    ///
-    /// * `new`:
-    ///
-    /// returns: ()
+    /// Set the character on last 21 bits
     ///
     /// # Examples
     ///
@@ -102,32 +86,29 @@ impl Character {
     pub fn get_color(&self) -> u32 {
         self.repr >> 21
     }
-    /// # Arguments
-    ///
-    /// * `new`:
-    ///
-    /// returns: ()
+    /// Set the color id on first 11 bits
     ///
     /// # Examples
     ///
     /// ```
     /// use color_char::Character;
+    /// let mut c = Character::default();
+    /// c.set_color(26);
+    /// assert_eq!(c.get_color(), 26);
     /// ```
     #[inline]
     pub fn set_color(&mut self, new: u32) {
         debug_assert!(new <= 0x07FF);
         self.repr = self.erase_color() | new << 21
     }
-    /// # Arguments
-    ///
-    /// * `new`:
-    ///
-    /// returns: ()
+    /// Build a new character with given color
     ///
     /// # Examples
     ///
     /// ```
     /// use color_char::Character;
+    /// let c = Character::default().with_color(26);
+    /// assert_eq!(c.get_color(), 26);
     /// ```
     #[inline]
     pub fn with_color(self, new: u32) -> Self {
