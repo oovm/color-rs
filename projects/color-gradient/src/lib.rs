@@ -7,7 +7,22 @@
 // pub use color_core::*;
 // pub use color_macro::*;
 
+mod linear;
+mod palette;
 
-pub struct ColorGradient {
+use std::collections::BTreeMap;
+use color_core::{RGBA};
 
+pub trait ColorGradient {
+    /// Get the color at the given position.
+    ///
+    /// # Arguments
+    ///
+    /// * `position` - The position of the color in the gradient.
+    ///
+    /// # Returns
+    ///
+    /// The color at the given position.
+    fn get_color(&self, position: f32) -> RGBA;
+    fn get_scatter(&self, position: f32) -> f32;
 }

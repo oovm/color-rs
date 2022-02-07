@@ -1,6 +1,6 @@
 [package]
 name = "color-gradient"
-version = "0.0.0"
+version = "0.1.0"
 authors = ["Aster <192607617@qq.com>"]
 description = "color-gradient"
 repository = "https://github.com/oovm/color-rs"
@@ -11,7 +11,12 @@ edition = "2021"
 exclude = ["*.json"]
 
 [dependencies]
-color-core = { version = "0.1.0", path = "../color-core" }
+
+[dependencies.color-core]
+version = "0.1.0"
+path = "../color-core"
+
+
 
 
 [features]
