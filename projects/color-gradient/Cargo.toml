@@ -1,0 +1,25 @@
+[package]
+name = "color-gradient"
+version = "0.0.0"
+authors = ["Aster <192607617@qq.com>"]
+description = "color-gradient"
+repository = "https://github.com/oovm/color-rs"
+documentation = "https://docs.rs/color-gradient"
+readme = "Readme.md"
+license = "MPL-2.0"
+edition = "2021"
+exclude = ["*.json"]
+
+[dependencies]
+color-core = { version = "0.1.0", path = "../color-core" }
+
+
+[features]
+default = []
+strict = [
+
+]
+
+[package.metadata.wee]
+t = "cargo test"
+p = "cargo publish --allow-dirty"
