@@ -21,14 +21,17 @@ pub struct f01 {
 
 
 impl f01 {
+    #[inline(always)]
     pub fn new(ranged: f32) -> Self {
         Self { wrapped: ranged.max(0.0).min(1.0) }
     }
+    #[inline(always)]
     pub fn scale(value: f32, min: f32, max: f32) -> Self {
         Self {
             wrapped: (value - min) / (max - min),
         }
     }
+    #[inline(always)]
     pub fn unwrap(self) -> f32 {
         self.wrapped
     }

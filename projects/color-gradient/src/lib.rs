@@ -7,15 +7,17 @@
 // pub use color_core::*;
 // pub use color_macro::*;
 
-mod palette;
+mod palettes;
 mod blenders;
 
-use std::collections::BTreeMap;
-use color_core::{RGBA, RGBA32};
-use crate::palette::{ColorSpan, Palette};
 
 mod traits;
+pub mod builtin;
 
-pub use crate::traits::ColorGradient;
+
+
+
+pub use crate::traits::{ColorGradient, ColorMap};
 pub use crate::blenders::linear::LinearGradient;
 pub use crate::blenders::scatter::ScatterGradient;
+pub use crate::blenders::gamma::GammaGradient;

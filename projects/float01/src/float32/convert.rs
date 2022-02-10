@@ -4,14 +4,14 @@ use super::*;
 impl From<f32> for f01 {
     #[inline(always)]
     fn from(value: f32) -> Self {
-        Self { wrapped: value }
+        f01::new(value)
     }
 }
 
 impl From<f64> for f01 {
     #[inline(always)]
     fn from(value: f64) -> Self {
-        Self { wrapped: value as f32 }
+        f01::new(value as f32)
     }
 }
 

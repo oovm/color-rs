@@ -1,5 +1,20 @@
 use color_core::RGBA32;
-use crate::palette::{ColorSpan, Palette};
+use float01::float32::f01;
+use crate::palettes::{ColorSpan};
+
+
+pub trait ColorMap {
+    fn get_color(&self, ratio: f32) -> RGBA32 {
+        let _ = ratio;
+        unimplemented!("get_color_span not implemented for this ColorMap")
+    }
+
+    fn get_color_span(&self, ratio: f32) -> ColorSpan {
+        let _ = ratio;
+        unimplemented!("get_color_span not implemented for this ColorMap")
+    }
+}
+
 
 pub trait ColorGradient {
     fn blend(&self, lhs: RGBA32, rhs: RGBA32, position: f32) -> RGBA32;
@@ -12,9 +27,9 @@ pub trait ColorGradient {
     /// # Returns
     ///
     /// The color at the given position.
-    fn get_color(&self, palette: &Palette, position: f32) -> RGBA32 {
-        let ColorSpan { value, min, max } = palette.get_range(position);
-        let normed = float01::float32::f01::scale(value, min.1, max.1).unwrap();
+    fn get_color(&self, palette: &impl ColorMap, position: f32) -> RGBA32 {
+        let ColorSpan { value, min, max } = palette.get_color_span(position);
+        let normed = f01::scale(value, min.1, max.1).unwrap();
         self.blend(min.0, max.0, normed)
     }
 }

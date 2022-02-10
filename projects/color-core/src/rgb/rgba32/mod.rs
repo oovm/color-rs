@@ -13,6 +13,7 @@ impl RGBA32 {
             a: self.a.min(1.0).max(0.0),
         }
     }
+    /// Create [`RGBA32`] from `(f32, f32, f32)` tuple.
     pub fn gray(value: f32) -> Self {
         Self { r: value, g: value, b: value, a: 1.0 }
     }

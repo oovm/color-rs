@@ -1,11 +1,7 @@
-use color_core::{RGBA, RGBA32};
-use crate::ColorGradient;
-use crate::palette::{ColorSpan, Palette};
-use float01::float32::f01;
+use super::*;
 
 pub struct LinearGradient {
-    min: f32,
-    max: f32,
+
 }
 
 impl ColorGradient for LinearGradient {
