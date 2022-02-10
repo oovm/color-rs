@@ -1,10 +1,11 @@
 use std::collections::BTreeMap;
 use std::mem::transmute;
 use color_core::{RGB, RGBA};
+use f01::float32::f01;
 
 pub struct Palette {
     // key is a float from 0-1
-    colors: BTreeMap<[u8; 4], RGBA>,
+    colors: BTreeMap<f01, RGBA>,
 }
 
 
@@ -29,13 +30,10 @@ impl Palette {
         out
     }
     pub fn add(&mut self, position: f32, color: RGBA) {
-        let normed = position.max(0.0).min(1.0);
-        unsafe {
-            self.colors.insert(transmute::<f32, [u8; 4]>(normed), color);
-        }
+        self.colors.insert(f01::new(position), color);
     }
     pub fn add_u8(&mut self, position: u8, color: RGBA) {
-        self.colors.insert(position, color);
+
     }
     pub fn get_colors(&self, value: f32) -> ColorSpan {
         let normed = value.max(0.0).min(1.0);

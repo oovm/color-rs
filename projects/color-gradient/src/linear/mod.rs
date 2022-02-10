@@ -10,11 +10,9 @@ pub struct LinearGradient {
 
 impl ColorGradient for LinearGradient {
     fn get_color(&self, position: f32) -> RGBA {
-        let position = (position * 255.0) as u8;
-        self.palette.get_colors().get(&position).unwrap().clone()
+        todo!()
     }
     fn get_scatter(&self, position: f32) -> f32 {
-        let position = (position * 255.0) as u8;
-        self.palette.get_colors().get(&position).unwrap().clone()
+        todo!()
     }
 }

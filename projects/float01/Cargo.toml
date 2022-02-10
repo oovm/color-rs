@@ -1,11 +1,15 @@
 [package]
 name = "f01"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Aster <192607617@qq.com>"]
 description = "A float in range 0-1"
-repository = "https://github.com/oovm/tailwind-rs"
-documentation = "https://docs.rs/const-css-color"
+repository = "https://github.com/oovm/color-rs"
+documentation = "https://docs.rs/f01"
 readme = "Readme.md"
 license = "MPL-2.0"
 edition = "2021"
-exclude = ["*.json"]
+
+
+[dependencies]
+serde = { version = "1.0.158", optional = true }
+num-traits = { version = "0.2.15", optional = true }

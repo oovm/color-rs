@@ -1,8 +1,7 @@
-#![forbid(missing_docs)]
-#![forbid(missing_crate_level_docs)]
-#![forbid(missing_debug_implementations)]
-#![forbid(missing_doc_code_examples)]
-#![allow(clippy::derivable_impls)]
+#![warn(missing_docs)]
+#![warn(missing_crate_level_docs)]
+#![warn(missing_debug_implementations)]
+#![warn(missing_doc_code_examples)]
 #![doc = include_str!("../readme.md")]
 
 pub use self::{
@@ -12,7 +11,6 @@ pub use self::{
 };
 
 mod hsl;
-mod lch;
 mod luma;
 mod rgb;
 mod utils;
