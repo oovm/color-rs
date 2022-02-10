@@ -1,27 +1,28 @@
 use std::collections::BTreeMap;
-use std::mem::transmute;
-use color_core::{RGB, RGBA};
-use f01::float32::f01;
+use color_core::{RGB, RGBA, RGBA32};
+use float01::float32::f01;
+
 
 pub struct Palette {
     // key is a float from 0-1
-    colors: BTreeMap<f01, RGBA>,
+    colors: BTreeMap<f01, RGBA32>,
 }
 
 
 impl Default for Palette {
     fn default() -> Self {
-        Palette::new(RGBA::gray(0), RGBA::gray(255))
+        Palette::new(RGBA::gray(0.0), RGBA::gray(1.0))
     }
 }
 
 pub struct ColorSpan {
-    pub min: (RGBA, f32),
-    pub max: (RGBA, f32),
+    pub value: f32,
+    pub min: (RGBA32, f32),
+    pub max: (RGBA32, f32),
 }
 
 impl Palette {
-    pub fn new(zero: RGBA, one: RGBA) -> Self {
+    pub fn new(zero: RGBA32, one: RGBA32) -> Self {
         let mut out = Palette {
             colors: Default::default(),
         };
@@ -33,21 +34,20 @@ impl Palette {
         self.colors.insert(f01::new(position), color);
     }
     pub fn add_u8(&mut self, position: u8, color: RGBA) {
-
+        self.add(position as f32 / 255.0, color);
     }
-    pub fn get_colors(&self, value: f32) -> ColorSpan {
-        let normed = value.max(0.0).min(1.0);
+    pub fn get_range<V: Into<f01>>(&self, value: V) -> ColorSpan {
+        let value = value.into();
         let mut min = (RGBA::gray(0), 0.0);
         let mut max = (RGBA::gray(255), 1.0);
-        for (position, color) in self.colors.iter() {
-            let position = unsafe { transmute::<[u8; 4], f32>(*position) };
-            if position < normed {
-                min = (color.clone(), position);
+        for (key, color) in self.colors.iter() {
+            if key < &value {
+                min = (*color, f32::from(*key));
             } else {
-                max = (color.clone(), position);
+                max = (*color, f32::from(*key));
                 break;
             }
         }
-        ColorSpan { min, max }
+        ColorSpan { value: f32::from(value), min, max }
     }
 }

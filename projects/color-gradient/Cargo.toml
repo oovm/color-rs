@@ -11,7 +11,11 @@ edition = "2021"
 exclude = ["*.json"]
 
 [dependencies]
-f01 = { version = "0.1.0", path = "../float01" }
+serde = { version = "1.0.158", optional = true }
+
+[dependencies.float01]
+version = "0.0.0"
+path = "../float01"
 
 [dependencies.color-core]
 version = "0.1.0"
@@ -21,7 +25,8 @@ path = "../color-core"
 
 
 [features]
-default = []
+default = ["serde"]
+serde = ["dep:serde", "float01/serde"]
 strict = [
 
 ]

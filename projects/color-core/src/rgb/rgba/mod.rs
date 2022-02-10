@@ -4,6 +4,7 @@ mod convert;
 mod traits;
 
 impl RGBA {
+    /// Create [`RGBA`] from `(u8, u8, u8)` tuple.
     pub fn gray(value: u8) -> Self {
         Self { r: value, g: value, b: value, a: 255 }
     }

@@ -14,7 +14,7 @@ mod num;
 
 /// A float in the range [0.0, 1.0].
 #[allow(non_camel_case_types)]
-#[derive(Debug, Copy, Clone, )]
+#[derive(Copy, Clone)]
 pub struct f01 {
     wrapped: f32,
 }
@@ -23,6 +23,14 @@ pub struct f01 {
 impl f01 {
     pub fn new(ranged: f32) -> Self {
         Self { wrapped: ranged.max(0.0).min(1.0) }
+    }
+    pub fn scale(value: f32, min: f32, max: f32) -> Self {
+        Self {
+            wrapped: (value - min) / (max - min),
+        }
+    }
+    pub fn unwrap(self) -> f32 {
+        self.wrapped
     }
 }
 
