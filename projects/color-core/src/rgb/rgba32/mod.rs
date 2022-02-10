@@ -22,8 +22,8 @@ impl RGBA32 {
         Self { r, g, b, a }.normalized()
     }
     /// Create [`RGBA32`] from `(u8, u8, u8)` tuple.
-    pub fn rgb(r: u8, g: u8, b: u8) -> Self {
-        RGB { r, g, b }.into()
+    pub fn rgb(r: f32, g: f32, b: f32) -> Self {
+        Self { r, g, b, a: 1.0 }.normalized()
     }
     /// Create [`RGBA32`] from `(u8, u8, u8, u8)` tuple.
     pub fn rgba(r: u8, g: u8, b: u8, a: u8) -> Self {

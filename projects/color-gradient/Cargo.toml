@@ -1,6 +1,6 @@
 [package]
 name = "color-gradient"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Aster <192607617@qq.com>"]
 description = "color-gradient"
 repository = "https://github.com/oovm/color-rs"
@@ -11,7 +11,9 @@ edition = "2021"
 exclude = ["*.json"]
 
 [dependencies]
+itertools = "0.10.5"
 serde = { version = "1.0.158", optional = true }
+svg = { version = "0.13.1", optional = true }
 
 [dependencies.float01]
 version = "0.0.0"
@@ -25,7 +27,7 @@ path = "../color-core"
 
 
 [features]
-default = ["serde"]
+default = ["serde", "svg"]
 serde = ["dep:serde", "float01/serde"]
 strict = [
 

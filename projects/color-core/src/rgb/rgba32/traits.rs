@@ -11,7 +11,7 @@ impl Display for RGBA32 {
         let RGBA32 { r, g, b, a } = self;
         match f.alternate() {
             true => write!(f, "rgba({} {} {} / {}%)", r * 255.0, g * 255.0, b * 255.0, a * 100.0),
-            false => write!(f, "rgba({:.0} {:.0} {:.0} / {:.0}%)", r * 255.0, g * 255.0, b * 255.0, a * 100.0),
+            false => write!(f, "color(srgb {} {} {} / {})", r, g, b, a),
         }
     }
 }
