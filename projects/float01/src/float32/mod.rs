@@ -19,7 +19,17 @@ pub struct f01 {
     wrapped: f32,
 }
 
+impl Default for f01 {
+    fn default() -> Self {
+        Self { wrapped: 0.0 }
+    }
+}
 
+impl Hash for f01 {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        self.wrapped.to_bits().hash(state);
+    }
+}
 impl f01 {
     #[inline(always)]
     pub fn new(ranged: f32) -> Self {
@@ -37,14 +47,3 @@ impl f01 {
     }
 }
 
-impl Default for f01 {
-    fn default() -> Self {
-        Self { wrapped: 0.0 }
-    }
-}
-
-impl Hash for f01 {
-    fn hash<H: Hasher>(&self, state: &mut H) {
-        self.wrapped.to_bits().hash(state);
-    }
-}

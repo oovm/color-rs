@@ -7,17 +7,15 @@
 // pub use color_core::*;
 // pub use color_macro::*;
 
-mod palettes;
 mod blenders;
+mod palettes;
 
-
-mod traits;
 pub mod builtin;
+mod traits;
 pub mod utils;
 
-
-
-pub use crate::traits::{ColorGradient, ColorMap};
-pub use crate::blenders::linear::LinearGradient;
-pub use crate::blenders::scatter::ScatterGradient;
-pub use crate::blenders::gamma::GammaGradient;
+pub use crate::{
+    blenders::{gamma::GammaGradient, linear::LinearGradient, scatter::ScatterGradient},
+    palettes::discrete::Palette,
+    traits::{ColorGradient, ColorMap},
+};

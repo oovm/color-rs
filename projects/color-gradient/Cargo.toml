@@ -13,22 +13,26 @@ exclude = ["*.json"]
 [dependencies]
 itertools = "0.10.5"
 serde = { version = "1.0.158", optional = true }
+rand = { version = "0.8.5", optional = true }
 svg = { version = "0.13.1", optional = true }
 
 [dependencies.float01]
-version = "0.0.0"
+version = "0.1.0"
 path = "../float01"
 
 [dependencies.color-core]
-version = "0.1.0"
+version = "0.1.2"
 path = "../color-core"
 
+[dev-dependencies]
+image = "0.24.6"
 
 
 
 [features]
-default = ["serde", "svg"]
+default = []
 serde = ["dep:serde", "float01/serde"]
+rand = ["dep:rand", "color-core/rand"]
 strict = [
 
 ]
