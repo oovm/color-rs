@@ -15,7 +15,7 @@ mod traits;
 pub mod utils;
 
 pub use crate::{
-    blenders::{gamma::GammaGradient, linear::LinearGradient, scatter::ScatterGradient},
+    blenders::{gamma::LinearGradient, linear::QuadraticGradient, scatter::ScatterGradient},
     palettes::discrete::Palette,
     traits::{ColorGradient, ColorMap},
 };

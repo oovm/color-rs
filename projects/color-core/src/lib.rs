@@ -5,7 +5,7 @@
 #![doc = include_str!("../readme.md")]
 
 pub use self::{
-    hsl::{HSLA32, HSVA32},
+    hsl::{HSLA32, HSV32, HSVA32},
     luma::LUMA32,
     rgb::{RGB, RGBA, RGBA32},
 };

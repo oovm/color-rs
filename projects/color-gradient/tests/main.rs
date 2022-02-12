@@ -1,6 +1,6 @@
 use color_core::RGBA32;
-use color_gradient::{ColorGradient, ColorMap, LinearGradient, Palette};
-use image::{ImageBuffer, RgbImage, RgbaImage};
+use color_gradient::{ColorGradient, ColorMap, Palette, QuadraticGradient};
+use image::{ImageBuffer, RgbaImage};
 
 #[test]
 fn ready() {
@@ -21,7 +21,7 @@ pub fn render_bar<G: ColorGradient, M: ColorMap>(width: usize, gradient: G, pale
 
 #[test]
 fn render_image_bar() {
-    let linear = LinearGradient::default();
+    let linear = QuadraticGradient::default();
     let mut p = Palette::new(RGBA32::rgb(0.0, 1.0, 1.0), RGBA32::rgb(1.0, 1.0, 0.0));
     p.add(0.5, RGBA32::rgb(1.0, 0.0, 1.0));
     let img = render_bar(1000, linear, p);
@@ -30,7 +30,7 @@ fn render_image_bar() {
 
 #[test]
 fn render_gamma_bar() {
-    let linear = LinearGradient::default();
+    let linear = QuadraticGradient::default();
     let mut p = Palette::new(RGBA32::rgb(0.0, 1.0, 1.0), RGBA32::rgb(1.0, 1.0, 0.0));
     p.add(0.5, RGBA32::rgb(1.0, 0.0, 1.0));
     let img = render_bar(1000, linear, p);

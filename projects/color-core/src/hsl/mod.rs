@@ -25,6 +25,13 @@ pub struct HSLA32 {
     pub a: f32,
 }
 
+#[derive(Clone, Copy, PartialEq, PartialOrd)]
+pub struct HSV32 {
+    pub h: f32,
+    pub s: f32,
+    pub v: f32,
+}
+
 /// A color_parser in HSVA color_parser space with 32-bit floating point components.
 #[derive(Clone, Copy, PartialEq, PartialOrd)]
 pub struct HSVA32 {
