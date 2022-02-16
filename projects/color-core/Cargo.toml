@@ -1,6 +1,6 @@
 [package]
 name = "color-core"
-version = "0.1.2"
+version = "0.1.3"
 authors = ["Aster <192607617@qq.com>"]
 description = "Color shared definition"
 repository = "https://github.com/oovm/color-rs"
@@ -11,10 +11,11 @@ edition = "2021"
 exclude = ["*.json"]
 
 [dependencies]
+serde = { version = "1.0.160", optional = true, features = ["derive"] }
 rand = { version = "0.8.5", optional = true }
 
 [features]
-default = []
+default = ["serde"]
 # do extra checks in strict mode
 strict = []
 

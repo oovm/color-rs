@@ -1,17 +1,18 @@
+mod display;
 mod rgb;
 mod rgba;
 mod rgba32;
 
 use std::{
-    fmt::{Debug, Display, Formatter, LowerHex, UpperHex, Write},
+    fmt::{Display, Formatter, LowerHex, UpperHex, Write},
     hash::{Hash, Hasher},
 };
 
 pub type RGB8 = RGBAColor<u8, ()>;
 pub type RGBA8 = RGBAColor<u8, u8>;
-pub type RGB32 = RGBAColor<f32, ()>;
 pub type RGBA32 = RGBAColor<f32, f32>;
 
+#[derive(Debug)]
 pub struct RGBAColor<T, A = T> {
     /// The red channel of color in `[0.0, 1.0]`.
     pub r: T,
