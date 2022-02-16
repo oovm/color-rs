@@ -1,18 +1,18 @@
-use crate::{RGB, RGBA, RGBA32};
+use crate::{RGB8, RGBA32, RGBA8};
 use rand::{
     distributions::{Distribution, Standard},
     Rng,
 };
 
-impl Distribution<RGB> for Standard {
-    fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> RGB {
-        RGB { r: rng.gen(), g: rng.gen(), b: rng.gen() }
+impl Distribution<RGB8> for Standard {
+    fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> RGB8 {
+        RGB8 { r: rng.gen(), g: rng.gen(), b: rng.gen() }
     }
 }
 
-impl Distribution<RGBA> for Standard {
-    fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> RGBA {
-        RGBA { r: rng.gen(), g: rng.gen(), b: rng.gen(), a: rng.gen() }
+impl Distribution<RGBA8> for Standard {
+    fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> RGBA8 {
+        RGBA8 { r: rng.gen(), g: rng.gen(), b: rng.gen(), a: rng.gen() }
     }
 }
 

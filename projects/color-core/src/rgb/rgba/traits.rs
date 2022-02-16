@@ -1,18 +1,18 @@
 use super::*;
 
-impl Default for RGBA {
+impl Default for RGBA8 {
     fn default() -> Self {
         Self { r: 0, g: 0, b: 0, a: 255 }
     }
 }
 
-impl Display for RGBA {
+impl Display for RGBA8 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "rgba({} {} {} / {:.0}%)", self.r, self.g, self.b, self.a as f32 / 255.0)
     }
 }
 
-impl UpperHex for RGBA {
+impl UpperHex for RGBA8 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         if f.alternate() {
             f.write_char('#')?;
@@ -21,7 +21,7 @@ impl UpperHex for RGBA {
     }
 }
 
-impl LowerHex for RGBA {
+impl LowerHex for RGBA8 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         if f.alternate() {
             f.write_char('#')?;

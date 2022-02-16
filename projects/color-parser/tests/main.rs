@@ -1,4 +1,4 @@
-use color_parser::{hex_color, rgba, RGBA, RGBA32};
+use color_parser::{hex_color, rgba, RGBA32, RGBA8};
 
 #[test]
 fn ready() {

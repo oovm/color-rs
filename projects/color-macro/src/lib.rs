@@ -11,13 +11,13 @@ use proc_macro::TokenStream;
 use quote::quote;
 use syn::parse;
 
-use color_parser::{RGB, RGBA, RGBA32};
+use color_parser::{RGB8, RGBA32, RGBA8};
 
 use self::parsing::RgbaColor;
 
 mod parsing;
 
-/// Compile time [`RGB`] struct builder.
+/// Compile time [`RGB8`] struct builder.
 ///
 /// # Examples
 ///
@@ -37,7 +37,7 @@ pub fn rgb(input: TokenStream) -> TokenStream {
         Ok(c) => c,
         Err(e) => panic!("{}", e),
     };
-    let RGB { r, g, b } = rgba.rgba32.into();
+    let RGB8 { r, g, b } = rgba.rgba32.into();
     let gen = quote! {
         color::RGB {
             r: #r,
@@ -48,7 +48,7 @@ pub fn rgb(input: TokenStream) -> TokenStream {
     gen.into()
 }
 
-/// Compile time [`RGBA`] struct builder.
+/// Compile time [`RGBA8`] struct builder.
 ///
 /// # Examples
 ///
@@ -68,7 +68,7 @@ pub fn rgba(input: TokenStream) -> TokenStream {
         Ok(c) => c,
         Err(e) => panic!("{}", e),
     };
-    let RGBA { r, g, b, a } = rgba.rgba32.into();
+    let RGBA8 { r, g, b, a } = rgba.rgba32.into();
     let gen = quote! {
         color::RGBA {
             r: #r,

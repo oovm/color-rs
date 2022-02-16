@@ -12,14 +12,14 @@ where
     }
 }
 
-impl From<RGB> for RGBA32 {
-    fn from(rgb: RGB) -> Self {
+impl From<RGB8> for RGBA32 {
+    fn from(rgb: RGB8) -> Self {
         RGBA32 { r: rgb.r as f32 / 255.0, g: rgb.g as f32 / 255.0, b: rgb.b as f32 / 255.0, a: 1.0 }
     }
 }
 
-impl From<RGBA> for RGBA32 {
-    fn from(rgba: RGBA) -> Self {
+impl From<RGBA8> for RGBA32 {
+    fn from(rgba: RGBA8) -> Self {
         Self { r: rgba.r as f32 / 255.0, g: rgba.g as f32 / 255.0, b: rgba.b as f32 / 255.0, a: rgba.a as f32 / 255.0 }
     }
 }
@@ -80,6 +80,6 @@ where
 
 impl From<u32> for RGBA32 {
     fn from(rgba: u32) -> Self {
-        RGBA::from(rgba).into()
+        RGBA8::from(rgba).into()
     }
 }

@@ -1,13 +1,13 @@
 use super::*;
 
-impl From<RGBA32> for RGBA {
+impl From<RGBA32> for RGBA8 {
     fn from(rgba: RGBA32) -> Self {
         let rgba = rgba.normalized();
         Self { r: (rgba.r * 255.0) as u8, g: (rgba.g * 255.0) as u8, b: (rgba.b * 255.0) as u8, a: (rgba.a * 255.0) as u8 }
     }
 }
 
-impl<T> From<[T; 3]> for RGBA
+impl<T> From<[T; 3]> for RGBA8
 where
     T: Into<u8> + Copy,
 {
@@ -17,7 +17,7 @@ where
 }
 
 // noinspection DuplicatedCode
-impl<T> From<[T; 4]> for RGBA
+impl<T> From<[T; 4]> for RGBA8
 where
     T: Into<u8> + Copy,
 {
@@ -26,7 +26,7 @@ where
     }
 }
 
-impl From<u32> for RGBA {
+impl From<u32> for RGBA8 {
     #[track_caller]
     fn from(rgba: u32) -> Self {
         // if rgba < 0xFFFFFF00 {

@@ -1,18 +1,18 @@
 use super::*;
 
-impl Default for RGB {
+impl Default for RGB8 {
     fn default() -> Self {
-        Self { r: 0, g: 0, b: 0 }
+        Self { r: 0, g: 0, b: 0, a: () }
     }
 }
 
-impl Display for RGB {
+impl Display for RGB8 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "rgb({} {} {})", self.r, self.g, self.b)
     }
 }
 
-impl UpperHex for RGB {
+impl UpperHex for RGB8 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         if f.alternate() {
             f.write_char('#')?;
@@ -21,7 +21,7 @@ impl UpperHex for RGB {
     }
 }
 
-impl LowerHex for RGB {
+impl LowerHex for RGB8 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         if f.alternate() {
             f.write_char('#')?;

@@ -18,14 +18,14 @@ impl Display for RGBA32 {
 
 impl UpperHex for RGBA32 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        let rgba: RGBA = self.normalized().into();
+        let rgba: RGBA8 = self.normalized().into();
         UpperHex::fmt(&rgba, f)
     }
 }
 
 impl LowerHex for RGBA32 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        let rgba: RGBA = self.normalized().into();
+        let rgba: RGBA8 = self.normalized().into();
         LowerHex::fmt(&rgba, f)
     }
 }

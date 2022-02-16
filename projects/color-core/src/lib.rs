@@ -5,12 +5,15 @@
 #![doc = include_str!("../readme.md")]
 
 pub use self::{
-    hsl::{HSLA32, HSV32, HSVA32},
+    hsl::HSLA32,
+    hsv::{HSVAColor, HSV32, HSVA32},
     luma::LUMA32,
-    rgb::{RGB, RGBA, RGBA32},
+    rgb::{RGB8, RGBA32, RGBA8},
 };
 
+mod color_space;
 mod hsl;
+mod hsv;
 mod luma;
 mod rgb;
 mod utils;

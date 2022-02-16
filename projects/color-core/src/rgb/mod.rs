@@ -7,41 +7,18 @@ use std::{
     hash::{Hash, Hasher},
 };
 
-/// A color in the RGB color space.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-pub struct RGB {
-    /// The red channel of color in `[0, 255]`.
-    pub r: u8,
-    /// The green channel of color in `[0, 255]`.
-    pub g: u8,
-    /// The blue channel of color in `[0, 255]`.
-    pub b: u8,
-}
+pub type RGB8 = RGBAColor<u8, ()>;
+pub type RGBA8 = RGBAColor<u8, u8>;
+pub type RGB32 = RGBAColor<f32, ()>;
+pub type RGBA32 = RGBAColor<f32, f32>;
 
-/// A color in the RGBA color space.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-pub struct RGBA {
-    /// The red channel of color in `[0, 255]`.
-    pub r: u8,
-    /// The green channel of color in `[0, 255]`.
-    pub g: u8,
-    /// The blue channel of color in `[0, 255]`.
-    pub b: u8,
-    /// The alpha channel of color in `[0, 255]`.
-    pub a: u8,
-}
-
-/// A color in the RGBA color_parser space with 32-bit precision.
-///
-/// lossless format of rgb colors
-#[derive(Debug, Clone, Copy)]
-pub struct RGBA32 {
+pub struct RGBAColor<T, A = T> {
     /// The red channel of color in `[0.0, 1.0]`.
-    pub r: f32,
+    pub r: T,
     /// The green channel of color in `[0.0, 1.0]`.
-    pub g: f32,
+    pub g: T,
     /// The blue channel of color in `[0.0, 1.0]`.
-    pub b: f32,
+    pub b: T,
     /// The alpha channel of color in `[0.0, 1.0]`.
-    pub a: f32,
+    pub a: A,
 }
