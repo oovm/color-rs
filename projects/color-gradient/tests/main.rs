@@ -22,8 +22,8 @@ pub fn render_bar<G: ColorGradient, M: ColorMap>(width: usize, gradient: G, pale
 #[test]
 fn render_image_bar() {
     let linear = QuadraticGradient::default();
-    let mut p = Palette::new(RGBA32::rgb(0.0, 1.0, 1.0), RGBA32::rgb(1.0, 1.0, 0.0));
-    p.add(0.5, RGBA32::rgb(1.0, 0.0, 1.0));
+    let mut p = Palette::new(RGBA32::as_rgb(0.0, 1.0, 1.0), RGBA32::as_rgb(1.0, 1.0, 0.0));
+    p.add(0.5, RGBA32::as_rgb(1.0, 0.0, 1.0));
     let img = render_bar(1000, linear, p);
     img.save("linear.png").unwrap();
 }
@@ -31,8 +31,8 @@ fn render_image_bar() {
 #[test]
 fn render_gamma_bar() {
     let linear = QuadraticGradient::default();
-    let mut p = Palette::new(RGBA32::rgb(0.0, 1.0, 1.0), RGBA32::rgb(1.0, 1.0, 0.0));
-    p.add(0.5, RGBA32::rgb(1.0, 0.0, 1.0));
+    let mut p = Palette::new(RGBA32::as_rgb(0.0, 1.0, 1.0), RGBA32::as_rgb(1.0, 1.0, 0.0));
+    p.add(0.5, RGBA32::as_rgb(1.0, 0.0, 1.0));
     let img = render_bar(1000, linear, p);
     img.save("linear.png").unwrap();
 }

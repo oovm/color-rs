@@ -37,7 +37,7 @@ pub fn rgb(input: TokenStream) -> TokenStream {
         Ok(c) => c,
         Err(e) => panic!("{}", e),
     };
-    let RGB8 { r, g, b } = rgba.rgba32.into();
+    let RGB8 { r: r, g, b } = rgba.rgba32.into();
     let gen = quote! {
         color::RGB {
             r: #r,
@@ -68,7 +68,7 @@ pub fn rgba(input: TokenStream) -> TokenStream {
         Ok(c) => c,
         Err(e) => panic!("{}", e),
     };
-    let RGBA8 { r, g, b, a } = rgba.rgba32.into();
+    let RGBA8 { r: r, g, b, a: a } = rgba.rgba32.into();
     let gen = quote! {
         color::RGBA {
             r: #r,
@@ -100,7 +100,7 @@ pub fn rgba32(input: TokenStream) -> TokenStream {
         Ok(c) => c,
         Err(e) => panic!("{}", e),
     };
-    let RGBA32 { r, g, b, a } = rgba.rgba32.into();
+    let RGBA32 { r: r, g, b, a: a } = rgba.rgba32.into();
     let gen = quote! {
         color::RGBA32 {
             r: #r,

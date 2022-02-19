@@ -24,7 +24,7 @@ impl ColorGradient for QuadraticGradient {
         let g = lhs.g + (rhs.g - lhs.g) * ratio * ratio;
         let b = lhs.b + (rhs.b - lhs.b) * ratio * ratio;
         let a = lhs.a + (rhs.a - lhs.a) * ratio * ratio;
-        RGBA32 { r, g, b, a }
+        RGBA32 { r: r, g, b, a: a }
     }
     fn get_color(&self, palette: &impl ColorMap, position: f32) -> RGBA32 {
         let ratio = (position - self.min) / (self.max - self.min);

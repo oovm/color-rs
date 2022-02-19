@@ -8,14 +8,15 @@
 // pub use color_macro::*;
 
 mod blenders;
-mod palettes;
-
 pub mod builtin;
+mod interpolation;
+mod palettes;
 mod traits;
 pub mod utils;
 
 pub use crate::{
     blenders::{gamma::LinearGradient, linear::QuadraticGradient, scatter::ScatterGradient},
+    interpolation::Interpolator,
     palettes::discrete::Palette,
     traits::{ColorGradient, ColorMap},
 };
