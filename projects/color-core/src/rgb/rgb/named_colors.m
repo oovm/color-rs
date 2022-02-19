@@ -7,7 +7,7 @@ getConst[name_ -> color_] := Block[
     {r, g, b},
     {r, g, b} = Round[255 * List @@ RGBColor[color]];
     TemplateApply["\
-    /// <span style=\"color:`name1`\">`name1`: `c`</span>
+    /// <span style=\"color:`c`\">`name1`: `c`</span>
     pub const `name2`: Self = Self { r: `r`, g: `g`, b: `b`, a: () };",
         <|
             "name1" -> name,
@@ -24,7 +24,7 @@ getConst[name_ -> color_] := Block[
 rs = TemplateApply["\
 use super::*;
 
-impl RGB {
+impl RGB8 {
 `fs`
 }
 ",

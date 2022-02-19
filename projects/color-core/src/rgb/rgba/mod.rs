@@ -1,6 +1,5 @@
 use super::*;
 
-mod convert;
 mod traits;
 
 impl RGBA8 {

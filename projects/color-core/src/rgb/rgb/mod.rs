@@ -1,6 +1,5 @@
 use super::*;
 
-mod convert;
 mod named_colors;
 mod traits;
 

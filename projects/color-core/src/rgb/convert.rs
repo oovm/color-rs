@@ -1,6 +1,59 @@
+use super::*;
 use crate::HSLA32;
 
-use super::*;
+impl Default for RGBA32 {
+    fn default() -> Self {
+        Self { r: 0.0, g: 0.0, b: 0.0, a: 1.0 }
+    }
+}
+impl Default for RGBA8 {
+    fn default() -> Self {
+        Self { r: 0, g: 0, b: 0, a: 255 }
+    }
+}
+
+impl Default for RGB8 {
+    fn default() -> Self {
+        Self { r: 0, g: 0, b: 0, a: () }
+    }
+}
+
+impl From<RGBA32> for RGBA8 {
+    fn from(rgba: RGBA32) -> Self {
+        let rgba = rgba.normalized();
+        Self { r: (rgba.r * 255.0) as u8, g: (rgba.g * 255.0) as u8, b: (rgba.b * 255.0) as u8, a: (rgba.a * 255.0) as u8 }
+    }
+}
+
+impl<T> From<[T; 3]> for RGBA8
+where
+    T: Into<u8> + Copy,
+{
+    fn from(rgba: [T; 3]) -> Self {
+        Self { r: rgba[0].into(), g: rgba[1].into(), b: rgba[2].into(), a: 255 }
+    }
+}
+
+// noinspection DuplicatedCode
+impl<T> From<[T; 4]> for RGBA8
+where
+    T: Into<u8> + Copy,
+{
+    fn from(rgba: [T; 4]) -> Self {
+        Self { r: rgba[0].into(), g: rgba[1].into(), b: rgba[2].into(), a: rgba[3].into() }
+    }
+}
+
+impl From<u32> for RGBA8 {
+    #[track_caller]
+    fn from(rgba: u32) -> Self {
+        // if rgba < 0xFFFFFF00 {
+        //     panic!("Invalid color value: #{:02X}", rgba);
+        // }
+        let [r, g, b, a] = rgba.to_be_bytes();
+        Self { r, g, b, a }
+    }
+}
 
 impl<T> From<&T> for RGBA32
 where
@@ -81,5 +134,12 @@ where
 impl From<u32> for RGBA32 {
     fn from(rgba: u32) -> Self {
         RGBA8::from(rgba).into()
+    }
+}
+
+impl From<RGBA32> for RGB8 {
+    fn from(rgba: RGBA32) -> Self {
+        let rgba = rgba.normalized();
+        Self { r: (rgba.r * 255.0) as u8, g: (rgba.g * 255.0) as u8, b: (rgba.b * 255.0) as u8, a: () }
     }
 }

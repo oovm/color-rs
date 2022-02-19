@@ -1,11 +1,5 @@
 use super::*;
 
-impl Default for RGBA32 {
-    fn default() -> Self {
-        Self { r: 0.0, g: 0.0, b: 0.0, a: 1.0 }
-    }
-}
-
 impl Eq for RGBA32 {}
 
 impl PartialEq<Self> for RGBA32 {

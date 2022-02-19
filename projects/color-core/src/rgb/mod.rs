@@ -1,3 +1,4 @@
+mod convert;
 mod display;
 mod rgb;
 mod rgba;
