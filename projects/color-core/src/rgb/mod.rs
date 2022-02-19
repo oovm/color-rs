@@ -9,18 +9,20 @@ use std::{
     hash::{Hash, Hasher},
 };
 
-pub type RGB8 = RGBAColor<u8, ()>;
-pub type RGBA8 = RGBAColor<u8, u8>;
-pub type RGBA32 = RGBAColor<f32, f32>;
+/// 128-bit 4 channel color in the HSL color space.
+pub type RGB8 = RGBColor<u8, ()>;
+pub type RGBA8 = RGBColor<u8, u8>;
+pub type RGBA32 = RGBColor<f32, f32>;
 
-#[derive(Debug)]
-pub struct RGBAColor<T, A = T> {
-    /// The red channel of color in `[0.0, 1.0]`.
+#[repr(C)]
+#[derive(Copy, Clone, Debug)]
+pub struct RGBColor<T, A = T> {
+    /// The red channel of a rgb space color
     pub r: T,
-    /// The green channel of color in `[0.0, 1.0]`.
+    /// The green channel of a rgb space color
     pub g: T,
-    /// The blue channel of color in `[0.0, 1.0]`.
+    /// The blue channel of a rgb space color
     pub b: T,
-    /// The alpha channel of color in `[0.0, 1.0]`.
+    /// The alpha channel of a rgb space color
     pub a: A,
 }

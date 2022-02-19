@@ -1,22 +1,15 @@
 use super::*;
 use crate::HSLA32;
 
-impl Default for RGBA32 {
-    fn default() -> Self {
-        Self { r: 0.0, g: 0.0, b: 0.0, a: 1.0 }
-    }
-}
-impl Default for RGBA8 {
-    fn default() -> Self {
-        Self { r: 0, g: 0, b: 0, a: 255 }
-    }
-}
+// region: Constructors of 3 channel u8
 
-impl Default for RGB8 {
-    fn default() -> Self {
-        Self { r: 0, g: 0, b: 0, a: () }
-    }
-}
+// endregion
+// region: Constructors of 4 channel u8
+
+// endregion
+// region: Constructors of 4 channel f32
+
+// endregion
 
 impl From<RGBA32> for RGBA8 {
     fn from(rgba: RGBA32) -> Self {
@@ -51,7 +44,7 @@ impl From<u32> for RGBA8 {
         //     panic!("Invalid color value: #{:02X}", rgba);
         // }
         let [r, g, b, a] = rgba.to_be_bytes();
-        Self { r, g, b, a }
+        Self { r: r, g, b, a: a }
     }
 }
 
@@ -86,7 +79,7 @@ impl From<HSLA32> for RGBA32 {
             let c = s * l.min(1.0 - l);
             l - c * 1f32.min(k - 3.0).min(9.0 - k).max(-1.0)
         };
-        Self { r: ts(0.0), g: ts(8.0), b: ts(4.0), a }
+        Self { r: ts(0.0), g: ts(8.0), b: ts(4.0), a: a }
     }
 }
 

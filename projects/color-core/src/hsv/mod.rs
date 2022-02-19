@@ -1,11 +1,12 @@
 mod display;
+mod hsva32;
 
 /// 128-bit 4 channel color in the HSL color space.
-pub type HSVA32 = HSVAColor<f32, f32>;
+pub type HSVA32 = HSVColor<f32, f32>;
 
 /// A color in the HSL color space.
-#[derive(Copy, Clone, PartialEq, PartialOrd)]
-pub struct HSVAColor<T, A = T> {
+#[derive(Copy, Clone, Debug)]
+pub struct HSVColor<T, A = T> {
     /// Hue is a degree on the color_parser wheel from `[0f32, 360f32)`.
     ///
     /// 0 is red, 120 is green, 240 is blue.

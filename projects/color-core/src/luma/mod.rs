@@ -2,15 +2,17 @@ use std::fmt::{Debug, Formatter};
 
 mod luma32;
 
+pub type LUMA32 = LUMAColor<f32, f32>;
+
 /// A color_parser in the luma color_parser space.
 #[derive(Clone, Copy, PartialEq, PartialOrd)]
-pub struct LUMA32 {
+pub struct LUMAColor<T, A = T> {
     ///
-    pub l: f32,
+    pub l: T,
     ///
-    pub u: f32,
+    pub u: T,
     ///
-    pub m: f32,
+    pub m: T,
     ///
-    pub a: f32,
+    pub a: A,
 }
