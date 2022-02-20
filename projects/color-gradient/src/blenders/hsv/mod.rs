@@ -1,6 +1,6 @@
 use crate::interpolation::Interpolator;
 use color_core::{HSVA32, RGBA32, RGBA8};
-use image::{ImageBuffer, Rgba};
+use image::GenericImageView;
 use ordered_float::OrderedFloat;
 use std::{collections::BTreeMap, ops::Range};
 
@@ -246,19 +246,22 @@ impl HsvGradient {
         let ratio = self.get_ratio(key);
         self.alpha.remove(ratio);
     }
+    pub fn clear_alpha(&mut self) {
+        self.alpha.clear();
+    }
 }
 
 impl HsvGradient {
-    fn get_ratio(&self, value: f32) -> u8 {
+    fn get_ratio(&self, value: f32) -> u16 {
         if value <= self.range.start {
-            return 0;
+            0
         }
         else if value >= self.range.end {
-            return 255;
+            65535
         }
         else {
             let ratio = (value - self.range.start) / (self.range.end - self.range.start);
-            (ratio * 255.0) as u8
+            (ratio * 65535.0) as u16
         }
     }
     /// Creates a new HSVGradient with the given min and max values.
@@ -311,7 +314,7 @@ impl HsvGradient {
 
 impl HsvGradient {
     pub fn standard(min: f32, max: f32) -> HsvGradient {
-        let mut grad = HsvGradient::new(min, max);
+        let mut grad = HsvGradient::new(0.0, 360.0);
         grad.insert_hue(0.0, 0.0);
         grad.insert_hue(60.0, 60.0);
         grad.insert_hue(120.0, 120.0);
@@ -319,29 +322,7 @@ impl HsvGradient {
         grad.insert_hue(240.0, 240.0);
         grad.insert_hue(300.0, 300.0);
         grad.insert_hue(360.0, 360.0);
+        grad.rescale(min, max);
         grad
     }
-}
-
-#[test]
-fn test2() {
-    let hsv = HsvGradient::standard(0.0, 360.0);
-    for i in 0..360 {
-        let hsva = hsv.get_step(i as f32);
-        println!("{} {} {} {}", hsva.h, hsva.s, hsva.v, hsva.a);
-        let RGBA32 { r, g, b, a } = hsva.into();
-        println!("{} {} {} {}", r, g, b, a);
-    }
-}
-
-#[test]
-fn test() {
-    let hsv = HsvGradient::standard(0.0, 1000.0);
-    let mut img = ImageBuffer::new(1000, 100);
-    for (x, _, pixel) in img.enumerate_pixels_mut() {
-        let hsva = hsv.get_step(x as f32);
-        let RGBA8 { r, g, b, a } = hsva.into();
-        *pixel = Rgba([r, g, b, a]);
-    }
-    img.save("test.png").unwrap();
 }

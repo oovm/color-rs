@@ -15,8 +15,9 @@ mod traits;
 pub mod utils;
 
 pub use crate::{
-    blenders::{gamma::LinearGradient, linear::QuadraticGradient, scatter::ScatterGradient},
+    blenders::{gamma::LinearGradient, hsv::HsvGradient, linear::QuadraticGradient, scatter::ScatterGradient},
     interpolation::Interpolator,
     palettes::discrete::Palette,
     traits::{ColorGradient, ColorMap},
+    utils::GradientSampler,
 };

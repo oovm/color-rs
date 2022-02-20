@@ -1,9 +1,11 @@
 use ordered_float::OrderedFloat;
 use std::collections::BTreeMap;
 
+type Precision = u16;
+
 #[derive(Clone, Debug)]
 pub struct Interpolator {
-    keys: BTreeMap<u8, f32>,
+    keys: BTreeMap<Precision, f32>,
     lhs: f32,
     rhs: f32,
 }
@@ -13,26 +15,26 @@ impl Interpolator {
         Self { keys: Default::default(), lhs: min, rhs: max }
     }
     pub fn head(&self) -> f32 {
-        self.keys.get(&0).copied().unwrap_or(self.lhs)
+        self.keys.get(&Precision::MIN).copied().unwrap_or(self.lhs)
     }
     pub fn tail(&self) -> f32 {
-        self.keys.get(&255).copied().unwrap_or(self.rhs)
+        self.keys.get(&Precision::MAX).copied().unwrap_or(self.rhs)
     }
-    pub fn insert(&mut self, key: u8, value: f32) {
+    pub fn insert(&mut self, key: Precision, value: f32) {
         self.keys.insert(key, value);
     }
-    pub fn remove(&mut self, key: u8) {
+    pub fn remove(&mut self, key: Precision) {
         self.keys.remove(&key);
     }
 }
 
 impl Interpolator {
     /// Get zero-order interpolation, that is, the first number greater than ratio
-    pub fn get_step(&self, key: u8) -> f32 {
-        if key == 0 {
+    pub fn get_step(&self, key: Precision) -> f32 {
+        if key == Precision::MIN {
             self.head()
         }
-        else if key == 255 {
+        else if key == Precision::MAX {
             self.tail()
         }
         else {
@@ -40,19 +42,23 @@ impl Interpolator {
         }
     }
     /// Get first-order linear interpolation
-    pub fn get_linear(&self, key: u8) -> f32 {
-        if key == 0 {
+    pub fn get_linear(&self, key: Precision) -> f32 {
+        if key == Precision::MIN {
             self.head()
         }
-        else if key == 255 {
+        else if key == Precision::MAX {
             self.tail()
         }
         else {
-            let (k1, v1) = self.keys.range(..=key).next_back().unwrap_or((&0, &self.lhs));
-            let (k2, v2) = self.keys.range(key..).next().unwrap_or((&255, &self.rhs));
-            let ratio = (key - k1) as f32 / (k2 - k1) as f32;
-            v1 + (v2 - v1) * ratio
+            let s1 = (&Precision::MIN, &self.head());
+            let s2 = (&Precision::MAX, &self.tail());
+            let (k1, v1) = self.keys.range(..=key).next_back().unwrap_or(s1);
+            let (k2, v2) = self.keys.range(key..).next().unwrap_or(s2);
+            if k1 == k2 { *v1 } else { v1 + (v2 - v1) * (key - k1) as f32 / (k2 - k1) as f32 }
         }
+    }
+    pub fn clear(&mut self) {
+        self.keys.clear();
     }
 }
 
