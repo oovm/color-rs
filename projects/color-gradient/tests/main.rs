@@ -1,6 +1,6 @@
-use color_core::RGBA32;
-use color_gradient::{ColorGradient, ColorMap, Palette, QuadraticGradient};
-use image::{ImageBuffer, RgbaImage};
+use color_core::{RGBA32, RGBA8};
+use colormap::{ColorGradient, ColorMap, HsvGradient, Palette, QuadraticGradient};
+use image::{ImageBuffer, Rgba, RgbaImage};
 use std::path::{Path, PathBuf};
 
 mod hsv;

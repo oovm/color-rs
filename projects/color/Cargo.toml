@@ -13,7 +13,7 @@ exclude = ["*.json"]
 [dependencies]
 color-core = { version = "0.1.*", path = "../color-core" }
 color-macro = { version = "0.1.*", path = "../color-macro" }
-color-gradient = { version = "0.1.*", path = "../color-gradient" }
+colormap = { version = "0.0.*", path = "../color-gradient" }
 
 [features]
 default = []

@@ -1,7 +1,11 @@
-use crate::assets;
-use color_core::RGBA8;
-use color_gradient::HsvGradient;
-use image::{ImageBuffer, Rgba};
+use super::*;
+use colormap::GradientSampler;
+
+#[test]
+fn test_sample() {
+    let sample = GradientSampler { points: 10, margin_left: 2, margin_right: 2, margin_top: 2, margin_bottom: 2 };
+    sample.sample_as_hsv(tests("hsv/colormap_parula_update17a.png")).unwrap()
+}
 
 #[test]
 fn test() {
