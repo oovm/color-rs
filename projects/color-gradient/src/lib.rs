@@ -14,10 +14,11 @@ mod palettes;
 mod traits;
 pub mod utils;
 
+#[cfg(feature = "image")]
+pub use crate::utils::sampler::GradientSampler;
 pub use crate::{
     blenders::{gamma::LinearGradient, hsv::HsvGradient, linear::QuadraticGradient, scatter::ScatterGradient},
     interpolation::Interpolator,
     palettes::discrete::Palette,
     traits::{ColorGradient, ColorMap},
-    utils::GradientSampler,
 };

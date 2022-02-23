@@ -45,12 +45,12 @@ fn hsv32_to_rgb32(h: f32, s: f32, v: f32, a: f32) -> RGBA32 {
     let x = c * (1.0 - (h / 60.0 % 2.0 - 1.0).abs());
     let m = v / 100.0 - c;
     let (r, g, b) = match h {
-        h if h < 60.0 => (c, x, 0.0),
-        h if h < 120.0 => (x, c, 0.0),
-        h if h < 180.0 => (0.0, c, x),
-        h if h < 240.0 => (0.0, x, c),
-        h if h < 300.0 => (x, 0.0, c),
-        h if h < 360.0 => (c, 0.0, x),
+        _ if h < 60.0 => (c, x, 0.0),
+        _ if h < 120.0 => (x, c, 0.0),
+        _ if h < 180.0 => (0.0, c, x),
+        _ if h < 240.0 => (0.0, x, c),
+        _ if h < 300.0 => (x, 0.0, c),
+        _ if h < 360.0 => (c, 0.0, x),
         _ => (0.0, 0.0, 0.0),
     };
     RGBA32::new(r + m, g + m, b + m, a)
@@ -81,7 +81,10 @@ fn rgb32_to_hsv32(r: f32, g: f32, b: f32, a: f32) -> HSVA32 {
     let rc = (max - r) / (max - min);
     let gc = (max - g) / (max - min);
     let bc = (max - b) / (max - min);
-    let h = if r == max {
+    let h = if min == max {
+        0.0
+    }
+    else if r == max {
         0.0 + bc - gc
     }
     else if g == max {
@@ -90,6 +93,7 @@ fn rgb32_to_hsv32(r: f32, g: f32, b: f32, a: f32) -> HSVA32 {
     else {
         4.0 + gc - rc
     };
+
     let h = (h / 6.0) % 1.0;
     HSVA32::new(h * 360.0, s * 100.0, v * 100.0, a * 100.0)
 }

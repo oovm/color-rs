@@ -4,8 +4,17 @@ use image::ImageResult;
 
 #[test]
 fn test_sample() {
-    let sample = GradientSampler { points: 10, margin_left: 2, margin_right: 2, margin_top: 2, margin_bottom: 2 };
-    sample.sample_as_hsv(tests("hsv/colormap_parula_update17a.png")).unwrap()
+    let mut sample = GradientSampler::new(10).with_margin(2);
+    sample.sample_file(tests("hsv/colormap_parula_update17a.png"), "parula").unwrap();
+    sample.sample_file(tests("hsv/colormap_jet.png"), "jet").unwrap();
+    sample.sample_file(tests("hsv/colormap_turbo.png"), "turbo").unwrap();
+    sample.sample_file(tests("hsv/colormap_hot.png"), "hot").unwrap();
+    sample.sample_file(tests("hsv/colormap_cool.png"), "cool").unwrap();
+    sample.sample_file(tests("hsv/colormap_spring.png"), "spring").unwrap();
+    sample.sample_file(tests("hsv/colormap_summer.png"), "summer").unwrap();
+    sample.sample_file(tests("hsv/colormap_autumn.png"), "autumn").unwrap();
+    sample.sample_file(tests("hsv/colormap_winter.png"), "winter").unwrap();
+    sample.export_hsv(tests("hsv/colormap.rs")).unwrap();
 }
 
 pub fn export_hsv_step(hsv: HsvGradient, path: &str) -> ImageResult<()> {
@@ -37,4 +46,20 @@ fn test() {
     export_hsv_linear(HsvGradient::standard(0.0, 1024.0), "hsv/standard-linear.png").unwrap();
     export_hsv_step(HsvGradient::parula(0.0, 1024.0), "hsv/parula-step.png").unwrap();
     export_hsv_linear(HsvGradient::parula(0.0, 1024.0), "hsv/parula-linear.png").unwrap();
+    export_hsv_step(HsvGradient::jet(0.0, 1024.0), "hsv/jet-step.png").unwrap();
+    export_hsv_linear(HsvGradient::jet(0.0, 1024.0), "hsv/jet-linear.png").unwrap();
+    export_hsv_step(HsvGradient::turbo(0.0, 1024.0), "hsv/turbo-step.png").unwrap();
+    export_hsv_linear(HsvGradient::turbo(0.0, 1024.0), "hsv/turbo-linear.png").unwrap();
+    export_hsv_step(HsvGradient::hot(0.0, 1024.0), "hsv/hot-step.png").unwrap();
+    export_hsv_linear(HsvGradient::hot(0.0, 1024.0), "hsv/hot-linear.png").unwrap();
+    export_hsv_step(HsvGradient::cool(0.0, 1024.0), "hsv/cool-step.png").unwrap();
+    export_hsv_linear(HsvGradient::cool(0.0, 1024.0), "hsv/cool-linear.png").unwrap();
+    export_hsv_step(HsvGradient::spring(0.0, 1024.0), "hsv/spring-step.png").unwrap();
+    export_hsv_linear(HsvGradient::spring(0.0, 1024.0), "hsv/spring-linear.png").unwrap();
+    export_hsv_step(HsvGradient::summer(0.0, 1024.0), "hsv/summer-step.png").unwrap();
+    export_hsv_linear(HsvGradient::summer(0.0, 1024.0), "hsv/summer-linear.png").unwrap();
+    export_hsv_step(HsvGradient::autumn(0.0, 1024.0), "hsv/autumn-step.png").unwrap();
+    export_hsv_linear(HsvGradient::autumn(0.0, 1024.0), "hsv/autumn-linear.png").unwrap();
+    export_hsv_step(HsvGradient::winter(0.0, 1024.0), "hsv/winter-step.png").unwrap();
+    export_hsv_linear(HsvGradient::winter(0.0, 1024.0), "hsv/winter-linear.png").unwrap();
 }
