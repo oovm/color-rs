@@ -15,7 +15,7 @@ impl RGBA8 {
     }
     /// Create [`RGBA8`] from `(u8, u8, u8, u8)` tuple.
     pub fn new(r: u8, g: u8, b: u8, a: u8) -> Self {
-        Self { r: r, g, b, a: a }
+        Self { r, g, b, a }
     }
     /// Map operator to r, g, b channels, without alpha channel.
     pub fn map<F>(&self, f: F) -> Self

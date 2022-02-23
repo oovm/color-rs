@@ -1,4 +1,5 @@
 mod hsl;
+mod hsv;
 mod rgb;
 
 #[test]

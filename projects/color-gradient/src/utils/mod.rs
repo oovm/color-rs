@@ -36,7 +36,7 @@ impl GradientSampler {
         let image = image::open(image_path)?.to_rgba32f();
         let (map, width) = self.sample(&image);
         writeln!(file, "pub fn {}(min: f32, max: f32) -> HsvGradient {{", file_name)?;
-        writeln!(file, "    let mut grad = HsvGradient::new(0.0, {:.2});", width)?;
+        writeln!(file, "    let mut grad = HsvGradient::new(0.0, {:.2});", width as f32)?;
         for (x, color) in map.iter() {
             let hsva = HSVA32::from(*color);
             writeln!(file, "    grad.insert_hue({:.2}, {:.2});", *x as f32, hsva.h)?;

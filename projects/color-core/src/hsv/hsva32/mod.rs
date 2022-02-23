@@ -76,19 +76,20 @@ impl From<RGBA32> for HSVA32 {
 fn rgb32_to_hsv32(r: f32, g: f32, b: f32, a: f32) -> HSVA32 {
     let max = r.max(g).max(b);
     let min = r.min(g).min(b);
-    let c = max - min;
-    let h = match max {
-        r if r == max => (g - b) / c,
-        g if g == max => (b - r) / c + 2.0,
-        b if b == max => (r - g) / c + 4.0,
-        // c == 0
-        _ => 0.0,
+    let v = max;
+    let s = if max == 0.0 { 0.0 } else { (max - min) / max };
+    let rc = (max - r) / (max - min);
+    let gc = (max - g) / (max - min);
+    let bc = (max - b) / (max - min);
+    let h = if r == max {
+        0.0 + bc - gc
+    }
+    else if g == max {
+        2.0 + rc - bc
+    }
+    else {
+        4.0 + gc - rc
     };
-    let h = h / 6.0;
-    let v = max * 100.0;
-    let s = match max == min {
-        true => 0.0,
-        false => c / (1.0 - (2.0 * v - 100.0).abs()),
-    };
-    HSVA32::new(h * 360.0, s * 100.0, v, a * 100.0)
+    let h = (h / 6.0) % 1.0;
+    HSVA32::new(h * 360.0, s * 100.0, v * 100.0, a * 100.0)
 }

@@ -325,4 +325,42 @@ impl HsvGradient {
         grad.rescale(min, max);
         grad
     }
+    pub fn parula(min: f32, max: f32) -> HsvGradient {
+        let mut grad = HsvGradient::new(0.0, 430.00);
+        grad.insert_hue(0.00, -60.00);
+        grad.insert_saturation(0.00, 77.38);
+        grad.insert_brightness(0.00, 65.88);
+        grad.insert_hue(43.00, -60.00);
+        grad.insert_saturation(43.00, 71.30);
+        grad.insert_brightness(43.00, 90.20);
+        grad.insert_hue(86.00, -48.39);
+        grad.insert_saturation(86.00, 73.52);
+        grad.insert_brightness(86.00, 99.22);
+        grad.insert_hue(129.00, -31.21);
+        grad.insert_saturation(129.00, 81.48);
+        grad.insert_brightness(129.00, 95.29);
+        grad.insert_hue(172.00, -16.31);
+        grad.insert_saturation(172.00, 87.44);
+        grad.insert_brightness(172.00, 87.45);
+        grad.insert_hue(215.00, 2.12);
+        grad.insert_saturation(215.00, 89.47);
+        grad.insert_brightness(215.00, 74.51);
+        grad.insert_hue(258.00, 31.60);
+        grad.insert_saturation(258.00, 64.53);
+        grad.insert_brightness(258.00, 79.61);
+        grad.insert_hue(301.00, 60.00);
+        grad.insert_saturation(301.00, 68.00);
+        grad.insert_brightness(301.00, 78.43);
+        grad.insert_hue(344.00, 43.87);
+        grad.insert_saturation(344.00, 78.81);
+        grad.insert_brightness(344.00, 92.55);
+        grad.insert_hue(387.00, 49.12);
+        grad.insert_saturation(387.00, 81.60);
+        grad.insert_brightness(387.00, 98.04);
+        grad.insert_hue(430.00, 0.00);
+        grad.insert_saturation(430.00, 0.00);
+        grad.insert_brightness(430.00, 100.00);
+        grad.rescale(min, max);
+        grad
+    }
 }
