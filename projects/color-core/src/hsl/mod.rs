@@ -3,6 +3,7 @@ use std::fmt::{Debug, Display, Formatter};
 
 mod hsla32;
 
+/// A color in HSLA color space with 32-bit floating point components.
 pub type HSLA32 = HSLColor<f32, f32>;
 
 /// A color in HSLA color space with 32-bit floating point components.

@@ -1,5 +1,5 @@
 use super::*;
-use std::fmt::{Debug, Display, Formatter};
+use std::fmt::{Display, Formatter};
 
 impl Display for HSVA32 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {

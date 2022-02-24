@@ -1,5 +1,6 @@
 use super::*;
 
+mod convert;
 mod traits;
 
 impl Default for RGBA32 {
@@ -9,26 +10,59 @@ impl Default for RGBA32 {
 }
 
 impl RGBA32 {
-    /// Create [`RGBA32`] from `(f32, f32, f32)` tuple.
+    /// Create a new gray color in the [RGB Color Space](https://en.wikipedia.org/wiki/RGB_color_model).
+    ///
+    /// # Arguments
+    ///
+    /// Input values are automatically normalized.
+    ///
+    /// The normalized [`RGBA32`] range is:
+    ///
+    /// * `gray`: `[0, 1]`
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use color_core::{RGBA32};
+    /// let rgba32 = RGBA32::gray(0.5).with_alpha(0.5);
+    /// ```
     pub fn gray(value: f32) -> Self {
-        Self { r: value, g: value, b: value, a: 1.0 }
+        let gray = value.max(0.0).min(1.0);
+        Self { r: gray, g: gray, b: gray, a: 1.0 }
     }
-    /// Create [`RGBA32`] from `(f32, f32, f32, f32)` tuple.
+    /// Create a new color in the [RGB Color Space](https://en.wikipedia.org/wiki/RGB_color_model).
+    ///
+    /// # Arguments
+    ///
+    /// Input values are automatically normalized.
+    ///
+    /// The normalized [`RGBA32`] range is:
+    ///
+    /// * `r`: `[0, 1]`
+    /// * `g`: `[0, 1]`
+    /// * `b`: `[0, 1]`
+    /// * `a`: `[0, 1]`
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use color_core::{RGBA32};
+    /// let rgba32 = RGBA32::new(1.0, 0.0, 0.0, 1.0);
+    /// ```
     pub fn new(r: f32, g: f32, b: f32, a: f32) -> Self {
         Self { r, g, b, a }.normalized()
     }
 }
 
 impl RGBA32 {
-    /// Create [`RGBA32`] from `(u8, u8, u8)` tuple.
-    pub fn as_rgb(&self) -> RGB8 {
-        RGB8::new((self.r * 255.0) as u8, (self.g * 255.0) as u8, (self.b * 255.0) as u8)
-    }
-    /// Create [`RGBA32`] from `(u8, u8, u8, u8)` tuple.
-    pub fn as_rgba(&self) -> RGBA8 {
-        RGBA8::new((self.r * 255.0) as u8, (self.g * 255.0) as u8, (self.b * 255.0) as u8, (self.a * 255.0) as u8)
-    }
     /// Normalize [`RGBA32`] color to range `[0.0, 1.0]`.
+    ///
+    /// The normalized [`RGBA32`] range is:
+    ///
+    /// * `r`: `[0, 1]`
+    /// * `g`: `[0, 1]`
+    /// * `b`: `[0, 1]`
+    /// * `a`: `[0, 1]`
     pub fn normalized(&self) -> Self {
         Self {
             r: self.r.max(0.0).min(1.0),
@@ -37,19 +71,10 @@ impl RGBA32 {
             a: self.a.max(0.0).min(1.0),
         }
     }
-    /// Map operator to r, g, b channels, without alpha channel.
-    pub fn map<F>(&self, f: F) -> Self
-    where
-        F: Fn(f32) -> f32,
-    {
-        Self { r: f(self.r), g: f(self.g), b: f(self.b), a: self.a }
-    }
-    /// Map operator to alpha channel only.
-    pub fn map_alpha<F>(&self, f: F) -> Self
-    where
-        F: Fn(f32) -> f32,
-    {
-        Self { r: self.r, g: self.g, b: self.b, a: f(self.a) }
+    /// If γ >= 1 , it is a gamma expansion, and if γ < 1, it is a gamma compression.
+    pub fn gamma_corrected(&self, gamma: f32) -> Self {
+        debug_assert!(gamma >= 0.0, "γ correction must be >= 0.0");
+        Self { r: self.r.powf(gamma), g: self.g.powf(gamma), b: self.b.powf(gamma), a: self.a }
     }
     pub fn map_all<F>(&self, f: F) -> Self
     where
