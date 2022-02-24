@@ -133,7 +133,7 @@ impl HsvGradient {
         grad
     }
     pub fn hot(min: f32, max: f32) -> HsvGradient {
-        let mut grad = HsvGradient::new(0.0, 428.00);
+        let mut grad = HsvGradient::new(0.0, 420.00);
         grad.insert_hue(0.00, 0.00);
         grad.insert_saturation(0.00, 100.00);
         grad.insert_brightness(0.00, 1.18);
@@ -208,7 +208,6 @@ impl HsvGradient {
         grad.rescale(min, max);
         grad
     }
-
     pub fn spring(min: f32, max: f32) -> HsvGradient {
         let mut grad = HsvGradient::new(0.0, 430.00);
         grad.insert_hue(0.00, -60.00);

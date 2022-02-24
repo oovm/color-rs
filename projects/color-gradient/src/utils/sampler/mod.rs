@@ -22,7 +22,6 @@ impl GradientSampler {
         self.margin_bottom = margin;
         self
     }
-
     pub fn sample(&self, image: &Rgba32FImage) -> BTreeMap<u32, RGBA32> {
         let width = image.width() - self.margin_left - self.margin_right;
         let height = image.height() - self.margin_top - self.margin_bottom;
@@ -54,6 +53,7 @@ impl GradientSampler {
         P: AsRef<Path>,
     {
         let mut file = std::fs::File::create(path)?;
+        writeln!(file, "impl HsvGradient {{")?;
         for (name, map) in self.maps.iter() {
             let width = *map.last_key_value().expect("Empty map").0;
             writeln!(file, "pub fn {}(min: f32, max: f32) -> HsvGradient {{", name)?;
@@ -68,6 +68,7 @@ impl GradientSampler {
             writeln!(file, "grad")?;
             writeln!(file, "}}")?;
         }
+        writeln!(file, "}}")?;
         Ok(())
     }
 }

@@ -40,7 +40,7 @@ pub fn export_hsv_linear(hsv: HsvGradient, path: &str) -> ImageResult<()> {
 }
 
 #[test]
-fn test() {
+fn test_matlab() {
     println!("{:#?}", HsvGradient::parula(0.0, 1024.0));
     export_hsv_step(HsvGradient::standard(0.0, 1024.0), "hsv/standard-step.png").unwrap();
     export_hsv_linear(HsvGradient::standard(0.0, 1024.0), "hsv/standard-linear.png").unwrap();
