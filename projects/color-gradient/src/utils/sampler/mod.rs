@@ -42,7 +42,6 @@ impl GradientSampler {
     {
         let image_path = path.as_ref();
         let file_path = image_path.with_extension("rs");
-        let mut file = std::fs::File::create(file_path)?;
         let image = image::open(image_path)?.to_rgba32f();
         let map = self.sample(&image);
         self.maps.push((name.to_string(), map));
@@ -56,7 +55,20 @@ impl GradientSampler {
         writeln!(file, "impl HsvGradient {{")?;
         for (name, map) in self.maps.iter() {
             let width = *map.last_key_value().expect("Empty map").0;
-            writeln!(file, "pub fn {}(min: f32, max: f32) -> HsvGradient {{", name)?;
+            writeln!(file, "/// {} color map in HSV color space.", name)?;
+            writeln!(file, "/// - step:")?;
+            writeln!(
+                file,
+                "/// ![{name}-step](https://raw.githubusercontent.com/oovm/color-rs/dev/projects/color-gradient/assets/hsv/{name}-step.png)",
+                name = name.to_lowercase()
+            )?;
+            writeln!(file, "/// - linear:")?;
+            writeln!(
+                file,
+                "/// ![{name}-linear](https://raw.githubusercontent.com/oovm/color-rs/dev/projects/color-gradient/assets/hsv/{name}-linear.png)",
+                name = name.to_lowercase()
+            )?;
+            writeln!(file, "pub fn {}(min: f32, max: f32) -> HsvGradient {{", name.to_lowercase())?;
             writeln!(file, "let mut grad = HsvGradient::new(0.0, {:.2});", width as f32)?;
             for (x, color) in map.iter() {
                 let hsva = HSVA32::from(*color);

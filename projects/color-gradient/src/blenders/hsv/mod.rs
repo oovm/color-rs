@@ -1,11 +1,11 @@
 use crate::interpolation::Interpolator;
 use color_core::{HSVA32, RGBA32, RGBA8};
 use image::GenericImageView;
-use ordered_float::OrderedFloat;
 use std::{collections::BTreeMap, ops::Range};
 mod builtin;
 
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct HsvGradient {
     hue: Interpolator,
     saturation: Interpolator,

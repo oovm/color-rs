@@ -5,15 +5,15 @@ use image::ImageResult;
 #[test]
 fn test_sample() {
     let mut sample = GradientSampler::new(10).with_margin(2);
-    sample.sample_file(tests("hsv/colormap_parula_update17a.png"), "parula").unwrap();
-    sample.sample_file(tests("hsv/colormap_jet.png"), "jet").unwrap();
-    sample.sample_file(tests("hsv/colormap_turbo.png"), "turbo").unwrap();
-    sample.sample_file(tests("hsv/colormap_hot.png"), "hot").unwrap();
-    sample.sample_file(tests("hsv/colormap_cool.png"), "cool").unwrap();
-    sample.sample_file(tests("hsv/colormap_spring.png"), "spring").unwrap();
-    sample.sample_file(tests("hsv/colormap_summer.png"), "summer").unwrap();
-    sample.sample_file(tests("hsv/colormap_autumn.png"), "autumn").unwrap();
-    sample.sample_file(tests("hsv/colormap_winter.png"), "winter").unwrap();
+    sample.sample_file(tests("hsv/colormap_parula_update17a.png"), "Parula").unwrap();
+    sample.sample_file(tests("hsv/colormap_jet.png"), "Jet").unwrap();
+    sample.sample_file(tests("hsv/colormap_turbo.png"), "Turbo").unwrap();
+    sample.sample_file(tests("hsv/colormap_hot.png"), "Hot").unwrap();
+    sample.sample_file(tests("hsv/colormap_cool.png"), "Cool").unwrap();
+    sample.sample_file(tests("hsv/colormap_spring.png"), "Spring").unwrap();
+    sample.sample_file(tests("hsv/colormap_summer.png"), "Summer").unwrap();
+    sample.sample_file(tests("hsv/colormap_autumn.png"), "Autumn").unwrap();
+    sample.sample_file(tests("hsv/colormap_winter.png"), "Winter").unwrap();
     sample.export_hsv(tests("hsv/colormap.rs")).unwrap();
 }
 

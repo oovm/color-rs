@@ -1,7 +1,16 @@
 use super::*;
 
+impl Default for HsvGradient {
+    fn default() -> Self {
+        HsvGradient::standard(0.0, 1.0)
+    }
+}
+
 /// standard hsv color maps
 impl HsvGradient {
+    /// Standard color map in HSV color space.
+    /// - step: ![standard-step.png](https://raw.githubusercontent.com/oovm/color-rs/dev/projects/color-gradient/assets/hsv/standard-step.png)
+    /// - linear: ![standard-linear.png](https://raw.githubusercontent.com/oovm/color-rs/dev/projects/color-gradient/assets/hsv/standard-linear.png)
     pub fn standard(min: f32, max: f32) -> HsvGradient {
         let mut grad = HsvGradient::new(0.0, 360.0);
         grad.insert_hue(0.0, 0.0);
@@ -18,6 +27,11 @@ impl HsvGradient {
 
 /// matlab color maps
 impl HsvGradient {
+    /// Parula color map in HSV color space.
+    /// - step:
+    /// ![parula-step](https://raw.githubusercontent.com/oovm/color-rs/dev/projects/color-gradient/assets/hsv/parula-step.png)
+    /// - linear:
+    /// ![parula-linear](https://raw.githubusercontent.com/oovm/color-rs/dev/projects/color-gradient/assets/hsv/parula-linear.png)
     pub fn parula(min: f32, max: f32) -> HsvGradient {
         let mut grad = HsvGradient::new(0.0, 430.00);
         grad.insert_hue(0.00, 251.08);
@@ -56,6 +70,11 @@ impl HsvGradient {
         grad.rescale(min, max);
         grad
     }
+    /// Jet color map in HSV color space.
+    /// - step:
+    /// ![jet-step](https://raw.githubusercontent.com/oovm/color-rs/dev/projects/color-gradient/assets/hsv/jet-step.png)
+    /// - linear:
+    /// ![jet-linear](https://raw.githubusercontent.com/oovm/color-rs/dev/projects/color-gradient/assets/hsv/jet-linear.png)
     pub fn jet(min: f32, max: f32) -> HsvGradient {
         let mut grad = HsvGradient::new(0.0, 430.00);
         grad.insert_hue(0.00, 240.00);
@@ -94,6 +113,11 @@ impl HsvGradient {
         grad.rescale(min, max);
         grad
     }
+    /// Turbo color map in HSV color space.
+    /// - step:
+    /// ![turbo-step](https://raw.githubusercontent.com/oovm/color-rs/dev/projects/color-gradient/assets/hsv/turbo-step.png)
+    /// - linear:
+    /// ![turbo-linear](https://raw.githubusercontent.com/oovm/color-rs/dev/projects/color-gradient/assets/hsv/turbo-linear.png)
     pub fn turbo(min: f32, max: f32) -> HsvGradient {
         let mut grad = HsvGradient::new(0.0, 430.00);
         grad.insert_hue(0.00, 283.90);
@@ -132,6 +156,11 @@ impl HsvGradient {
         grad.rescale(min, max);
         grad
     }
+    /// Hot color map in HSV color space.
+    /// - step:
+    /// ![hot-step](https://raw.githubusercontent.com/oovm/color-rs/dev/projects/color-gradient/assets/hsv/hot-step.png)
+    /// - linear:
+    /// ![hot-linear](https://raw.githubusercontent.com/oovm/color-rs/dev/projects/color-gradient/assets/hsv/hot-linear.png)
     pub fn hot(min: f32, max: f32) -> HsvGradient {
         let mut grad = HsvGradient::new(0.0, 420.00);
         grad.insert_hue(0.00, 0.00);
@@ -170,6 +199,11 @@ impl HsvGradient {
         grad.rescale(min, max);
         grad
     }
+    /// Cool color map in HSV color space.
+    /// - step:
+    /// ![cool-step](https://raw.githubusercontent.com/oovm/color-rs/dev/projects/color-gradient/assets/hsv/cool-step.png)
+    /// - linear:
+    /// ![cool-linear](https://raw.githubusercontent.com/oovm/color-rs/dev/projects/color-gradient/assets/hsv/cool-linear.png)
     pub fn cool(min: f32, max: f32) -> HsvGradient {
         let mut grad = HsvGradient::new(0.0, 430.00);
         grad.insert_hue(0.00, 180.00);
@@ -208,6 +242,11 @@ impl HsvGradient {
         grad.rescale(min, max);
         grad
     }
+    /// Spring color map in HSV color space.
+    /// - step:
+    /// ![spring-step](https://raw.githubusercontent.com/oovm/color-rs/dev/projects/color-gradient/assets/hsv/spring-step.png)
+    /// - linear:
+    /// ![spring-linear](https://raw.githubusercontent.com/oovm/color-rs/dev/projects/color-gradient/assets/hsv/spring-linear.png)
     pub fn spring(min: f32, max: f32) -> HsvGradient {
         let mut grad = HsvGradient::new(0.0, 430.00);
         grad.insert_hue(0.00, -60.00);
@@ -246,6 +285,11 @@ impl HsvGradient {
         grad.rescale(min, max);
         grad
     }
+    /// Summer color map in HSV color space.
+    /// - step:
+    /// ![summer-step](https://raw.githubusercontent.com/oovm/color-rs/dev/projects/color-gradient/assets/hsv/summer-step.png)
+    /// - linear:
+    /// ![summer-linear](https://raw.githubusercontent.com/oovm/color-rs/dev/projects/color-gradient/assets/hsv/summer-linear.png)
     pub fn summer(min: f32, max: f32) -> HsvGradient {
         let mut grad = HsvGradient::new(0.0, 430.00);
         grad.insert_hue(0.00, 167.81);
@@ -284,6 +328,11 @@ impl HsvGradient {
         grad.rescale(min, max);
         grad
     }
+    /// Autumn color map in HSV color space.
+    /// - step:
+    /// ![autumn-step](https://raw.githubusercontent.com/oovm/color-rs/dev/projects/color-gradient/assets/hsv/autumn-step.png)
+    /// - linear:
+    /// ![autumn-linear](https://raw.githubusercontent.com/oovm/color-rs/dev/projects/color-gradient/assets/hsv/autumn-linear.png)
     pub fn autumn(min: f32, max: f32) -> HsvGradient {
         let mut grad = HsvGradient::new(0.0, 430.00);
         grad.insert_hue(0.00, 0.00);
@@ -322,6 +371,11 @@ impl HsvGradient {
         grad.rescale(min, max);
         grad
     }
+    /// Winter color map in HSV color space.
+    /// - step:
+    /// ![winter-step](https://raw.githubusercontent.com/oovm/color-rs/dev/projects/color-gradient/assets/hsv/winter-step.png)
+    /// - linear:
+    /// ![winter-linear](https://raw.githubusercontent.com/oovm/color-rs/dev/projects/color-gradient/assets/hsv/winter-linear.png)
     pub fn winter(min: f32, max: f32) -> HsvGradient {
         let mut grad = HsvGradient::new(0.0, 430.00);
         grad.insert_hue(0.00, 240.00);
