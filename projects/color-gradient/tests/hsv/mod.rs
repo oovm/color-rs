@@ -2,20 +2,20 @@ use super::*;
 use colormap::GradientSampler;
 use image::ImageResult;
 
-#[test]
-fn test_sample() {
-    let mut sample = GradientSampler::new(10).with_margin(2);
-    sample.sample_file(tests("hsv/colormap_parula_update17a.png"), "Parula").unwrap();
-    sample.sample_file(tests("hsv/colormap_jet.png"), "Jet").unwrap();
-    sample.sample_file(tests("hsv/colormap_turbo.png"), "Turbo").unwrap();
-    sample.sample_file(tests("hsv/colormap_hot.png"), "Hot").unwrap();
-    sample.sample_file(tests("hsv/colormap_cool.png"), "Cool").unwrap();
-    sample.sample_file(tests("hsv/colormap_spring.png"), "Spring").unwrap();
-    sample.sample_file(tests("hsv/colormap_summer.png"), "Summer").unwrap();
-    sample.sample_file(tests("hsv/colormap_autumn.png"), "Autumn").unwrap();
-    sample.sample_file(tests("hsv/colormap_winter.png"), "Winter").unwrap();
-    sample.export_hsv(tests("hsv/colormap.rs")).unwrap();
-}
+// #[test]
+// fn test_sample() {
+//     let mut sample = GradientSampler::new(10).with_margin(2);
+//     sample.sample_file(tests("hsv/colormap_parula_update17a.png"), "Parula").unwrap();
+//     sample.sample_file(tests("hsv/colormap_jet.png"), "Jet").unwrap();
+//     sample.sample_file(tests("hsv/colormap_turbo.png"), "Turbo").unwrap();
+//     sample.sample_file(tests("hsv/colormap_hot.png"), "Hot").unwrap();
+//     sample.sample_file(tests("hsv/colormap_cool.png"), "Cool").unwrap();
+//     sample.sample_file(tests("hsv/colormap_spring.png"), "Spring").unwrap();
+//     sample.sample_file(tests("hsv/colormap_summer.png"), "Summer").unwrap();
+//     sample.sample_file(tests("hsv/colormap_autumn.png"), "Autumn").unwrap();
+//     sample.sample_file(tests("hsv/colormap_winter.png"), "Winter").unwrap();
+//     sample.export_hsv(tests("hsv/colormap.rs")).unwrap();
+// }
 
 pub fn export_hsv_step(hsv: HsvGradient, path: &str) -> ImageResult<()> {
     let mut img = ImageBuffer::new(1024, 128);
@@ -41,7 +41,6 @@ pub fn export_hsv_linear(hsv: HsvGradient, path: &str) -> ImageResult<()> {
 
 #[test]
 fn test_matlab() {
-    println!("{:#?}", HsvGradient::parula(0.0, 1024.0));
     export_hsv_step(HsvGradient::standard(0.0, 1024.0), "hsv/standard-step.png").unwrap();
     export_hsv_linear(HsvGradient::standard(0.0, 1024.0), "hsv/standard-linear.png").unwrap();
     export_hsv_step(HsvGradient::parula(0.0, 1024.0), "hsv/parula-step.png").unwrap();

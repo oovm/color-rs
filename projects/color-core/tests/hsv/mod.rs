@@ -7,7 +7,7 @@ fn from_rgb() {
     assert_eq!(hsva, HSVA32 { h: 210.0, s: 66.666664, v: 20.0, a: 100.0 });
     let rgba = RGBA32::from(RGBA8::new(69, 96, 144, 0));
     let hsva = HSVA32::from(rgba);
-    assert_eq!(hsva, HSVA32 { h: 218.39998, s: 52.083332, v: 56.470592, a: 0.0 });
+    assert_eq!(hsva, HSVA32 { h: 218.40001, s: 52.083332, v: 56.470592, a: 0.0 });
 }
 
 #[test]

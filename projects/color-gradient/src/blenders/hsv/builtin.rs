@@ -147,7 +147,7 @@ impl HsvGradient {
         grad.insert_hue(344.00, 19.73);
         grad.insert_saturation(344.00, 92.50);
         grad.insert_brightness(344.00, 94.12);
-        grad.insert_hue(387.00, 10.62);
+        grad.insert_hue(387.00, 10.63);
         grad.insert_saturation(387.00, 98.46);
         grad.insert_brightness(387.00, 76.47);
         grad.insert_hue(430.00, 0.50);
@@ -236,7 +236,7 @@ impl HsvGradient {
         grad.insert_hue(387.00, 293.48);
         grad.insert_saturation(387.00, 90.20);
         grad.insert_brightness(387.00, 100.00);
-        grad.insert_hue(430.00, -60.00);
+        grad.insert_hue(430.00, 300.00);
         grad.insert_saturation(430.00, 100.00);
         grad.insert_brightness(430.00, 100.00);
         grad.rescale(min, max);
