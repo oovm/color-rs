@@ -20,14 +20,4 @@ impl Default for LinearGradient {
     }
 }
 
-impl ColorGradient for LinearGradient {
-    fn blend(&self, lhs: RGBA32, rhs: RGBA32, ratio: f32) -> RGBA32 {
-        let ga = self.gamma;
-        let gi = 1.0 / ga;
-        let r = lhs.r.powf(gi) + (rhs.r.powf(gi) - lhs.r.powf(gi)) * ratio;
-        let g = lhs.g.powf(gi) + (rhs.g.powf(gi) - lhs.g.powf(gi)) * ratio;
-        let b = lhs.b.powf(gi) + (rhs.b.powf(gi) - lhs.b.powf(gi)) * ratio;
-        let a = lhs.a.powf(gi) + (rhs.a.powf(gi) - lhs.a.powf(gi)) * ratio;
-        RGBA32 { r: r.powf(ga), g: g.powf(ga), b: b.powf(ga), a: a.powf(ga) }
-    }
-}
+impl ColorGradient for LinearGradient {}

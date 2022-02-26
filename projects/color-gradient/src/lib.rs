@@ -10,7 +10,6 @@
 mod blenders;
 pub mod builtin;
 mod interpolation;
-mod palettes;
 mod traits;
 pub mod utils;
 
@@ -19,6 +18,5 @@ pub use crate::utils::sampler::GradientSampler;
 pub use crate::{
     blenders::{gamma::LinearGradient, hsv::HsvGradient, rgb::RgbGradient, scatter::ScatterGradient},
     interpolation::Interpolator,
-    palettes::discrete::Palette,
     traits::{ColorGradient, ColorMap},
 };
