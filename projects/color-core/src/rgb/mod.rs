@@ -16,7 +16,7 @@ pub type RGBA8 = RGBColor<u8, u8>;
 /// 128-bit 4 channel color in the [RGB Color Space](https://en.wikipedia.org/wiki/RGB_color_model).
 pub type RGBA32 = RGBColor<f32, f32>;
 
-/// 128-bit 4 channel color in the [RGB Color Space](https://en.wikipedia.org/wiki/RGB_color_model).
+/// A color in the [RGB Color Space](https://en.wikipedia.org/wiki/RGB_color_model).
 #[repr(C)]
 #[derive(Copy, Clone, Debug)]
 pub struct RGBColor<T, A = T> {

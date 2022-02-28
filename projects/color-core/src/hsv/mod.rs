@@ -1,17 +1,10 @@
 mod display;
 mod hsva32;
 
-/// 128-bit 4 channel color in the HSL color space.
-///
-/// The legal [`HSVA32`] range is:
-///
-/// * `h`: `[0°, 360°)`
-/// * `s`: `[0%, 100%]`
-/// * `v`: `[0%, 100%]`
-/// * `a`: `[0%, 100%]`
+/// 128-bit 4 channel color in the [HSV Color Space](https://en.wikipedia.org/wiki/HSL_and_HSV).
 pub type HSVA32 = HSVColor<f32, f32>;
 
-/// A color in the HSL color space.
+/// A color in the [HSV Color Space](https://en.wikipedia.org/wiki/HSL_and_HSV).
 #[derive(Copy, Clone, Debug, PartialEq)]
 pub struct HSVColor<T, A = T> {
     /// Hue is a degree on the color_parser wheel from `[0f32, 360f32)`.
@@ -33,21 +26,6 @@ pub struct HSVColor<T, A = T> {
 }
 
 impl<T, A> HSVColor<T, A> {
-    /// Create a new color in the [HSV Color Space](https://en.wikipedia.org/wiki/HSL_and_HSV).
-    ///
-    /// # Warning
-    ///
-    /// The raw value is created, and the legality of the data will not be verified
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// # use color_core::HSVA32;
-    /// let hsva32 = HSVA32::new(0.0, 100.0, 100.0, 100.0);
-    /// ```
-    pub fn new(h: T, s: T, v: T, a: A) -> Self {
-        Self { h, s, v, a }
-    }
     /// Build a new color with the given hue.
     pub fn with_hue(self, h: T) -> Self {
         Self { h, ..self }
