@@ -15,7 +15,7 @@ proc-macro = true
 
 [features]
 default = []
-strict = ["color-parser/strict"]
+
 
 [dependencies]
 quote = "1.0.15"

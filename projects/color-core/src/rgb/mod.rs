@@ -19,6 +19,7 @@ pub type RGBA32 = RGBColor<f32, f32>;
 /// A color in the [RGB Color Space](https://en.wikipedia.org/wiki/RGB_color_model).
 #[repr(C)]
 #[derive(Copy, Clone, Debug)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct RGBColor<T, A = T> {
     /// The red channel of a rgb space color
     pub r: T,

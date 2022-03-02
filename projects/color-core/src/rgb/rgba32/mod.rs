@@ -76,6 +76,7 @@ impl RGBA32 {
         debug_assert!(gamma >= 0.0, "γ correction must be >= 0.0");
         Self { r: self.r.powf(gamma), g: self.g.powf(gamma), b: self.b.powf(gamma), a: self.a }
     }
+    /// If γ >= 1 , it is a gamma expansion, and if γ < 1, it is a gamma compression.
     pub fn map_all<F>(&self, f: F) -> Self
     where
         F: Fn(f32) -> f32,

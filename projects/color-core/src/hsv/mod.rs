@@ -6,6 +6,7 @@ pub type HSVA32 = HSVColor<f32, f32>;
 
 /// A color in the [HSV Color Space](https://en.wikipedia.org/wiki/HSL_and_HSV).
 #[derive(Copy, Clone, Debug, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct HSVColor<T, A = T> {
     /// Hue is a degree on the color_parser wheel from `[0f32, 360f32)`.
     ///

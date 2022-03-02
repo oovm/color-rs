@@ -13,14 +13,11 @@ exclude = ["*.json"]
 [dependencies]
 color-core = { version = "0.1.*", path = "../color-core" }
 color-macro = { version = "0.1.*", path = "../color-macro" }
-colormap = { version = "0.0.*", path = "../color-gradient" }
+color-gradient = { version = "0.1.*", path = "../color-gradient" }
 
 [features]
 default = []
-strict = [
-    "color-core/strict",
-    "color-macro/strict"
-]
+
 
 [package.metadata.wee]
 t = "cargo test"

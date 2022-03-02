@@ -1,4 +1,4 @@
-use std::fmt::{Debug, Formatter};
+use std::fmt::Debug;
 
 mod cmyk32;
 
@@ -6,7 +6,8 @@ mod cmyk32;
 pub type CMYK32 = CMYKColor<f32>;
 
 /// A color in the [CMYK Color Space](https://en.wikipedia.org/wiki/CMYK_color_model).
-#[derive(Clone, Copy, PartialEq, PartialOrd)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct CMYKColor<T> {
     /// Cyan is a percentage value in `[0f32, 1f32]`.
     ///
