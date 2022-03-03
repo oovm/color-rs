@@ -9,7 +9,7 @@ pub use color_core::*;
 pub(crate) use self::utils::*;
 pub use self::{
     color::rgba,
-    hex::hex_color,
+    hex::{hex, parse_hex},
     number::{alpha_value, angle_turn, float_value},
 };
 mod color;

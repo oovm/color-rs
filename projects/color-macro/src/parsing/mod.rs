@@ -4,7 +4,7 @@ use syn::{
     __private::Span,
 };
 
-use color_parser::{hex_color, rgba, Finish};
+use color_parser::{parse_hex, rgba, Finish};
 
 mod rgba;
 use crate::RGBA32;
@@ -28,7 +28,7 @@ pub fn next_number(input: ParseStream, transform: f32) -> Result<f32> {
 }
 
 pub fn parse_hex(input: &str, span: Span) -> Result<RgbaColor> {
-    match hex_color(input).finish() {
+    match parse_hex(input).finish() {
         Ok((_, rgba)) => Ok(RgbaColor { rgba32: rgba }),
         _ => Err(Error::new(span, "Invalid hex pattern, can take 3,4,6,8 hex number only")),
     }
