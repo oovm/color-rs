@@ -1,6 +1,9 @@
-use pex::{ParseResult, ParseState};
+use pex::{
+    helpers::{ascii_whitespace, make_from_str},
+    ParseResult, ParseState, StopBecause,
+};
 
-use crate::{alpha_value, float_value, RGBA32};
+use crate::RGBA32;
 
 /// `<rgb> = (rgb|rgba) ((<percentage>|<number>)#{3},<alpha-value>?)`
 ///
@@ -9,15 +12,19 @@ use crate::{alpha_value, float_value, RGBA32};
 ///       | rgb( [<number> | none]{3} [ / [<alpha-value> | none] ]? )
 /// ```
 /// https://www.w3.org/TR/css-color-4/#rgb-functions
-pub fn rgba(input: ParseState) -> ParseResult<RGBA32> {
-    todo!()
+pub fn rgba(input: &str) -> Result<RGBA32, StopBecause> {
+    let state = ParseState::new(input.trim_end()).skip(ascii_whitespace);
+    make_from_str(state, parse_rgba)
 }
 
-fn parse_rgb_inner(input: ParseState) -> ParseResult<RGBA32> {
+fn parse_rgba(input: ParseState) -> ParseResult<RGBA32> {
     todo!()
 }
 
 fn maybe_alpha(input: ParseState) -> ParseResult<RGBA32> {
+    let (state, _) = input.match_char('/')?;
+    let state = state.skip(ascii_whitespace);
+
     todo!()
 }
 

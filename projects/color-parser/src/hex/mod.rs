@@ -1,4 +1,3 @@
-use crate::RGBA32;
 use color_core::RGBA8;
 use pex::{
     helpers::{ascii_whitespace, make_from_str},

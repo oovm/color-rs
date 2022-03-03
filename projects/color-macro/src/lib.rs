@@ -21,7 +21,8 @@ mod parsing;
 ///
 /// # Examples
 ///
-/// ```rust
+/// ```rust, ignore
+/// # use color_macro::rgb;
 /// rgb!("#346"); // RGB::new(51, 68, 102)
 /// rgb!("#334C66"); // RGB::new(51, 76, 102)
 ///
@@ -37,13 +38,9 @@ pub fn rgb(input: TokenStream) -> TokenStream {
         Ok(c) => c,
         Err(e) => panic!("{}", e),
     };
-    let RGB8 { r: r, g, b } = rgba.rgba32.into();
+    let RGB8 { r, g, b, a: _ } = rgba.rgba32.into();
     let gen = quote! {
-        color::RGB {
-            r: #r,
-            g: #g,
-            b: #b,
-        }
+        color::RGB8::new(#r, #g, #b)
     };
     gen.into()
 }
@@ -52,7 +49,7 @@ pub fn rgb(input: TokenStream) -> TokenStream {
 ///
 /// # Examples
 ///
-/// ```rust
+/// ```rust, ignore
 /// rgba!("#3467"); // RGBA::new(51, 76, 102, 127)
 /// rgba!("#334C667F"); // RGBA::new(51, 76, 102, 127)
 ///
@@ -68,7 +65,7 @@ pub fn rgba(input: TokenStream) -> TokenStream {
         Ok(c) => c,
         Err(e) => panic!("{}", e),
     };
-    let RGBA8 { r: r, g, b, a: a } = rgba.rgba32.into();
+    let RGBA8 { r, g, b, a } = rgba.rgba32.into();
     let gen = quote! {
         color::RGBA {
             r: #r,
@@ -84,7 +81,8 @@ pub fn rgba(input: TokenStream) -> TokenStream {
 ///
 /// # Examples
 ///
-/// ```rust
+/// ```rust, ignore
+/// # use color_macro::rgba32;
 /// rgba32!("#3467"); // RGBA32::rgba(51, 76, 102, 127)
 /// rgba32!("#334C667F"); // RGBA32::rgba(51, 76, 102, 127)
 ///
@@ -100,7 +98,7 @@ pub fn rgba32(input: TokenStream) -> TokenStream {
         Ok(c) => c,
         Err(e) => panic!("{}", e),
     };
-    let RGBA32 { r: r, g, b, a: a } = rgba.rgba32.into();
+    let RGBA32 { r, g, b, a } = rgba.rgba32.into();
     let gen = quote! {
         color::RGBA32 {
             r: #r,

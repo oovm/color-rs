@@ -6,7 +6,6 @@
 
 pub use color_core::*;
 
-pub(crate) use self::utils::*;
 pub use self::{
     color::rgba,
     hex::{hex, parse_hex},

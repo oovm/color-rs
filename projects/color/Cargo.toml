@@ -18,7 +18,3 @@ color-gradient = { version = "0.1.*", path = "../color-gradient" }
 [features]
 default = []
 
-
-[package.metadata.wee]
-t = "cargo test"
-p = "cargo publish --allow-dirty"

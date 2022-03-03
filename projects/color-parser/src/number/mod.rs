@@ -1,5 +1,5 @@
 use pex::{ParseResult, ParseState};
-use std::f32::consts::PI;
+
 use NumberOrPercentage::*;
 
 enum NumberOrPercentage {
