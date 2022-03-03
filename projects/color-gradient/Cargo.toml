@@ -3,12 +3,12 @@ name = "color-gradient"
 version = "0.1.2"
 authors = ["Aster <192607617@qq.com>"]
 description = "Color gradient and color interpolation"
-repository = "https://github.com/oovm/color-rs"
+repository = "https://github.com/oovm/color-rs/tree/dev/projects/color-gradient"
 documentation = "https://docs.rs/color-gradient"
 readme = "Readme.md"
 license = "MPL-2.0"
 edition = "2021"
-exclude = ["*.json", "assets/", "tests"]
+exclude = ["*.json", "assets/", "tests/"]
 
 [dependencies]
 itertools = "0.10.5"

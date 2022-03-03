@@ -1,6 +1,4 @@
 use super::*;
-use colormap::GradientSampler;
-use image::ImageResult;
 
 // #[test]
 // fn test_sample() {

@@ -1,4 +1,5 @@
 use color_parser::{hex_color, rgba, RGBA32, RGBA8};
+use pex::ParseState;
 
 #[test]
 fn ready() {
@@ -16,9 +17,9 @@ fn test_rgba() {
 }
 
 fn assert_hex(input: &str, expected: RGBA32) {
-    assert_eq!(hex_color(input).unwrap().1, expected);
+    assert_eq!(hex_color(ParseState::new(input)).as_result().unwrap().1, expected);
 }
 
 fn assert_rgb(input: &str, expected: RGBA32) {
-    assert_eq!(rgba(input).unwrap().1, expected);
+    assert_eq!(rgba(ParseState::new(input)).as_result().unwrap().1, expected);
 }

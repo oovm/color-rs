@@ -1,5 +1,5 @@
 use color_core::{HSVA32, RGBA32};
-use image::{GenericImageView, ImageResult, Rgba32FImage, RgbaImage};
+use image::{GenericImageView, ImageResult, Rgba32FImage};
 use std::{collections::BTreeMap, error::Error, io::Write, path::Path};
 
 pub struct GradientSampler {
@@ -41,7 +41,6 @@ impl GradientSampler {
         P: AsRef<Path>,
     {
         let image_path = path.as_ref();
-        let file_path = image_path.with_extension("rs");
         let image = image::open(image_path)?.to_rgba32f();
         let map = self.sample(&image);
         self.maps.push((name.to_string(), map));

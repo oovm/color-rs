@@ -1,5 +1,4 @@
 use crate::ColorGradient;
-use color_core::RGBA32;
 
 pub struct LinearGradient {
     min: f32,

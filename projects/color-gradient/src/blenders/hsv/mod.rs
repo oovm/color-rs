@@ -1,7 +1,6 @@
-use crate::interpolation::Interpolator;
-use color_core::{HSVA32, RGBA32, RGBA8};
-use image::GenericImageView;
-use std::{collections::BTreeMap, ops::Range};
+use crate::Interpolator;
+use color_core::HSVA32;
+use std::ops::Range;
 mod builtin;
 
 #[derive(Clone, Debug)]

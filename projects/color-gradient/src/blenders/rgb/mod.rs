@@ -1,6 +1,4 @@
 use super::*;
-use crate::{ColorMap, Interpolator};
-use std::ops::Range;
 
 pub struct RgbGradient {
     red: Interpolator,
