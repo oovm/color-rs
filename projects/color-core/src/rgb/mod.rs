@@ -1,10 +1,11 @@
 mod rgb;
 mod rgba;
 mod rgba32;
+use std::fmt::Display;
 use std::fmt::{Debug, Formatter, LowerHex, UpperHex, Write};
 
 /// A color in the RGB color space.
-#[derive(Clone, Copy, PartialEq, PartialOrd)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct RGB {
     /// The red channel of color in `[0u8, 255u8]`.
     pub r: u8,
@@ -15,7 +16,7 @@ pub struct RGB {
 }
 
 /// A color in the RGBA color space.
-#[derive(Clone, Copy, PartialEq, PartialOrd)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct RGBA {
     /// The red channel of color in `[0u8, 255u8]`.
     pub r: u8,
@@ -30,7 +31,7 @@ pub struct RGBA {
 /// A color in the RGBA color_parser space with 32-bit precision.
 ///
 /// lossless format of rgb colors
-#[derive(Clone, Copy, PartialEq, PartialOrd)]
+#[derive(Debug, Clone, Copy)]
 pub struct RGBA32 {
     /// The red channel of color in `[0.0f32, 1.0f32]`.
     pub r: f32,
