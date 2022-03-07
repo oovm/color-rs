@@ -13,11 +13,11 @@ fn from_rgb_1() {
 
 #[test]
 fn from_rgb_2() {
-    let hsla = HSLA32::new(0.0, 0.5, 0.5, 0.75);
-    assert_eq!(format!("{}", hsla), "hsla(0 50% 50% / 75%)");
+    let hsla = HSLA32::new(0.0, 0.25, 0.5, 0.75);
+    assert_eq!(format!("{}", hsla), "hsla(0 25% 50% / 75%)");
 
     let rgba: RGBA32 = hsla.into();
-    assert_eq!(format!("{}", rgba), "rgba(191 64 64 / 75%)");
-    assert_eq!(format!("{:#}", rgba), "rgba(191.25 63.75 63.75 / 75%)");
-    assert_eq!(format!("{:#X}", rgba), "#BF3F3FBF");
+    assert_eq!(format!("{}", rgba), "rgba(159 96 96 / 75%)");
+    assert_eq!(format!("{:#}", rgba), "rgba(159.375 95.625 95.625 / 75%)");
+    assert_eq!(format!("{:#X}", rgba), "#9F5F5FBF");
 }
