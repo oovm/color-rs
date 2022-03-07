@@ -1,6 +1,6 @@
 use super::*;
 
-mod display;
+mod traits;
 
 impl LUMA32 {}
 

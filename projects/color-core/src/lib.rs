@@ -12,6 +12,7 @@ pub use self::{
 };
 
 mod hsl;
+mod lch;
 mod luma;
 mod rgb;
 mod utils;
