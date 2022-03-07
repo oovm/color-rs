@@ -1,3 +1,5 @@
+use std::fmt::{Display, Formatter};
+
 mod lcha32;
 
 ///

@@ -1,5 +1,3 @@
-use std::fmt::{Display, Formatter};
-
 use super::*;
 
 impl Default for LCHA32 {
