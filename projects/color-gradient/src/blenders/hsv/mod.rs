@@ -3,6 +3,7 @@ use color_core::HSVA32;
 use std::ops::Range;
 mod builtin;
 
+/// A color interpolator that interpolates between colors in the [HSV Color Space](https://en.wikipedia.org/wiki/HSL_and_HSV).
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct HsvGradient {
@@ -246,6 +247,20 @@ impl HsvGradient {
         let ratio = self.get_ratio(key);
         self.alpha.remove(ratio);
     }
+    /// Creates a new HSVGradient with the given min and max values.
+    ///
+    /// # Arguments
+    ///
+    /// * `min`:
+    /// * `max`:
+    ///
+    /// returns: HSVGradient
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use color_gradient;
+    /// ```
     pub fn clear_alpha(&mut self) {
         self.alpha.clear();
     }

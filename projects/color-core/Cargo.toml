@@ -1,6 +1,6 @@
 [package]
 name = "color-core"
-version = "0.1.5"
+version = "0.1.6"
 authors = ["Aster <192607617@qq.com>"]
 description = "Color shared definition"
 repository = "https://github.com/oovm/color-rs/tree/dev/projects/color-core"

@@ -1,5 +1,8 @@
 use super::*;
 
+/// A color interpolator that interpolates between colors in the [RGB Color Space](https://en.wikipedia.org/wiki/RGB_color_space).
+#[derive(Clone, Debug)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct RgbGradient {
     red: Interpolator,
     green: Interpolator,
@@ -31,10 +34,34 @@ impl RgbGradient {
             range: Range { start: min, end: max },
         }
     }
+    /// # Arguments
+    ///
+    /// * `min`:
+    /// * `max`:
+    ///
+    /// returns: RgbGradient
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use colormap::HsvGradient;
+    /// ```
     pub fn rescale(&mut self, min: f32, max: f32) {
         debug_assert!(max > min, "max must be greater than min");
         self.range = Range { start: min, end: max };
     }
+    /// # Arguments
+    ///
+    /// * `min`:
+    /// * `max`:
+    ///
+    /// returns: RgbGradient
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use colormap::HsvGradient;
+    /// ```
     pub fn insert_color<RGB>(&mut self, key: f32, color: RGB)
     where
         RGB: Into<RGBA32>,
@@ -46,6 +73,18 @@ impl RgbGradient {
         self.blue.insert(ratio, rgba.b);
         self.alpha.insert(ratio, rgba.a);
     }
+    /// # Arguments
+    ///
+    /// * `min`:
+    /// * `max`:
+    ///
+    /// returns: RgbGradient
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use colormap::HsvGradient;
+    /// ```
     pub fn remove_color(&mut self, key: f32) {
         let ratio = self.get_ratio(key);
         self.red.remove(ratio);
@@ -53,38 +92,146 @@ impl RgbGradient {
         self.blue.remove(ratio);
         self.alpha.remove(ratio);
     }
+    /// # Arguments
+    ///
+    /// * `min`:
+    /// * `max`:
+    ///
+    /// returns: RgbGradient
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use colormap::HsvGradient;
+    /// ```
     pub fn insert_red(&mut self, key: f32, value: f32) {
         let ratio = self.get_ratio(key);
         self.red.insert(ratio, value);
     }
+    /// # Arguments
+    ///
+    /// * `min`:
+    /// * `max`:
+    ///
+    /// returns: RgbGradient
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use colormap::HsvGradient;
+    /// ```
     pub fn remove_red(&mut self, key: f32) {
         let ratio = self.get_ratio(key);
         self.red.remove(ratio);
     }
+    /// # Arguments
+    ///
+    /// * `min`:
+    /// * `max`:
+    ///
+    /// returns: RgbGradient
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use colormap::HsvGradient;
+    /// ```
     pub fn insert_green(&mut self, key: f32, value: f32) {
         let ratio = self.get_ratio(key);
         self.green.insert(ratio, value);
     }
+    /// # Arguments
+    ///
+    /// * `min`:
+    /// * `max`:
+    ///
+    /// returns: RgbGradient
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use colormap::HsvGradient;
+    /// ```
     pub fn remove_green(&mut self, key: f32) {
         let ratio = self.get_ratio(key);
         self.green.remove(ratio);
     }
+    /// # Arguments
+    ///
+    /// * `min`:
+    /// * `max`:
+    ///
+    /// returns: RgbGradient
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use colormap::HsvGradient;
+    /// ```
     pub fn insert_blue(&mut self, key: f32, value: f32) {
         let ratio = self.get_ratio(key);
         self.blue.insert(ratio, value);
     }
+    /// # Arguments
+    ///
+    /// * `min`:
+    /// * `max`:
+    ///
+    /// returns: RgbGradient
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use colormap::HsvGradient;
+    /// ```
     pub fn remove_blue(&mut self, key: f32) {
         let ratio = self.get_ratio(key);
         self.blue.remove(ratio);
     }
+    /// # Arguments
+    ///
+    /// * `min`:
+    /// * `max`:
+    ///
+    /// returns: RgbGradient
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use colormap::HsvGradient;
+    /// ```
     pub fn insert_alpha(&mut self, key: f32, value: f32) {
         let ratio = self.get_ratio(key);
         self.alpha.insert(ratio, value);
     }
+    /// # Arguments
+    ///
+    /// * `min`:
+    /// * `max`:
+    ///
+    /// returns: RgbGradient
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use colormap::HsvGradient;
+    /// ```
     pub fn remove_alpha(&mut self, key: f32) {
         let ratio = self.get_ratio(key);
         self.alpha.remove(ratio);
     }
+    /// # Arguments
+    ///
+    /// * `min`:
+    /// * `max`:
+    ///
+    /// returns: RgbGradient
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use colormap::HsvGradient;
+    /// ```
     pub fn clear_alpha(&mut self) {
         self.alpha.clear();
     }

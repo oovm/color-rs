@@ -1,4 +1,5 @@
 use super::*;
+use crate::RGB8;
 
 impl From<HSVA32> for RGBA8 {
     fn from(hsva: HSVA32) -> Self {
@@ -37,6 +38,18 @@ fn hsv32_to_rgb32(h: f32, s: f32, v: f32, a: f32) -> RGBA32 {
         _ => (0.0, 0.0, 0.0),
     };
     RGBA32::new(r + m, g + m, b + m, a)
+}
+
+impl From<RGB8> for HSVA32 {
+    fn from(rgba: RGB8) -> Self {
+        HSVA32::from(RGBA32::from(rgba))
+    }
+}
+
+impl From<RGBA8> for HSVA32 {
+    fn from(rgba: RGBA8) -> Self {
+        HSVA32::from(RGBA32::from(rgba))
+    }
 }
 
 impl From<RGBA32> for HSVA32 {

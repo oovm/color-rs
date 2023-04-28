@@ -2,19 +2,53 @@ use color_core::{HSVA32, RGBA32};
 use image::{GenericImageView, ImageResult, Rgba32FImage};
 use std::{collections::BTreeMap, error::Error, io::Write, path::Path};
 
+/// A color interpolator that interpolates between colors in the [RGB Color Space](https://en.wikipedia.org/wiki/RGB_color_space).
+#[derive(Debug)]
 pub struct GradientSampler {
+    /// The number of points to sample from the gradient.
     pub points: usize,
+    /// The number of pixels to add to the left of the gradient.
     pub margin_left: u32,
+    /// The number of pixels to add to the right of the gradient.
     pub margin_right: u32,
+    /// The number of pixels to add to the top of the gradient.
     pub margin_top: u32,
+    /// The number of pixels to add to the bottom of the gradient.     
     pub margin_bottom: u32,
+    /// The gradient maps.
     pub maps: Vec<(String, BTreeMap<u32, RGBA32>)>,
 }
 
 impl GradientSampler {
+    ///  # Arguments
+    ///
+    /// # Arguments
+    ///
+    /// * `margin`:
+    ///
+    /// returns: GradientSampler
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use colormap::GradientSampler;
+    /// ```
     pub fn new(points: usize) -> Self {
         Self { points, margin_left: 0, margin_right: 0, margin_top: 0, margin_bottom: 0, maps: vec![] }
     }
+    ///  # Arguments
+    ///
+    /// # Arguments
+    ///
+    /// * `margin`:
+    ///
+    /// returns: GradientSampler
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use colormap::GradientSampler;
+    /// ```
     pub fn with_margin(mut self, margin: u32) -> Self {
         self.margin_left = margin;
         self.margin_right = margin;
@@ -22,6 +56,19 @@ impl GradientSampler {
         self.margin_bottom = margin;
         self
     }
+    ///  # Arguments
+    ///
+    /// # Arguments
+    ///
+    /// * `margin`:
+    ///
+    /// returns: GradientSampler
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use colormap::GradientSampler;
+    /// ```
     pub fn sample(&self, image: &Rgba32FImage) -> BTreeMap<u32, RGBA32> {
         let width = image.width() - self.margin_left - self.margin_right;
         let height = image.height() - self.margin_top - self.margin_bottom;
@@ -36,6 +83,19 @@ impl GradientSampler {
         // output.insert(width - 1, RGBA32::new(last.0[0], last.0[1], last.0[2], last.0[3]));
         output
     }
+    ///  # Arguments
+    ///
+    /// # Arguments
+    ///
+    /// * `margin`:
+    ///
+    /// returns: GradientSampler
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use colormap::GradientSampler;
+    /// ```
     pub fn sample_file<P>(&mut self, path: P, name: &str) -> Result<(), Box<dyn Error>>
     where
         P: AsRef<Path>,
@@ -46,6 +106,19 @@ impl GradientSampler {
         self.maps.push((name.to_string(), map));
         Ok(())
     }
+    ///  # Arguments
+    ///
+    /// # Arguments
+    ///
+    /// * `margin`:
+    ///
+    /// returns: GradientSampler
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use colormap::GradientSampler;
+    /// ```
     pub fn export_hsv<P>(&self, path: P) -> ImageResult<()>
     where
         P: AsRef<Path>,
