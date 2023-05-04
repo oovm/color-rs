@@ -22,7 +22,7 @@ impl RgbGradient {
     /// # Examples
     ///
     /// ```
-    /// # use colormap::HsvGradient;
+    /// # use color_gradient::HsvGradient;
     /// ```
     pub fn new(min: f32, max: f32) -> Self {
         debug_assert!(max > min, "max must be greater than min");
@@ -44,7 +44,7 @@ impl RgbGradient {
     /// # Examples
     ///
     /// ```
-    /// # use colormap::HsvGradient;
+    /// # use color_gradient::HsvGradient;
     /// ```
     pub fn rescale(&mut self, min: f32, max: f32) {
         debug_assert!(max > min, "max must be greater than min");
@@ -60,7 +60,7 @@ impl RgbGradient {
     /// # Examples
     ///
     /// ```
-    /// # use colormap::HsvGradient;
+    /// # use color_gradient::HsvGradient;
     /// ```
     pub fn insert_color<RGB>(&mut self, key: f32, color: RGB)
     where
@@ -83,7 +83,7 @@ impl RgbGradient {
     /// # Examples
     ///
     /// ```
-    /// # use colormap::HsvGradient;
+    /// # use color_gradient::HsvGradient;
     /// ```
     pub fn remove_color(&mut self, key: f32) {
         let ratio = self.get_ratio(key);
@@ -102,7 +102,7 @@ impl RgbGradient {
     /// # Examples
     ///
     /// ```
-    /// # use colormap::HsvGradient;
+    /// # use color_gradient::HsvGradient;
     /// ```
     pub fn insert_red(&mut self, key: f32, value: f32) {
         let ratio = self.get_ratio(key);
@@ -118,7 +118,7 @@ impl RgbGradient {
     /// # Examples
     ///
     /// ```
-    /// # use colormap::HsvGradient;
+    /// # use color_gradient::HsvGradient;
     /// ```
     pub fn remove_red(&mut self, key: f32) {
         let ratio = self.get_ratio(key);
@@ -134,7 +134,7 @@ impl RgbGradient {
     /// # Examples
     ///
     /// ```
-    /// # use colormap::HsvGradient;
+    /// # use color_gradient::HsvGradient;
     /// ```
     pub fn insert_green(&mut self, key: f32, value: f32) {
         let ratio = self.get_ratio(key);
@@ -150,7 +150,7 @@ impl RgbGradient {
     /// # Examples
     ///
     /// ```
-    /// # use colormap::HsvGradient;
+    /// # use color_gradient::HsvGradient;
     /// ```
     pub fn remove_green(&mut self, key: f32) {
         let ratio = self.get_ratio(key);
@@ -166,7 +166,7 @@ impl RgbGradient {
     /// # Examples
     ///
     /// ```
-    /// # use colormap::HsvGradient;
+    /// # use color_gradient::HsvGradient;
     /// ```
     pub fn insert_blue(&mut self, key: f32, value: f32) {
         let ratio = self.get_ratio(key);
@@ -182,7 +182,7 @@ impl RgbGradient {
     /// # Examples
     ///
     /// ```
-    /// # use colormap::HsvGradient;
+    /// # use color_gradient::HsvGradient;
     /// ```
     pub fn remove_blue(&mut self, key: f32) {
         let ratio = self.get_ratio(key);
@@ -198,7 +198,7 @@ impl RgbGradient {
     /// # Examples
     ///
     /// ```
-    /// # use colormap::HsvGradient;
+    /// # use color_gradient::HsvGradient;
     /// ```
     pub fn insert_alpha(&mut self, key: f32, value: f32) {
         let ratio = self.get_ratio(key);
@@ -214,7 +214,7 @@ impl RgbGradient {
     /// # Examples
     ///
     /// ```
-    /// # use colormap::HsvGradient;
+    /// # use color_gradient::HsvGradient;
     /// ```
     pub fn remove_alpha(&mut self, key: f32) {
         let ratio = self.get_ratio(key);
@@ -230,7 +230,7 @@ impl RgbGradient {
     /// # Examples
     ///
     /// ```
-    /// # use colormap::HsvGradient;
+    /// # use color_gradient::HsvGradient;
     /// ```
     pub fn clear_alpha(&mut self) {
         self.alpha.clear();
@@ -239,16 +239,7 @@ impl RgbGradient {
 
 impl RgbGradient {
     fn get_ratio(&self, value: f32) -> u16 {
-        if value <= self.range.start {
-            0
-        }
-        else if value >= self.range.end {
-            65535
-        }
-        else {
-            let ratio = (value - self.range.start) / (self.range.end - self.range.start);
-            (ratio * 65535.0) as u16
-        }
+        Interpolator::get_ratio(&self.range, value)
     }
     /// Creates a new HSVGradient with the given min and max values.
     ///

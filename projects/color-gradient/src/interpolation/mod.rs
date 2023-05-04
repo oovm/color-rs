@@ -1,8 +1,8 @@
-use std::collections::BTreeMap;
+use std::{collections::BTreeMap, ops::Range};
 
 type Resolution = u16;
 
-/// A color interpolator that interpolates between colors in the [RGB Color Space](https://en.wikipedia.org/wiki/RGB_color_space).
+/// A interpolator that interpolates values in range.
 #[derive(Clone, Debug)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Interpolator {
@@ -59,39 +59,62 @@ impl Interpolator {
     pub fn tail(&self) -> f32 {
         self.keys.get(&Resolution::MAX).copied().unwrap_or(self.rhs)
     }
-    /// # Arguments
-    ///
-    /// * `min`:
-    /// * `max`:
-    ///
-    /// returns: RgbGradient
+    /// Insert a new key value pair into the interpolator, overwriting any existing value.
     ///
     /// # Examples
     ///
     /// ```
-    /// # use colormap::HsvGradient;
+    /// # use color_gradient::{Interpolator};
+    /// let mut gradient = Interpolator::default();
+    /// gradient.insert(0, 0.5);
+    /// gradient.insert(65535, 0.5);
+    /// assert_eq!(gradient.head(), 0.5);
+    /// assert_eq!(gradient.tail(), 0.5);
     /// ```
     pub fn insert(&mut self, key: Resolution, value: f32) {
         self.keys.insert(key, value);
     }
-    /// # Arguments
-    ///
-    /// * `min`:
-    /// * `max`:
-    ///
-    /// returns: RgbGradient
+    /// Remove a key value pair from the interpolator.
     ///
     /// # Examples
     ///
     /// ```
-    /// # use colormap::HsvGradient;
+    /// # use color_gradient::{Interpolator};
+    /// let mut gradient = Interpolator::default();
+    /// gradient.insert(0, 0.5);
+    /// assert_eq!(gradient.head(), 0.5);
+    /// gradient.remove(0);
+    /// assert_eq!(gradient.head(), 0.0);
     /// ```
     pub fn remove(&mut self, key: Resolution) {
         self.keys.remove(&key);
     }
+    /// Clear all key value pairs from the interpolator.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use color_gradient::{Interpolator};
+    /// ```
+    pub fn clear(&mut self) {
+        self.keys.clear();
+    }
 }
 
 impl Interpolator {
+    pub(crate) fn get_ratio(range: &Range<f32>, value: f32) -> u16 {
+        if value <= range.start {
+            0
+        }
+        else if value >= range.end {
+            65535
+        }
+        else {
+            let ratio = (value - range.start) / (range.end - range.start);
+            (ratio * 65535.0) as u16
+        }
+    }
+
     /// Get zero-order interpolation, that is, the first number greater than ratio
     pub fn get_step(&self, key: Resolution) -> f32 {
         if key == Resolution::MIN {
@@ -120,19 +143,23 @@ impl Interpolator {
             if k1 == k2 { *v1 } else { v1 + (v2 - v1) * (key - k1) as f32 / (k2 - k1) as f32 }
         }
     }
-    /// # Arguments
-    ///
-    /// * `min`:
-    /// * `max`:
-    ///
-    /// returns: RgbGradient
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// # use colormap::HsvGradient;
-    /// ```
-    pub fn clear(&mut self) {
-        self.keys.clear();
+    /// Get bezier interpolation
+    pub fn get_bezier(&self, key: Resolution) -> f32 {
+        if key == Resolution::MIN {
+            self.head()
+        }
+        else if key == Resolution::MAX {
+            self.tail()
+        }
+        else {
+            // bezier 1D
+            let s1 = (&Resolution::MIN, &self.head());
+            let s2 = (&Resolution::MAX, &self.tail());
+            let (k1, v1) = self.keys.range(..=key).next_back().unwrap_or(s1);
+            let (k2, v2) = self.keys.range(key..).next().unwrap_or(s2);
+            let t = (key - k1) as f32 / (k2 - k1) as f32;
+            let v = (1.0 - t) * v1 + t * v2;
+            v
+        }
     }
 }

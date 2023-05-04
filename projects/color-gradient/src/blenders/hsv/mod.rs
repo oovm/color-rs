@@ -15,19 +15,15 @@ pub struct HsvGradient {
 }
 
 impl HsvGradient {
-    /// Creates a new HSVGradient with the given min and max values.
-    ///
-    /// # Arguments
-    ///
-    /// * `min`:
-    /// * `max`:
-    ///
-    /// returns: HSVGradient
+    /// Creates a new gradient sampler with the given min and max values.
     ///
     /// # Examples
     ///
     /// ```
-    /// # use color_gradient;
+    /// # use color_core::HSVA32;
+    /// # use color_gradient::{HsvGradient};
+    /// let mut gradient = HsvGradient::default();
+    /// assert_eq!(gradient.get_linear(0.5), HSVA32::new(180.0, 100.0, 100.0, 100.0));
     /// ```
     pub fn new(min: f32, max: f32) -> Self {
         debug_assert!(max > min, "max must be greater than min");
@@ -39,19 +35,16 @@ impl HsvGradient {
             range: Range { start: min, end: max },
         }
     }
-    /// Creates a new HSVGradient with the given min and max values.
-    ///
-    /// # Arguments
-    ///
-    /// * `min`:
-    /// * `max`:
-    ///
-    /// returns: HSVGradient
+    /// Rescales the gradient to the given min and max values.
     ///
     /// # Examples
     ///
     /// ```
-    /// # use color_gradient;
+    /// # use color_core::HSVA32;
+    /// # use color_gradient::{HsvGradient};
+    /// let mut gradient = HsvGradient::default();
+    /// gradient.rescale(0.0, 360.0);
+    /// assert_eq!(gradient.get_linear(180.0), HSVA32::new(180.0, 100.0, 100.0, 100.0));
     /// ```
     pub fn rescale(&mut self, min: f32, max: f32) {
         debug_assert!(max > min, "max must be greater than min");
@@ -211,55 +204,49 @@ impl HsvGradient {
         let ratio = self.get_ratio(key);
         self.brightness.remove(ratio);
     }
-    /// Creates a new HSVGradient with the given min and max values.
-    ///
-    /// # Arguments
-    ///
-    /// * `min`:
-    /// * `max`:
-    ///
-    /// returns: HSVGradient
+    /// Insert a new alpha control point at the given key.
     ///
     /// # Examples
     ///
     /// ```
-    /// # use color_gradient;
+    /// # use color_core::HSVA32;
+    /// # use color_gradient::HsvGradient;
+    /// let mut gradient = HsvGradient::default();
+    /// assert_eq!(gradient.get_linear(0.5), HSVA32::new(180.0, 100.0, 100.0, 100.0));
+    /// gradient.insert_alpha(0.1, 50.0);
+    /// assert_eq!(gradient.get_linear(0.5), HSVA32::new(180.0, 100.0, 100.0, 72.22203));
     /// ```
     pub fn insert_alpha(&mut self, key: f32, value: f32) {
         let ratio = self.get_ratio(key);
         self.alpha.insert(ratio, value);
     }
-    /// Creates a new HSVGradient with the given min and max values.
-    ///
-    /// # Arguments
-    ///
-    /// * `min`:
-    /// * `max`:
-    ///
-    /// returns: HSVGradient
+    /// Remove the alpha control point at the given key.
     ///
     /// # Examples
     ///
     /// ```
-    /// # use color_gradient;
+    /// # use color_core::HSVA32;
+    /// # use color_gradient::HsvGradient;
+    /// let mut gradient = HsvGradient::default();
+    /// gradient.insert_alpha(0.1, 50.0);
+    /// assert_eq!(gradient.get_linear(0.5), HSVA32::new(180.0, 100.0, 100.0, 72.22203));
+    /// gradient.remove_alpha(0.1);
+    /// assert_eq!(gradient.get_linear(0.5), HSVA32::new(180.0, 100.0, 100.0, 100.0));
     /// ```
     pub fn remove_alpha(&mut self, key: f32) {
         let ratio = self.get_ratio(key);
         self.alpha.remove(ratio);
     }
-    /// Creates a new HSVGradient with the given min and max values.
-    ///
-    /// # Arguments
-    ///
-    /// * `min`:
-    /// * `max`:
-    ///
-    /// returns: HSVGradient
+    /// Clears all alpha control points from the gradient.
     ///
     /// # Examples
     ///
     /// ```
-    /// # use color_gradient;
+    /// # use color_gradient::HsvGradient;
+    /// let mut gradient = HsvGradient::default();
+    /// gradient.insert_alpha(0.0, 0.0);
+    /// gradient.insert_alpha(1.0, 1.0);
+    /// gradient.clear_alpha();
     /// ```
     pub fn clear_alpha(&mut self) {
         self.alpha.clear();
@@ -268,16 +255,7 @@ impl HsvGradient {
 
 impl HsvGradient {
     fn get_ratio(&self, value: f32) -> u16 {
-        if value <= self.range.start {
-            0
-        }
-        else if value >= self.range.end {
-            65535
-        }
-        else {
-            let ratio = (value - self.range.start) / (self.range.end - self.range.start);
-            (ratio * 65535.0) as u16
-        }
+        Interpolator::get_ratio(&self.range, value)
     }
     /// Creates a new HSVGradient with the given min and max values.
     ///

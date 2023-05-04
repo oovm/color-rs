@@ -31,7 +31,7 @@ impl GradientSampler {
     /// # Examples
     ///
     /// ```
-    /// use colormap::GradientSampler;
+    /// # use color_gradient::helpers::GradientSampler;
     /// ```
     pub fn new(points: usize) -> Self {
         Self { points, margin_left: 0, margin_right: 0, margin_top: 0, margin_bottom: 0, maps: vec![] }
@@ -47,7 +47,7 @@ impl GradientSampler {
     /// # Examples
     ///
     /// ```
-    /// use colormap::GradientSampler;
+    /// # use color_gradient::helpers::GradientSampler;
     /// ```
     pub fn with_margin(mut self, margin: u32) -> Self {
         self.margin_left = margin;
@@ -67,7 +67,7 @@ impl GradientSampler {
     /// # Examples
     ///
     /// ```
-    /// use colormap::GradientSampler;
+    /// # use color_gradient::helpers::GradientSampler;
     /// ```
     pub fn sample(&self, image: &Rgba32FImage) -> BTreeMap<u32, RGBA32> {
         let width = image.width() - self.margin_left - self.margin_right;
@@ -94,7 +94,7 @@ impl GradientSampler {
     /// # Examples
     ///
     /// ```
-    /// use colormap::GradientSampler;
+    /// # use color_gradient::helpers::GradientSampler;
     /// ```
     pub fn sample_file<P>(&mut self, path: P, name: &str) -> Result<(), Box<dyn Error>>
     where
@@ -117,7 +117,7 @@ impl GradientSampler {
     /// # Examples
     ///
     /// ```
-    /// use colormap::GradientSampler;
+    /// # use color_gradient::helpers::GradientSampler;
     /// ```
     pub fn export_hsv<P>(&self, path: P) -> ImageResult<()>
     where
