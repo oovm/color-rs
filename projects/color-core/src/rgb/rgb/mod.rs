@@ -11,11 +11,11 @@ impl Default for RGB8 {
 
 impl RGB8 {
     /// Creates a new gray color from the given value.
-    pub fn gray(value: u8) -> Self {
+    pub const fn gray(value: u8) -> Self {
         Self { r: value, g: value, b: value, a: () }
     }
     /// Creates a new rgb color from the given values.
-    pub fn new(r: u8, g: u8, b: u8) -> Self {
+    pub const fn new(r: u8, g: u8, b: u8) -> Self {
         Self { r, g, b, a: () }
     }
 }

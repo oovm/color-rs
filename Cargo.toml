@@ -4,6 +4,7 @@ default-members = [
     "projects/color",
     "projects/color-macro",
     "projects/color-parser",
+    "projects/color-gradient",
 ]
 exclude = [
     "projects/.DS_Store",

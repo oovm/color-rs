@@ -10,11 +10,11 @@ impl Default for RGBA8 {
 
 impl RGBA8 {
     /// Create [`RGBA8`] from `(u8, u8, u8)` tuple.
-    pub fn gray(value: u8) -> Self {
+    pub const fn gray(value: u8) -> Self {
         Self { r: value, g: value, b: value, a: 255 }
     }
     /// Create [`RGBA8`] from `(u8, u8, u8, u8)` tuple.
-    pub fn new(r: u8, g: u8, b: u8, a: u8) -> Self {
+    pub const fn new(r: u8, g: u8, b: u8, a: u8) -> Self {
         Self { r, g, b, a }
     }
     /// Map operator to all channels.
