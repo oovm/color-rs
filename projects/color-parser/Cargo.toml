@@ -1,6 +1,6 @@
 [package]
 name = "color-parser"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Aster <192607617@qq.com>"]
 description = "Css color level3 parser"
 repository = "https://github.com/oovm/color-rs"

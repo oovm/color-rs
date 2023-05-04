@@ -1,0 +1,35 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/contrib/auto-render.min.js"></script>
+<script>
+    "use strict";
+    document.addEventListener("DOMContentLoaded", function () {
+        let i, element;
+        const maths = document.getElementsByClassName("language-math");
+        for (i = 0; i < maths.length; i++) {
+            element = maths[i];
+            katex.render(element.innerText, element, {displayMode: true});
+        }
+
+        const codes = document.getElementsByTagName("code");
+        for (i = 0; i < codes.length; i++) {
+            element = codes[i];
+            if (element.classList.contains("language-math")) continue;
+            if (element.classList.contains("language-inline-math")) {
+                katex.render(element.innerText, element);
+                continue;
+            }
+
+            const parent = element.parentNode;
+            if (parent.nodeName.toLowerCase() === "pre") continue;
+            // TODO: Can this be done with DOM manipulation rather than string manipulation?
+            // https://stackoverflow.com/q/48438067/3019990
+            const inlineMath = "$" + element.outerHTML + "$";
+            if (parent.innerHTML.indexOf(inlineMath) !== -1) {
+                element.classList.add("language-inline-math");
+                parent.innerHTML = parent.innerHTML.replace("$" + element.outerHTML + "$", element.outerHTML);
+                i--;
+            }
+        }
+    });
+</script>

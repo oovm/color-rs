@@ -20,3 +20,4 @@ default = []
 
 [package.metadata.docs.rs]
 all-features = true
+rustdoc-args = ["--html-in-header", "./src/katex.html"]

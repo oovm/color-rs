@@ -1,0 +1,43 @@
+## Inputs
+
+$$\begin{aligned}
+r &∈ [0, 1]\\
+g &∈ [0, 1]\\
+b &∈ [0, 1]\\
+a &∈ [0, 1]\\
+\end{aligned}$$
+
+## Outputs
+
+$$\begin{aligned}
+h &∈ [0°, 360°]\\
+s &∈ [0\%, 100\%]\\
+v &∈ [0\%, 100\%]\\
+a &∈ [0\%, 100\%]\\
+\end{aligned}$$
+
+## Formula
+
+$$\begin{aligned}
+\rm{min} &= \min(r, g, b) \\
+\rm{max} &= \max(r, g, b) \\
+Δ &= \rm{max} - \rm{min} \\
+\end{aligned}$$
+
+$$ \begin{aligned}
+
+h &= 60 ×\begin{cases}
+0 & \text{if}\quad \Delta = 0 \\
+\dfrac{g - b}{\Delta} \ \%\  6 & \text{if}\quad \rm{max} = r \\
+\dfrac{b - r}{\Delta} + 2 & \text{if}\quad \rm{max} = g \\
+\dfrac{r - g}{\Delta} + 4 & \text{if}\quad \rm{max} = b \\
+\end{cases} \\
+
+s &= 100 × \begin{cases}
+0 & \text{if}\quad \rm{max} = 0 \\
+\dfrac{\Delta}{\rm{max}} & \text{otherwise} \\
+\end{cases} \\
+
+v &= 100 × \rm{max} \\
+
+\end{aligned}$$

@@ -17,4 +17,4 @@ color-gradient = { version = "0.1.*", path = "../color-gradient" }
 
 [features]
 default = []
-
+serde = ["color-core/serde", "color-gradient/serde"]

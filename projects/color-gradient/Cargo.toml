@@ -3,6 +3,7 @@ name = "color-gradient"
 version = "0.1.3"
 authors = ["Aster <192607617@qq.com>"]
 description = "Color gradient and color interpolation"
+categories = ["color", "gradient", "interpolation"]
 repository = "https://github.com/oovm/color-rs/tree/dev/projects/color-gradient"
 documentation = "https://docs.rs/color-gradient"
 readme = "Readme.md"

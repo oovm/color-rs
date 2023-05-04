@@ -7,6 +7,7 @@ impl From<HSVA32> for RGBA8 {
     }
 }
 
+#[doc = include_str!("hsva32_to_rgba32.tex")]
 impl From<HSVA32> for RGBA32 {
     fn from(hsva: HSVA32) -> Self {
         hsv32_to_rgb32(hsva.h, hsva.s, hsva.v, hsva.a)
@@ -52,6 +53,7 @@ impl From<RGBA8> for HSVA32 {
     }
 }
 
+#[doc = include_str!("rgba32_to_hsva32.tex")]
 impl From<RGBA32> for HSVA32 {
     fn from(rgba: RGBA32) -> Self {
         rgb32_to_hsv32(rgba.r, rgba.g, rgba.b, rgba.a)

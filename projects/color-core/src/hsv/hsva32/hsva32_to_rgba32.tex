@@ -1,0 +1,35 @@
+## Inputs
+
+$$\begin{aligned}
+h &∈ [0°, 360°]\\
+s &∈ [0\%, 100\%]\\
+v &∈ [0\%, 100\%]\\
+a &∈ [0\%, 100\%]\\
+\end{aligned}$$
+
+## Outputs
+
+$$\begin{aligned}
+r &∈ [0, 1]\\
+g &∈ [0, 1]\\
+b &∈ [0, 1]\\
+a &∈ [0, 1]\\
+\end{aligned}$$
+
+## Formula
+
+
+$$\begin{aligned}
+c &= \frac{1}{100}v × \frac{1}{100}s\\
+x &= c × \left(1 - \left|\frac{h}{60} \% 2 - 1\right|\right)\\
+m &= \frac{1}{100}v - c \\
+\end{aligned}$$
+
+$$ (r, g, b) = \begin{cases}
+(c + m, x + m, m) & \text{if}\quad 0 ⩽ h < 60 \\
+(x + m, c + m, m) & \text{if}\quad 60 ⩽ h < 120 \\
+(m, c + m, x + m) & \text{if}\quad 120 ⩽ h < 180 \\
+(m, x + m, c + m) & \text{if}\quad 180 ⩽ h < 240 \\
+(x + m, m, c + m) & \text{if}\quad 240 ⩽ h < 300 \\
+(c + m, m, x + m) & \text{if}\quad 300 ⩽ h < 360 \\
+\end{cases} $$
