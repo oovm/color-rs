@@ -5,3 +5,6 @@
 // #![doc = include_str!("../readme.md")]
 
 mod ansi;
+mod writer;
+
+pub use crate::ansi::{AnsiColor, AnsiStyle};
