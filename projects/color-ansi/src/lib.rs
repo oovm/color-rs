@@ -7,4 +7,7 @@
 mod ansi;
 mod writer;
 
-pub use crate::ansi::{AnsiColor, AnsiStyle};
+pub use crate::{
+    ansi::{AnsiColor, AnsiStyle},
+    writer::{AnsiAbility, AnsiWriter},
+};

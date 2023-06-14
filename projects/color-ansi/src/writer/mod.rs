@@ -1,77 +1,81 @@
-use crate::AnsiColor;
+use crate::{AnsiColor, AnsiStyle};
 use std::io::Write;
 
-pub struct Ansi<W> {
+#[derive(Copy, Clone, Debug)]
+pub enum AnsiAbility {
+    /// The writer supports ANSI escape codes.
+    Nothing,
+    /// The writer does not support ANSI escape codes.
+    Windows,
+    /// The writer may or may not support ANSI escape codes.
+    Full,
+}
+
+impl Default for AnsiAbility {
+    fn default() -> Self {
+        Self::Full
+    }
+}
+
+pub struct AnsiWriter<W> {
+    ability: AnsiAbility,
     writer: W,
 }
 
-/// This trait describes the behavior of writers that support colored output.
-pub trait WriteColor: Write {
-    /// Returns true if and only if the underlying writer supports colors.
-    fn supports_color(&self) -> bool;
-
-    /// Set the color settings of the writer.
-    ///
-    /// Subsequent writes to this writer will use these settings until either
-    /// `reset` is called or new color settings are set.
-    ///
-    /// If there was a problem setting the color settings, then an error is
-    /// returned.
-    fn set_color(&mut self, spec: &ColorSpec) -> std::io::Result<()>;
-
-    /// Reset the current color settings to their original settings.
-    ///
-    /// If there was a problem resetting the color settings, then an error is
-    /// returned.
-    fn reset(&mut self) -> std::io::Result<()>;
-
-    /// Returns true if and only if the underlying writer must synchronously
-    /// interact with an end user's device in order to control colors. By
-    /// default, this always returns `false`.
-    ///
-    /// In practice, this should return `true` if the underlying writer is
-    /// manipulating colors using the Windows console APIs.
-    ///
-    /// This is useful for writing generic code (such as a buffered writer)
-    /// that can perform certain optimizations when the underlying writer
-    /// doesn't rely on synchronous APIs. For example, ANSI escape sequences
-    /// can be passed through to the end user's device as is.
-    fn is_synchronous(&self) -> bool {
-        false
+impl<W: Write> Write for AnsiWriter<W> {
+    fn write(&mut self, buf: &[u8]) -> std::io::Result<usize> {
+        self.writer.write(buf)
+    }
+    fn flush(&mut self) -> std::io::Result<()> {
+        self.writer.flush()
     }
 }
 
-impl<'a, T: ?Sized + WriteColor> WriteColor for &'a mut T {
-    fn supports_color(&self) -> bool {
-        (&**self).supports_color()
+impl<W: Write> AnsiWriter<W> {
+    pub fn new(writer: W) -> Self {
+        Self { ability: AnsiAbility::default(), writer }
     }
-    fn set_color(&mut self, spec: &ColorSpec) -> std::io::Result<()> {
-        (&mut **self).set_color(spec)
+    pub fn get_ability(&self) -> AnsiAbility {
+        self.ability
     }
-    fn reset(&mut self) -> std::io::Result<()> {
-        (&mut **self).reset()
+    pub fn set_ability(&mut self, ability: AnsiAbility) {
+        self.ability = ability;
     }
-    fn is_synchronous(&self) -> bool {
-        (&**self).is_synchronous()
+    pub fn with_ability(mut self, ability: AnsiAbility) -> Self {
+        self.ability = ability;
+        self
     }
-}
-
-impl<T: ?Sized + WriteColor> WriteColor for Box<T> {
-    fn supports_color(&self) -> bool {
-        (&**self).supports_color()
+    pub fn set_style(&mut self, style: &AnsiStyle) -> std::io::Result<()> {
+        if style.reset {
+            self.reset_style()?;
+        }
+        if style.bold {
+            self.write_str("\x1B[1m")?;
+        }
+        if style.dimmed {
+            self.write_str("\x1B[2m")?;
+        }
+        if style.italic {
+            self.write_str("\x1B[3m")?;
+        }
+        if style.underline {
+            self.write_str("\x1B[4m")?;
+        }
+        if style.strikethrough {
+            self.write_str("\x1B[9m")?;
+        }
+        if let Some(c) = &style.fg_color {
+            self.write_color(true, c, style.intense)?;
+        }
+        if let Some(c) = &style.bg_color {
+            self.write_color(false, c, style.intense)?;
+        }
+        Ok(())
     }
-    fn set_color(&mut self, spec: &ColorSpec) -> std::io::Result<()> {
-        (&mut **self).set_color(spec)
+    #[inline]
+    fn reset_style(&mut self) -> std::io::Result<()> {
+        self.write_str("\x1B[0m")
     }
-    fn reset(&mut self) -> std::io::Result<()> {
-        (&mut **self).reset()
-    }
-    fn is_synchronous(&self) -> bool {
-        (&**self).is_synchronous()
-    }
-}
-
-impl<W: Write> Ansi<W> {
     fn write_str(&mut self, s: &str) -> std::io::Result<()> {
         self.write_all(s.as_bytes())
     }

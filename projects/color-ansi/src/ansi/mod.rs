@@ -1,4 +1,4 @@
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq)]
 pub enum AnsiColor {
     Black,
     Blue,
@@ -12,7 +12,7 @@ pub enum AnsiColor {
     Rgb(u8, u8, u8),
 }
 
-#[derive(Clone, Debug, Eq, PartialEq, Default)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq, Default)]
 pub struct AnsiStyle {
     /// The foreground color.
     pub fg_color: Option<AnsiColor>,
