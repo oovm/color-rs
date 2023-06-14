@@ -1,7 +1,6 @@
 #![warn(missing_docs)]
-#![warn(missing_crate_level_docs)]
 #![deny(missing_copy_implementations, missing_debug_implementations)]
-#![warn(missing_doc_code_examples)]
+#![warn(rustdoc::missing_crate_level_docs, rustdoc::missing_doc_code_examples)]
 #![doc = include_str!("../readme.md")]
 
 pub use self::{

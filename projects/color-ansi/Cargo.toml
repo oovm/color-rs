@@ -1,6 +1,6 @@
 [package]
-name = "color-parser"
-version = "0.1.1"
+name = "color-ansi"
+version = "0.0.0"
 authors = ["Aster <192607617@qq.com>"]
 description = "Css color level3 parser"
 repository = "https://github.com/oovm/color-rs"
@@ -11,8 +11,7 @@ edition = "2021"
 exclude = ["*.json"]
 
 [dependencies]
-color-core = {version="0.1.0", path = "../color-core"}
-pex = "0.0.8"
+
 
 [features]
 default = []

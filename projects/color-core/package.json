@@ -3,6 +3,7 @@
     "scripts": {
         "u": "cargo upgrade",
         "t": "cargo test --all-features",
-        "p": "cargo publish --allow-dirty"
+        "p": "cargo publish --allow-dirty",
+        "doc": "rustdoc --edition=2021 --crate-type lib --crate-name color ./src/lib.rs -o ../../target/doc --html-in-header ./src/katex.html"
     }
 }
