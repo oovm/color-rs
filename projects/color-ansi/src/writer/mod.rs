@@ -1,14 +1,19 @@
 use crate::{AnsiColor, AnsiStyle};
-use std::io::Write;
+use std::{fmt::Debug, io::Write};
 
+/// The ability of a writer to support ANSI escape codes.
 #[derive(Copy, Clone, Debug)]
 pub enum AnsiAbility {
-    /// The writer supports ANSI escape codes.
-    Nothing,
-    /// The writer does not support ANSI escape codes.
+    /// Devices that do not support any color.
+    Disabled,
+    /// Old Windows devices,
+    ///
+    /// **Note**: this does not represent the windows platform, modern windows platforms also support [`AnsiAbility::Full`]
     Windows,
-    /// The writer may or may not support ANSI escape codes.
+    /// Devices that support all ansi colors.
     Full,
+    /// The writer may or may not support ANSI escape codes, but it is
+    Auto,
 }
 
 impl Default for AnsiAbility {
@@ -17,9 +22,16 @@ impl Default for AnsiAbility {
     }
 }
 
+/// A writer that supports ANSI escape codes.
 pub struct AnsiWriter<W> {
     ability: AnsiAbility,
     writer: W,
+}
+
+impl<W> Debug for AnsiWriter<W> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "AnsiWriter({:?})", self.ability)
+    }
 }
 
 impl<W: Write> Write for AnsiWriter<W> {
@@ -32,19 +44,24 @@ impl<W: Write> Write for AnsiWriter<W> {
 }
 
 impl<W: Write> AnsiWriter<W> {
+    /// Create a new `AnsiWriter` with the given writer.
     pub fn new(writer: W) -> Self {
         Self { ability: AnsiAbility::default(), writer }
     }
+    /// Create a new `AnsiWriter` with the given writer and ability.
     pub fn get_ability(&self) -> AnsiAbility {
         self.ability
     }
+    /// Set the ability of the writer.
     pub fn set_ability(&mut self, ability: AnsiAbility) {
         self.ability = ability;
     }
+    /// Create a new `AnsiWriter` with the given writer and ability.
     pub fn with_ability(mut self, ability: AnsiAbility) -> Self {
         self.ability = ability;
         self
     }
+    /// Set the style of the writer.
     pub fn set_style(&mut self, style: &AnsiStyle) -> std::io::Result<()> {
         if style.reset {
             self.reset_style()?;
@@ -72,8 +89,9 @@ impl<W: Write> AnsiWriter<W> {
         }
         Ok(())
     }
+    /// Reset the style of the writer.
     #[inline]
-    fn reset_style(&mut self) -> std::io::Result<()> {
+    pub fn reset_style(&mut self) -> std::io::Result<()> {
         self.write_str("\x1B[0m")
     }
     fn write_str(&mut self, s: &str) -> std::io::Result<()> {

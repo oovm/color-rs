@@ -1,10 +1,10 @@
 [package]
 name = "color-ansi"
-version = "0.0.0"
+version = "0.1.0"
 authors = ["Aster <192607617@qq.com>"]
-description = "Css color level3 parser"
+description = "Lightweight terminal color writer"
 repository = "https://github.com/oovm/color-rs"
-documentation = "https://docs.rs/color-parser"
+documentation = "https://docs.rs/color-ansi"
 readme = "Readme.md"
 license = "MPL-2.0"
 edition = "2021"
